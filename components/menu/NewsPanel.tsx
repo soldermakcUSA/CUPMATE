@@ -1,4 +1,4 @@
-import { ArrowRight, ExternalLink, Newspaper, Ticket, Trophy, X } from "lucide-react";
+import { ArrowRight, Newspaper, Ticket, Trophy, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { translations, type Locale } from "@/lib/i18n";
 import type { NewsItemData } from "@/lib/content-data";
@@ -128,11 +128,7 @@ export function ArticleReader({ article, onClose }: { article: NewsItemData | nu
               <p key={paragraph}>{paragraph}</p>
             ))}
           </div>
-          {article.sourceUrl && (
-            <a className="article-reader-source" href={article.sourceUrl} target="_blank" rel="noreferrer">
-              Original source <ExternalLink size={15} />
-            </a>
-          )}
+          <p className="article-reader-source">CupMate original report</p>
         </div>
       </article>
     </div>

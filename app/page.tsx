@@ -166,7 +166,7 @@ export default function CupMatePage() {
         console.warn("Unable to load World Cup matches from Supabase.", error);
       });
 
-    fetchNewsItems(8)
+    fetchNewsItems(14)
       .then((items) => {
         if (isMounted && items.length > 0) {
           setContentNews(items);
@@ -546,7 +546,7 @@ function NewsSection({ t, news }: { t: typeof translations.en; news: NewsItemDat
     <section className="section-card">
       <SectionHead title={t.newsUpdates} action={t.viewAllNews} />
       <div className="news-grid">
-        {news.map((item) => (
+        {news.slice(0, 3).map((item) => (
           <button className="news-card news-card-button" key={item.id ?? item.title} type="button" onClick={() => setSelectedArticle(item)}>
             <img src={item.image} alt="" />
             <div>
