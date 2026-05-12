@@ -205,12 +205,9 @@ function Sidebar({
           </button>
         ))}
       </nav>
-      <div className="sidebar-card">
-        <h3>World Cup 2026</h3>
-        <p>JUNE 11 - JULY 19</p>
-        <p>Stay updated with the latest news, matches and events.</p>
-        <button className="primary-button" onClick={() => setActiveSection("matches")}>{t.exploreMatches}</button>
-      </div>
+      <button className="world-cup-poster" onClick={() => setActiveSection("matches")} aria-label="Open World Cup matches">
+        <img src="/assets/sidebar-cupmate-poster.png" alt="CupMate FIFA World Cup 2026 poster with trophy and stadium" />
+      </button>
       <div className="profile-card">
         <div className="avatar">A</div>
         <div style={{ minWidth: 0 }}>
