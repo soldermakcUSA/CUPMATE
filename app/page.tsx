@@ -72,6 +72,50 @@ const mobilePrompts = [
   "Find a place to watch the match"
 ];
 
+type MapPoint = {
+  id: string;
+  label: string;
+  detail: string;
+  meta: string;
+  latitude: number;
+  longitude: number;
+  kind: "stadium" | "fan_zone" | "watch" | "parking";
+  accent?: "red" | "green";
+};
+
+const hostCityPoints: MapPoint[] = [
+  { id: "vancouver", label: "Vancouver", detail: "BC Place", meta: "7 matches", latitude: 49.2827, longitude: -123.1207, kind: "stadium", accent: "green" },
+  { id: "toronto", label: "Toronto", detail: "BMO Field", meta: "6 matches", latitude: 43.6532, longitude: -79.3832, kind: "stadium" },
+  { id: "mexico-city", label: "Mexico City", detail: "Estadio Azteca", meta: "Opening match", latitude: 19.4326, longitude: -99.1332, kind: "stadium", accent: "red" },
+  { id: "monterrey", label: "Monterrey", detail: "Estadio BBVA", meta: "4 matches", latitude: 25.6768, longitude: -100.2565, kind: "stadium" },
+  { id: "guadalajara", label: "Guadalajara", detail: "Estadio Akron", meta: "4 matches", latitude: 20.7214, longitude: -103.3918, kind: "stadium" },
+  { id: "ny-nj", label: "New York New Jersey", detail: "MetLife Stadium", meta: "Final host", latitude: 40.8339, longitude: -74.0971, kind: "stadium", accent: "red" },
+  { id: "dallas", label: "Dallas", detail: "AT&T Stadium", meta: "9 matches", latitude: 32.7357, longitude: -97.1081, kind: "stadium" },
+  { id: "kansas-city", label: "Kansas City", detail: "Arrowhead Stadium", meta: "6 matches", latitude: 39.0997, longitude: -94.5786, kind: "stadium" },
+  { id: "houston", label: "Houston", detail: "NRG Stadium", meta: "7 matches", latitude: 29.7604, longitude: -95.3698, kind: "stadium" },
+  { id: "atlanta", label: "Atlanta", detail: "Mercedes-Benz Stadium", meta: "8 matches", latitude: 33.749, longitude: -84.388, kind: "stadium" },
+  { id: "los-angeles", label: "Los Angeles", detail: "SoFi Stadium", meta: "8 matches", latitude: 33.9617, longitude: -118.3531, kind: "stadium" },
+  { id: "philadelphia", label: "Philadelphia", detail: "Lincoln Financial Field", meta: "6 matches", latitude: 39.9526, longitude: -75.1652, kind: "stadium" },
+  { id: "seattle", label: "Seattle", detail: "Lumen Field", meta: "6 matches", latitude: 47.6062, longitude: -122.3321, kind: "stadium" },
+  { id: "san-francisco", label: "San Francisco Bay Area", detail: "Levi's Stadium", meta: "6 matches", latitude: 37.3541, longitude: -121.9552, kind: "stadium" },
+  { id: "boston", label: "Boston", detail: "Gillette Stadium", meta: "7 matches", latitude: 42.0654, longitude: -71.2478, kind: "stadium" },
+  { id: "miami", label: "Miami", detail: "Hard Rock Stadium", meta: "7 matches", latitude: 25.942, longitude: -80.2456, kind: "stadium", accent: "green" }
+];
+
+function projectMapPoint(latitude: number, longitude: number) {
+  const minLon = -125.5;
+  const maxLon = -70;
+  const minLat = 18;
+  const maxLat = 50.8;
+  const left = 7 + ((longitude - minLon) / (maxLon - minLon)) * 86;
+  const top = 9 + ((maxLat - latitude) / (maxLat - minLat)) * 79;
+
+  return {
+    left: `${Math.max(4, Math.min(94, left))}%`,
+    top: `${Math.max(5, Math.min(91, top))}%`
+  };
+}
+
 function useLocale() {
   const [locale, setLocale] = useState<Locale>("en");
 
@@ -101,7 +145,9 @@ export default function CupMatePage() {
   const [assistantReply, setAssistantReply] = useState("MetLife Stadium is easiest by train via Secaucus Junction. Plan 45 minutes and keep your ticket QR ready.");
   const [worldCupMatches, setWorldCupMatches] = useState<MatchCardData[]>(mockMatches);
   const [contentNews, setContentNews] = useState<NewsItemData[]>(mockNews);
-  const [contentPlaces, setContentPlaces] = useState<PlaceCardData[]>(mockPlaces.map((place) => ({ ...place, city: "Miami, USA", tags: ["Live Screen", "Food"] })));
+  const [contentPlaces, setContentPlaces] = useState<PlaceCardData[]>(
+    mockPlaces.map((place) => ({ ...place, city: "Miami, USA", tags: ["Live Screen", "Food"], latitude: 25.7752, longitude: -80.186 }))
+  );
 
   useEffect(() => {
     setActiveChip(translations[locale].stadiums);
@@ -329,7 +375,7 @@ function DesktopContent({
           <FanZonesSection t={t} places={places} />
         </section>
         <aside className="right-rail">
-          <MapPanel t={t} activeChip={activeChip} setActiveChip={setActiveChip} />
+          <MapPanel t={t} activeChip={activeChip} setActiveChip={setActiveChip} places={places} />
           <ItineraryPanel t={t} />
           <AssistantPanel
             t={t}
@@ -414,7 +460,7 @@ function MenuSection({
             <NextMatches t={t} setSection={() => undefined} matches={matches} />
           </section>
           <aside className="right-rail">
-            <MapPanel t={t} activeChip={activeChip} setActiveChip={setActiveChip} />
+            <MapPanel t={t} activeChip={activeChip} setActiveChip={setActiveChip} places={places} />
             <ItineraryPanel t={t} />
             <AssistantPanel
               t={t}
@@ -549,22 +595,82 @@ function SectionHead({ title, action, onAction }: { title: string; action: strin
   );
 }
 
-function MapPanel({ t, activeChip, setActiveChip }: { t: typeof translations.en; activeChip: string; setActiveChip: (chip: string) => void }) {
+function MapPanel({
+  t,
+  activeChip,
+  setActiveChip,
+  places
+}: {
+  t: typeof translations.en;
+  activeChip: string;
+  setActiveChip: (chip: string) => void;
+  places: PlaceCardData[];
+}) {
   const chips = [t.stadiums, t.fanZones, t.watch, t.parking];
+  const fanFestivalPoints = useMemo<MapPoint[]>(
+    () =>
+      places
+        .filter((place) => place.latitude && place.longitude)
+        .map((place) => ({
+          id: place.name,
+          label: place.name.replace(" FIFA Fan Festival", ""),
+          detail: place.note,
+          meta: place.city,
+          latitude: place.latitude as number,
+          longitude: place.longitude as number,
+          kind: "fan_zone" as const,
+          accent: place.tags.includes("Free Entry") ? "green" : undefined
+        })),
+    [places]
+  );
+  const parkingPoints = useMemo<MapPoint[]>(
+    () =>
+      hostCityPoints.slice(0, 8).map((point) => ({
+        ...point,
+        id: `${point.id}-parking`,
+        detail: `${point.label} matchday parking and transit hub`,
+        meta: "Parking guidance",
+        kind: "parking" as const
+      })),
+    []
+  );
+  const mapPoints =
+    activeChip === t.fanZones ? fanFestivalPoints
+      : activeChip === t.watch ? fanFestivalPoints
+      : activeChip === t.parking ? parkingPoints
+      : hostCityPoints;
+  const [selectedPointId, setSelectedPointId] = useState(hostCityPoints[0].id);
+  const selectedPoint = mapPoints.find((point) => point.id === selectedPointId) ?? mapPoints[0] ?? hostCityPoints[0];
+
+  useEffect(() => {
+    setSelectedPointId((current) => (mapPoints.some((point) => point.id === current) ? current : mapPoints[0]?.id ?? hostCityPoints[0].id));
+  }, [mapPoints]);
+
   return (
     <section className="map-card">
       <SectionHead title={t.interactiveMap} action={t.viewFullMap} />
-      <div className="us-map" aria-label="Host city map">
-        {[
-          ["Seattle", "10%", "12%"], ["San Francisco", "10%", "50%"], ["Los Angeles", "16%", "68%"],
-          ["Kansas City", "44%", "48%"], ["Dallas", "46%", "74%"], ["Chicago", "66%", "34%"],
-          ["Atlanta", "68%", "60%"], ["New York", "82%", "42%"], ["Miami", "78%", "84%"]
-        ].map(([label, left, top], index) => (
-          <span key={label}>
-            <span className={`marker ${label === "New York" ? "red" : index % 4 === 0 ? "green" : ""}`} style={{ left, top }} />
-            <span className="map-label" style={{ left: `calc(${left} + 24px)`, top }}>{label}</span>
-          </span>
-        ))}
+      <div className="us-map interactive-map" aria-label="Interactive FIFA World Cup 2026 map">
+        <div className="map-grid" aria-hidden="true" />
+        <div className="map-landmass" aria-hidden="true" />
+        {mapPoints.map((point) => {
+          const position = projectMapPoint(point.latitude, point.longitude);
+          const isActive = selectedPoint.id === point.id;
+          return (
+            <button
+              className={`marker map-marker ${point.accent ?? ""} ${isActive ? "active" : ""}`}
+              key={point.id}
+              style={position}
+              onClick={() => setSelectedPointId(point.id)}
+              aria-label={`${point.label}: ${point.detail}`}
+            />
+          );
+        })}
+        <div className="map-info-card">
+          <span className="tag">{activeChip}</span>
+          <strong>{selectedPoint.label}</strong>
+          <p className="small muted">{selectedPoint.detail}</p>
+          <p className="small muted">{selectedPoint.meta}</p>
+        </div>
       </div>
       <div className="chip-row">
         {chips.map((chip) => (
@@ -686,15 +792,22 @@ function MobileMatches({ t, matches }: { t: typeof translations.en; matches: Mat
 
 function MobileMap({ t, setMobileScreen, places }: { t: typeof translations.en; setMobileScreen: (screen: Screen) => void; places: PlaceCardData[] }) {
   const featuredPlace = places[0];
+  const mobilePoints = hostCityPoints.slice(0, 10);
 
   return (
     <>
       <p className="small"><MapPin size={14} /> New York, USA <ChevronDown size={14} /></p>
-      <div className="mobile-map">
-        <span className="marker" style={{ left: "18%", top: "28%" }} />
-        <span className="marker red" style={{ left: "70%", top: "46%" }} />
-        <span className="marker green" style={{ left: "42%", top: "72%" }} />
-        <span className="marker" style={{ left: "58%", top: "24%" }} />
+      <div className="mobile-map interactive-map" aria-label="Mobile host city map">
+        <div className="map-grid" aria-hidden="true" />
+        <div className="map-landmass" aria-hidden="true" />
+        {mobilePoints.map((point) => (
+          <span
+            className={`marker map-marker ${point.accent ?? ""}`}
+            key={point.id}
+            style={projectMapPoint(point.latitude, point.longitude)}
+            title={point.label}
+          />
+        ))}
       </div>
       <div className="featured-card">
         <img src={featuredPlace.image} alt={featuredPlace.name} />

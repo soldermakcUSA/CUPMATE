@@ -17,6 +17,8 @@ export type PlaceCardData = {
   note: string;
   image: string;
   tags: string[];
+  latitude: number | null;
+  longitude: number | null;
 };
 
 type SupabaseLike = ReturnType<typeof createBrowserSupabaseClient> & {
@@ -54,6 +56,8 @@ export async function fetchPlaces(limit = 10): Promise<PlaceCardData[]> {
     .from("places")
     .select(`
       type,
+      latitude,
+      longitude,
       image_url,
       place_translations(name, address, atmosphere, opening_hours_note),
       host_cities(host_city_translations(name, state_region)),
@@ -82,7 +86,9 @@ export async function fetchPlaces(limit = 10): Promise<PlaceCardData[]> {
       distance: city?.name ?? "Host city",
       note: translation?.atmosphere ?? translation?.opening_hours_note ?? "Official World Cup fan destination.",
       image: place.image_url || fallbackImage,
-      tags
+      tags,
+      latitude: place.latitude ?? null,
+      longitude: place.longitude ?? null
     };
   });
 }
