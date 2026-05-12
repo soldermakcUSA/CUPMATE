@@ -38,8 +38,9 @@ import {
   Award,
   Shield
 } from "lucide-react";
-import { fanZones, fans, itinerary, matches, mobileMatches, news, places } from "@/lib/mock-data";
+import { fanZones, fans, itinerary, matches as mockMatches, news, places } from "@/lib/mock-data";
 import { getLanguage, languages, Locale, translations } from "@/lib/i18n";
+import { fetchWorldCupMatches, MatchCardData } from "@/lib/world-cup-data";
 
 type Screen = "home" | "matches" | "map" | "route" | "stadium" | "watch" | "community" | "assistant";
 type DesktopSection = "dashboard" | "matches" | "fanZones" | "stadiums" | "travel" | "watch" | "community" | "tickets" | "news" | "assistant";
@@ -97,10 +98,29 @@ export default function CupMatePage() {
   const [activeChip, setActiveChip] = useState(t.stadiums);
   const [assistantText, setAssistantText] = useState("");
   const [assistantReply, setAssistantReply] = useState("MetLife Stadium is easiest by train via Secaucus Junction. Plan 45 minutes and keep your ticket QR ready.");
+  const [worldCupMatches, setWorldCupMatches] = useState<MatchCardData[]>(mockMatches);
 
   useEffect(() => {
     setActiveChip(translations[locale].stadiums);
   }, [locale]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    fetchWorldCupMatches(12)
+      .then((items) => {
+        if (isMounted && items.length > 0) {
+          setWorldCupMatches(items);
+        }
+      })
+      .catch((error) => {
+        console.warn("Unable to load World Cup matches from Supabase.", error);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const mobileTitle = useMemo(() => {
     const titles: Record<Screen, string> = {
@@ -138,6 +158,7 @@ export default function CupMatePage() {
             setAssistantText={setAssistantText}
             submitAssistant={submitAssistant}
             assistantReply={assistantReply}
+            matches={worldCupMatches}
           />
         </main>
       </div>
@@ -158,8 +179,8 @@ export default function CupMatePage() {
                 <LanguagePicker locale={locale} setLocale={setLocale} compact />
               </div>
             )}
-            {mobileScreen === "home" && <MobileHome t={t} setMobileScreen={setMobileScreen} />}
-            {mobileScreen === "matches" && <MobileMatches t={t} />}
+            {mobileScreen === "home" && <MobileHome t={t} setMobileScreen={setMobileScreen} matches={worldCupMatches} />}
+            {mobileScreen === "matches" && <MobileMatches t={t} matches={worldCupMatches} />}
             {mobileScreen === "map" && <MobileMap t={t} setMobileScreen={setMobileScreen} />}
             {mobileScreen === "route" && <MobileRoute t={t} />}
             {mobileScreen === "stadium" && <MobileStadium t={t} />}
@@ -255,7 +276,8 @@ function DesktopContent({
   assistantText,
   setAssistantText,
   submitAssistant,
-  assistantReply
+  assistantReply,
+  matches
 }: {
   section: DesktopSection;
   t: typeof translations.en;
@@ -266,13 +288,14 @@ function DesktopContent({
   setAssistantText: (value: string) => void;
   submitAssistant: (value?: string) => void;
   assistantReply: string;
+  matches: MatchCardData[];
 }) {
   if (section === "dashboard") {
     return (
       <div className="content-grid">
         <section className="stack">
           <Hero t={t} setSection={setSection} />
-          <NextMatches t={t} setSection={setSection} />
+          <NextMatches t={t} setSection={setSection} matches={matches} />
           <NewsSection t={t} />
           <FanZonesSection t={t} />
         </section>
@@ -302,6 +325,7 @@ function DesktopContent({
         setAssistantText={setAssistantText}
         submitAssistant={submitAssistant}
         assistantReply={assistantReply}
+        matches={matches}
       />
     </div>
   );
@@ -315,7 +339,8 @@ function MenuSection({
   assistantText,
   setAssistantText,
   submitAssistant,
-  assistantReply
+  assistantReply,
+  matches
 }: {
   section: Exclude<DesktopSection, "dashboard">;
   t: typeof translations.en;
@@ -325,10 +350,11 @@ function MenuSection({
   setAssistantText: (value: string) => void;
   submitAssistant: (value?: string) => void;
   assistantReply: string;
+  matches: MatchCardData[];
 }) {
   switch (section) {
     case "matches":
-      return <MatchesPanel t={t} />;
+      return <MatchesPanel t={t} matches={matches} />;
     case "fanZones":
       return <FanZonesPanel t={t} />;
     case "stadiums":
@@ -350,7 +376,7 @@ function MenuSection({
         <div className="content-grid">
           <section className="stack">
             <Hero t={t} setSection={() => undefined} />
-            <NextMatches t={t} setSection={() => undefined} />
+            <NextMatches t={t} setSection={() => undefined} matches={matches} />
           </section>
           <aside className="right-rail">
             <MapPanel t={t} activeChip={activeChip} setActiveChip={setActiveChip} />
@@ -409,7 +435,7 @@ function Hero({ t, setSection }: { t: typeof translations.en; setSection: (secti
   );
 }
 
-function NextMatches({ t, setSection }: { t: typeof translations.en; setSection: (section: DesktopSection) => void }) {
+function NextMatches({ t, setSection, matches }: { t: typeof translations.en; setSection: (section: DesktopSection) => void; matches: MatchCardData[] }) {
   return (
     <section className="section-card">
       <SectionHead title={t.nextMatches} action={t.viewFullSchedule} onAction={() => setSection("matches")} />
@@ -570,7 +596,9 @@ function AssistantPanel({
   );
 }
 
-function MobileHome({ t, setMobileScreen }: { t: typeof translations.en; setMobileScreen: (screen: Screen) => void }) {
+function MobileHome({ t, setMobileScreen, matches }: { t: typeof translations.en; setMobileScreen: (screen: Screen) => void; matches: MatchCardData[] }) {
+  const featuredMatch = matches[0];
+
   return (
     <>
       <div className="mobile-hero">
@@ -580,12 +608,12 @@ function MobileHome({ t, setMobileScreen }: { t: typeof translations.en; setMobi
       </div>
       <div className="gradient-card">
         <p>{t.nextMatch}</p>
-        <h3>🇦🇷 Argentina vs 🇫🇷 France</h3>
-        <p className="small">MetLife Stadium, New Jersey</p>
+        <h3>{featuredMatch.home} vs {featuredMatch.away}</h3>
+        <p className="small">{featuredMatch.venue}</p>
       </div>
       <SectionHead title={t.matchesToday} action={t.viewAll} />
       <div className="mobile-list">
-        {mobileMatches.slice(0, 3).map((match) => (
+        {matches.slice(0, 3).map((match) => (
           <button className="mobile-match" key={`${match.home}-${match.away}`} onClick={() => setMobileScreen("matches")}>
             <span>{match.home}</span>
             <span>{match.time}</span>
@@ -598,7 +626,7 @@ function MobileHome({ t, setMobileScreen }: { t: typeof translations.en; setMobi
   );
 }
 
-function MobileMatches({ t }: { t: typeof translations.en }) {
+function MobileMatches({ t, matches }: { t: typeof translations.en; matches: MatchCardData[] }) {
   return (
     <>
       <div className="chip-row">
@@ -607,7 +635,7 @@ function MobileMatches({ t }: { t: typeof translations.en }) {
       <div className="date-strip">{[12, 13, 14, 15, 16, 17].map((date, index) => <span className={`date-pill ${index === 0 ? "active" : ""}`} key={date}>{date}</span>)}</div>
       <h3>Thursday, June 12</h3>
       <div className="mobile-list">
-        {mobileMatches.map((match) => (
+        {matches.map((match) => (
           <article className="mobile-match" key={`${match.home}-${match.away}`}>
             <strong>{match.home}</strong>
             <span>{match.time}</span>

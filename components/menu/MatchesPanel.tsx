@@ -1,14 +1,15 @@
 import { CalendarDays, Clock, MapPin, Plus, Trophy } from "lucide-react";
-import { matches } from "@/lib/mock-data";
 import { translations } from "@/lib/i18n";
+import type { MatchCardData } from "@/lib/world-cup-data";
 
 type Translation = typeof translations.en;
 
 type MatchesPanelProps = {
   t: Translation;
+  matches: MatchCardData[];
 };
 
-export function MatchesPanel({ t }: MatchesPanelProps) {
+export function MatchesPanel({ t, matches }: MatchesPanelProps) {
   const featuredMatch = matches[0];
 
   return (
