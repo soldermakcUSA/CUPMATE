@@ -39,5 +39,17 @@ if [ ! -f .env.production ]; then
   exit 1
 fi
 
+set -a
+# shellcheck disable=SC1091
+source .env.production
+set +a
+
+if [ -z "${NEXT_PUBLIC_SUPABASE_URL:-}" ] || [ -z "${NEXT_PUBLIC_SUPABASE_ANON_KEY:-}" ]; then
+  echo "Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY in $APP_DIR/.env.production." >&2
+  echo "Next.js needs these values during Docker build, otherwise the site falls back to mock data." >&2
+  exit 1
+fi
+
+echo "Deploying commit $(git rev-parse --short HEAD) from origin/$BRANCH"
 "${COMPOSE[@]}" up -d --build --remove-orphans
 "${COMPOSE[@]}" ps
