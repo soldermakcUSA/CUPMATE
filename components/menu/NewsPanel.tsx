@@ -1,10 +1,11 @@
 import { ArrowRight, Newspaper, Ticket, Trophy } from "lucide-react";
-import { news } from "@/lib/mock-data";
 import { translations, type Locale } from "@/lib/i18n";
+import type { NewsItemData } from "@/lib/content-data";
 
 type NewsPanelProps = {
   locale?: Locale;
   t?: typeof translations.en;
+  news: NewsItemData[];
 };
 
 function panelText(locale: Locale = "en", t?: typeof translations.en) {
@@ -13,7 +14,7 @@ function panelText(locale: Locale = "en", t?: typeof translations.en) {
 
 const storyIcons = [Trophy, Ticket, Newspaper] as const;
 
-export function NewsPanel({ locale = "en", t }: NewsPanelProps) {
+export function NewsPanel({ locale = "en", t, news }: NewsPanelProps) {
   const copy = panelText(locale, t);
   const lead = news[0];
   const secondaryStories = news.slice(1);

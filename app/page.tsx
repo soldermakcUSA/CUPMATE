@@ -38,7 +38,8 @@ import {
   Award,
   Shield
 } from "lucide-react";
-import { fanZones, fans, itinerary, matches as mockMatches, news, places } from "@/lib/mock-data";
+import { fans, itinerary, matches as mockMatches, news as mockNews, places as mockPlaces } from "@/lib/mock-data";
+import { fetchNewsItems, fetchPlaces, NewsItemData, PlaceCardData } from "@/lib/content-data";
 import { getLanguage, languages, Locale, translations } from "@/lib/i18n";
 import { fetchWorldCupMatches, MatchCardData } from "@/lib/world-cup-data";
 
@@ -99,6 +100,8 @@ export default function CupMatePage() {
   const [assistantText, setAssistantText] = useState("");
   const [assistantReply, setAssistantReply] = useState("MetLife Stadium is easiest by train via Secaucus Junction. Plan 45 minutes and keep your ticket QR ready.");
   const [worldCupMatches, setWorldCupMatches] = useState<MatchCardData[]>(mockMatches);
+  const [contentNews, setContentNews] = useState<NewsItemData[]>(mockNews);
+  const [contentPlaces, setContentPlaces] = useState<PlaceCardData[]>(mockPlaces.map((place) => ({ ...place, city: "Miami, USA", tags: ["Live Screen", "Food"] })));
 
   useEffect(() => {
     setActiveChip(translations[locale].stadiums);
@@ -115,6 +118,26 @@ export default function CupMatePage() {
       })
       .catch((error) => {
         console.warn("Unable to load World Cup matches from Supabase.", error);
+      });
+
+    fetchNewsItems(8)
+      .then((items) => {
+        if (isMounted && items.length > 0) {
+          setContentNews(items);
+        }
+      })
+      .catch((error) => {
+        console.warn("Unable to load World Cup news from Supabase.", error);
+      });
+
+    fetchPlaces(10)
+      .then((items) => {
+        if (isMounted && items.length > 0) {
+          setContentPlaces(items);
+        }
+      })
+      .catch((error) => {
+        console.warn("Unable to load World Cup places from Supabase.", error);
       });
 
     return () => {
@@ -159,6 +182,8 @@ export default function CupMatePage() {
             submitAssistant={submitAssistant}
             assistantReply={assistantReply}
             matches={worldCupMatches}
+            news={contentNews}
+            places={contentPlaces}
           />
         </main>
       </div>
@@ -181,10 +206,10 @@ export default function CupMatePage() {
             )}
             {mobileScreen === "home" && <MobileHome t={t} setMobileScreen={setMobileScreen} matches={worldCupMatches} />}
             {mobileScreen === "matches" && <MobileMatches t={t} matches={worldCupMatches} />}
-            {mobileScreen === "map" && <MobileMap t={t} setMobileScreen={setMobileScreen} />}
+            {mobileScreen === "map" && <MobileMap t={t} setMobileScreen={setMobileScreen} places={contentPlaces} />}
             {mobileScreen === "route" && <MobileRoute t={t} />}
             {mobileScreen === "stadium" && <MobileStadium t={t} />}
-            {mobileScreen === "watch" && <MobileWatch t={t} />}
+            {mobileScreen === "watch" && <MobileWatch t={t} places={contentPlaces} />}
             {mobileScreen === "community" && <MobileCommunity t={t} />}
             {mobileScreen === "assistant" && (
               <MobileAssistant
@@ -277,7 +302,9 @@ function DesktopContent({
   setAssistantText,
   submitAssistant,
   assistantReply,
-  matches
+  matches,
+  news,
+  places
 }: {
   section: DesktopSection;
   t: typeof translations.en;
@@ -289,6 +316,8 @@ function DesktopContent({
   submitAssistant: (value?: string) => void;
   assistantReply: string;
   matches: MatchCardData[];
+  news: NewsItemData[];
+  places: PlaceCardData[];
 }) {
   if (section === "dashboard") {
     return (
@@ -296,8 +325,8 @@ function DesktopContent({
         <section className="stack">
           <Hero t={t} setSection={setSection} />
           <NextMatches t={t} setSection={setSection} matches={matches} />
-          <NewsSection t={t} />
-          <FanZonesSection t={t} />
+          <NewsSection t={t} news={news} />
+          <FanZonesSection t={t} places={places} />
         </section>
         <aside className="right-rail">
           <MapPanel t={t} activeChip={activeChip} setActiveChip={setActiveChip} />
@@ -326,6 +355,8 @@ function DesktopContent({
         submitAssistant={submitAssistant}
         assistantReply={assistantReply}
         matches={matches}
+        news={news}
+        places={places}
       />
     </div>
   );
@@ -340,7 +371,9 @@ function MenuSection({
   setAssistantText,
   submitAssistant,
   assistantReply,
-  matches
+  matches,
+  news,
+  places
 }: {
   section: Exclude<DesktopSection, "dashboard">;
   t: typeof translations.en;
@@ -351,24 +384,26 @@ function MenuSection({
   submitAssistant: (value?: string) => void;
   assistantReply: string;
   matches: MatchCardData[];
+  news: NewsItemData[];
+  places: PlaceCardData[];
 }) {
   switch (section) {
     case "matches":
       return <MatchesPanel t={t} matches={matches} />;
     case "fanZones":
-      return <FanZonesPanel t={t} />;
+      return <FanZonesPanel t={t} places={places} />;
     case "stadiums":
       return <StadiumsPanel t={t} />;
     case "travel":
       return <TravelPanel t={t} />;
     case "watch":
-      return <WatchPanel t={t} />;
+      return <WatchPanel t={t} places={places} />;
     case "community":
       return <CommunityPanel t={t} />;
     case "tickets":
       return <TicketsPanel t={t} />;
     case "news":
-      return <NewsPanel t={t} />;
+      return <NewsPanel t={t} news={news} />;
     case "assistant":
       return <AssistantMenuPanel t={t} />;
     default:
@@ -458,7 +493,7 @@ function NextMatches({ t, setSection, matches }: { t: typeof translations.en; se
   );
 }
 
-function NewsSection({ t }: { t: typeof translations.en }) {
+function NewsSection({ t, news }: { t: typeof translations.en; news: NewsItemData[] }) {
   return (
     <section className="section-card">
       <SectionHead title={t.newsUpdates} action={t.viewAllNews} />
@@ -478,18 +513,18 @@ function NewsSection({ t }: { t: typeof translations.en }) {
   );
 }
 
-function FanZonesSection({ t }: { t: typeof translations.en }) {
+function FanZonesSection({ t, places }: { t: typeof translations.en; places: PlaceCardData[] }) {
   return (
     <section className="section-card">
       <SectionHead title={t.popularFanZones} action={t.viewAll} />
       <div className="fan-zone-grid">
-        {fanZones.map((zone) => <FanZoneCard zone={zone} key={zone.name} />)}
+        {places.slice(0, 4).map((zone) => <FanZoneCard zone={zone} key={zone.name} />)}
       </div>
     </section>
   );
 }
 
-function FanZoneCard({ zone }: { zone: (typeof fanZones)[number] }) {
+function FanZoneCard({ zone }: { zone: PlaceCardData }) {
   return (
     <article className="fan-zone">
       <div className="fan-zone-image">
@@ -649,7 +684,9 @@ function MobileMatches({ t, matches }: { t: typeof translations.en; matches: Mat
   );
 }
 
-function MobileMap({ t, setMobileScreen }: { t: typeof translations.en; setMobileScreen: (screen: Screen) => void }) {
+function MobileMap({ t, setMobileScreen, places }: { t: typeof translations.en; setMobileScreen: (screen: Screen) => void; places: PlaceCardData[] }) {
+  const featuredPlace = places[0];
+
   return (
     <>
       <p className="small"><MapPin size={14} /> New York, USA <ChevronDown size={14} /></p>
@@ -660,11 +697,11 @@ function MobileMap({ t, setMobileScreen }: { t: typeof translations.en; setMobil
         <span className="marker" style={{ left: "58%", top: "24%" }} />
       </div>
       <div className="featured-card">
-        <img src={fanZones[0].image} alt={fanZones[0].name} />
+        <img src={featuredPlace.image} alt={featuredPlace.name} />
         <div className="featured-body">
-          <strong>FIFA Fan Festival - NYC</strong>
-          <p className="small muted">Times Square · 1.2 km</p>
-          <div className="tags">{fanZones[0].tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
+          <strong>{featuredPlace.name}</strong>
+          <p className="small muted">{featuredPlace.city} · {featuredPlace.distance}</p>
+          <div className="tags">{featuredPlace.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div>
           <button className="primary-button" style={{ width: "100%", marginTop: 14 }} onClick={() => setMobileScreen("route")}>{t.travel}</button>
         </div>
       </div>
@@ -714,7 +751,7 @@ function MobileStadium({ t }: { t: typeof translations.en }) {
   );
 }
 
-function MobileWatch({ t }: { t: typeof translations.en }) {
+function MobileWatch({ t, places }: { t: typeof translations.en; places: PlaceCardData[] }) {
   return (
     <>
       <p className="small"><MapPin size={14} /> Miami, USA</p>

@@ -184,6 +184,31 @@ export type Database = {
         is_official: boolean;
         created_at: Timestamp;
       }>;
+      articles: Table<{
+        id: UUID;
+        type: "news" | "guide" | "city_page" | "stadium_page" | "watch_page";
+        city_id: UUID | null;
+        stadium_id: UUID | null;
+        match_id: UUID | null;
+        author_id: UUID | null;
+        status: "draft" | "published" | "archived";
+        category: string | null;
+        image_url: string | null;
+        source_url: string | null;
+        published_at: Timestamp | null;
+        created_at: Timestamp;
+        updated_at: Timestamp;
+      }>;
+      article_translations: Table<{
+        article_id: UUID;
+        language_code: string;
+        slug: string;
+        title: string;
+        excerpt: string | null;
+        body: string | null;
+        seo_title: string | null;
+        seo_description: string | null;
+      }>;
       route_templates: Table<{
         id: UUID;
         city_id: UUID;

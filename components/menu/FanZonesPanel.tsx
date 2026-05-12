@@ -1,14 +1,17 @@
 import { MapPin, Navigation, Sparkles, Users } from "lucide-react";
-import { fanZones } from "@/lib/mock-data";
 import { translations } from "@/lib/i18n";
+import type { PlaceCardData } from "@/lib/content-data";
 
 type Translation = typeof translations.en;
 
 type FanZonesPanelProps = {
   t: Translation;
+  places: PlaceCardData[];
 };
 
-export function FanZonesPanel({ t }: FanZonesPanelProps) {
+export function FanZonesPanel({ t, places }: FanZonesPanelProps) {
+  const fanZones = places;
+
   return (
     <section className="section-card menu-panel fan-zones-panel" aria-labelledby="fan-zones-panel-title">
       <div className="section-head">

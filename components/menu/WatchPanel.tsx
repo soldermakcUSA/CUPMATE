@@ -1,12 +1,13 @@
 import { MapPin, Star, Utensils } from "lucide-react";
-import { places } from "../../lib/mock-data";
 import { translations } from "../../lib/i18n";
+import type { PlaceCardData } from "@/lib/content-data";
 
 type WatchPanelProps = {
   t?: typeof translations.en;
+  places: PlaceCardData[];
 };
 
-export function WatchPanel({ t = translations.en }: WatchPanelProps) {
+export function WatchPanel({ t = translations.en, places }: WatchPanelProps) {
   const featuredPlace = places[0];
 
   return (
