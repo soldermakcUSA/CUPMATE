@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { type CSSProperties, useEffect, useMemo, useState } from "react";
 import { AssistantMenuPanel } from "@/components/menu/AssistantPanel";
 import { CommunityPanel } from "@/components/menu/CommunityPanel";
 import { FanZonesPanel } from "@/components/menu/FanZonesPanel";
@@ -68,6 +68,19 @@ const mobilePrompts = [
   "Find a place to watch the match"
 ];
 
+const referenceScreens: Record<DesktopSection, { src: string; width: number; height: number; variant?: "portrait" }> = {
+  dashboard: { src: "/reference-screens/image2.png", width: 1536, height: 1024 },
+  matches: { src: "/reference-screens/image3.png", width: 1536, height: 1024 },
+  fanZones: { src: "/reference-screens/image5.png", width: 1024, height: 1536, variant: "portrait" },
+  stadiums: { src: "/reference-screens/image6.png", width: 1024, height: 1536, variant: "portrait" },
+  travel: { src: "/reference-screens/image7.png", width: 1024, height: 1536, variant: "portrait" },
+  watch: { src: "/reference-screens/image8.png", width: 1536, height: 1024 },
+  community: { src: "/reference-screens/image9.png", width: 1536, height: 1024 },
+  tickets: { src: "/reference-screens/image10.png", width: 1536, height: 1024 },
+  news: { src: "/reference-screens/image11.png", width: 1536, height: 1024 },
+  assistant: { src: "/reference-screens/image12.png", width: 1536, height: 1024 }
+};
+
 function useLocale() {
   const [locale, setLocale] = useState<Locale>("en");
 
@@ -122,23 +135,7 @@ export default function CupMatePage() {
 
   return (
     <>
-      <div className="desktop-app app-shell">
-        <Sidebar t={t} activeSection={desktopSection} setActiveSection={setDesktopSection} />
-        <main className="main">
-          <Topbar t={t} locale={locale} setLocale={setLocale} />
-          <DesktopContent
-            section={desktopSection}
-            t={t}
-            setSection={setDesktopSection}
-            activeChip={activeChip}
-            setActiveChip={setActiveChip}
-            assistantText={assistantText}
-            setAssistantText={setAssistantText}
-            submitAssistant={submitAssistant}
-            assistantReply={assistantReply}
-          />
-        </main>
-      </div>
+      <DesktopReferenceApp activeSection={desktopSection} setActiveSection={setDesktopSection} />
 
       <div className="mobile-showcase">
         <div className="mobile-phone">
@@ -176,6 +173,38 @@ export default function CupMatePage() {
         <MobileNav t={t} active={mobileScreen} setActive={setMobileScreen} />
       </div>
     </>
+  );
+}
+
+function DesktopReferenceApp({
+  activeSection,
+  setActiveSection
+}: {
+  activeSection: DesktopSection;
+  setActiveSection: (section: DesktopSection) => void;
+}) {
+  const screen = referenceScreens[activeSection];
+
+  return (
+    <div className="desktop-reference-app">
+      <div
+        className={`reference-frame ${screen.variant === "portrait" ? "portrait" : ""}`}
+        style={{ "--reference-width": `${screen.width}px` } as CSSProperties}
+      >
+        <img src={screen.src} alt={`${activeSection} reference interface`} />
+        <nav className="reference-hotspots" aria-label="Reference navigation">
+          {navItems.map(([key, , section], index) => (
+            <button
+              key={key}
+              className={`reference-hotspot ${activeSection === section ? "active" : ""}`}
+              style={{ "--hotspot-index": index } as CSSProperties}
+              onClick={() => setActiveSection(section)}
+              aria-label={`Open ${key}`}
+            />
+          ))}
+        </nav>
+      </div>
+    </div>
   );
 }
 

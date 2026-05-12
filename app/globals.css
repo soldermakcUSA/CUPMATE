@@ -49,6 +49,58 @@ img {
   grid-template-columns: 250px minmax(0, 1fr);
 }
 
+.desktop-reference-app {
+  min-height: 100vh;
+  overflow: auto;
+  background: #fbfcff;
+}
+
+.reference-frame {
+  position: relative;
+  width: min(100vw, var(--reference-width));
+  margin: 0 auto;
+}
+
+.reference-frame.portrait {
+  width: min(100vw, 1024px);
+}
+
+.reference-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.reference-hotspots {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 17%;
+  height: 58%;
+}
+
+.reference-hotspot {
+  position: absolute;
+  left: 6.5%;
+  top: calc(9.5% + (var(--hotspot-index) * 4.55%));
+  width: 88%;
+  height: 3.8%;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+}
+
+.reference-frame.portrait .reference-hotspot {
+  left: 7%;
+  top: calc(8.3% + (var(--hotspot-index) * 3.7%));
+  width: 86%;
+  height: 3.1%;
+}
+
+.reference-hotspot:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.95);
+  outline-offset: -4px;
+}
+
 .sidebar {
   position: sticky;
   top: 0;
