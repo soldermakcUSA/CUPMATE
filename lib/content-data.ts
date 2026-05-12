@@ -3,10 +3,14 @@ import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 const fallbackImage = "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=900&q=80";
 
 export type NewsItemData = {
+  id?: string;
+  slug?: string;
   title: string;
   text: string;
+  body?: string;
   meta: string;
   image: string;
+  sourceUrl?: string | null;
 };
 
 export type PlaceCardData = {
@@ -29,7 +33,7 @@ export async function fetchNewsItems(limit = 8): Promise<NewsItemData[]> {
   const supabase = createBrowserSupabaseClient() as SupabaseLike;
   const { data, error } = await supabase
     .from("articles")
-    .select("category,image_url,published_at,article_translations(title,excerpt)")
+    .select("id,category,image_url,source_url,published_at,article_translations(slug,title,excerpt,body)")
     .eq("status", "published")
     .eq("type", "news")
     .order("published_at", { ascending: false })
@@ -42,10 +46,14 @@ export async function fetchNewsItems(limit = 8): Promise<NewsItemData[]> {
   return (data ?? []).map((item: any) => {
     const translation = item.article_translations?.[0];
     return {
+      id: item.id,
+      slug: translation?.slug,
       title: translation?.title ?? "World Cup update",
       text: translation?.excerpt ?? "",
+      body: translation?.body ?? translation?.excerpt ?? "",
       meta: formatArticleMeta(item.category, item.published_at),
-      image: item.image_url || fallbackImage
+      image: item.image_url || fallbackImage,
+      sourceUrl: item.source_url
     };
   });
 }

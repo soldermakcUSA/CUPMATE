@@ -5,7 +5,7 @@ import { AssistantMenuPanel } from "@/components/menu/AssistantPanel";
 import { CommunityPanel } from "@/components/menu/CommunityPanel";
 import { FanZonesPanel } from "@/components/menu/FanZonesPanel";
 import { MatchesPanel } from "@/components/menu/MatchesPanel";
-import { NewsPanel } from "@/components/menu/NewsPanel";
+import { ArticleReader, NewsPanel } from "@/components/menu/NewsPanel";
 import { StadiumsPanel } from "@/components/menu/StadiumsPanel";
 import { TicketsPanel } from "@/components/menu/TicketsPanel";
 import { TravelPanel } from "@/components/menu/TravelPanel";
@@ -540,21 +540,24 @@ function NextMatches({ t, setSection, matches }: { t: typeof translations.en; se
 }
 
 function NewsSection({ t, news }: { t: typeof translations.en; news: NewsItemData[] }) {
+  const [selectedArticle, setSelectedArticle] = useState<NewsItemData | null>(null);
+
   return (
     <section className="section-card">
       <SectionHead title={t.newsUpdates} action={t.viewAllNews} />
       <div className="news-grid">
         {news.map((item) => (
-          <article className="news-card" key={item.title}>
+          <button className="news-card news-card-button" key={item.id ?? item.title} type="button" onClick={() => setSelectedArticle(item)}>
             <img src={item.image} alt="" />
             <div>
               <strong>{item.title}</strong>
               <p className="small muted">{item.text}</p>
               <p className="small muted">{item.meta}</p>
             </div>
-          </article>
+          </button>
         ))}
       </div>
+      <ArticleReader article={selectedArticle} onClose={() => setSelectedArticle(null)} />
     </section>
   );
 }
