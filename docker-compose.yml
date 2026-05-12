@@ -1,0 +1,16 @@
+services:
+  cupmate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cupmate:latest
+    container_name: cupmate
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-3000}:3000"
+    env_file:
+      - .env.production
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      HOSTNAME: 0.0.0.0
