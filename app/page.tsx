@@ -1,6 +1,15 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { AssistantMenuPanel } from "@/components/menu/AssistantPanel";
+import { CommunityPanel } from "@/components/menu/CommunityPanel";
+import { FanZonesPanel } from "@/components/menu/FanZonesPanel";
+import { MatchesPanel } from "@/components/menu/MatchesPanel";
+import { NewsPanel } from "@/components/menu/NewsPanel";
+import { StadiumsPanel } from "@/components/menu/StadiumsPanel";
+import { TicketsPanel } from "@/components/menu/TicketsPanel";
+import { TravelPanel } from "@/components/menu/TravelPanel";
+import { WatchPanel } from "@/components/menu/WatchPanel";
 import {
   Bell,
   Bot,
@@ -31,18 +40,19 @@ import { fanZones, fans, itinerary, matches, mobileMatches, news, places } from 
 import { getLanguage, languages, Locale, translations } from "@/lib/i18n";
 
 type Screen = "home" | "matches" | "map" | "route" | "stadium" | "watch" | "community" | "assistant";
+type DesktopSection = "dashboard" | "matches" | "fanZones" | "stadiums" | "travel" | "watch" | "community" | "tickets" | "news" | "assistant";
 
 const navItems = [
-  ["dashboard", Home],
-  ["matches", CalendarDays],
-  ["fanZones", MapPin],
-  ["stadiums", Trophy],
-  ["travel", Navigation],
-  ["watch", Utensils],
-  ["community", Users],
-  ["tickets", Ticket],
-  ["news", WalletCards],
-  ["assistant", Sparkles]
+  ["dashboard", Home, "dashboard"],
+  ["matches", CalendarDays, "matches"],
+  ["fanZones", MapPin, "fanZones"],
+  ["stadiums", Trophy, "stadiums"],
+  ["travel", Navigation, "travel"],
+  ["watch", Utensils, "watch"],
+  ["community", Users, "community"],
+  ["tickets", Ticket, "tickets"],
+  ["news", WalletCards, "news"],
+  ["assistant", Sparkles, "assistant"]
 ] as const;
 
 const promptExamples = [
@@ -80,6 +90,7 @@ function useLocale() {
 
 export default function CupMatePage() {
   const { locale, setLocale, t } = useLocale();
+  const [desktopSection, setDesktopSection] = useState<DesktopSection>("dashboard");
   const [mobileScreen, setMobileScreen] = useState<Screen>("home");
   const [activeChip, setActiveChip] = useState(t.stadiums);
   const [assistantText, setAssistantText] = useState("");
@@ -112,28 +123,20 @@ export default function CupMatePage() {
   return (
     <>
       <div className="desktop-app app-shell">
-        <Sidebar t={t} />
+        <Sidebar t={t} activeSection={desktopSection} setActiveSection={setDesktopSection} />
         <main className="main">
           <Topbar t={t} locale={locale} setLocale={setLocale} />
-          <div className="content-grid">
-            <section className="stack">
-              <Hero t={t} />
-              <NextMatches t={t} />
-              <NewsSection t={t} />
-              <FanZonesSection t={t} />
-            </section>
-            <aside className="right-rail">
-              <MapPanel t={t} activeChip={activeChip} setActiveChip={setActiveChip} />
-              <ItineraryPanel t={t} />
-              <AssistantPanel
-                t={t}
-                assistantText={assistantText}
-                setAssistantText={setAssistantText}
-                submitAssistant={submitAssistant}
-                assistantReply={assistantReply}
-              />
-            </aside>
-          </div>
+          <DesktopContent
+            section={desktopSection}
+            t={t}
+            setSection={setDesktopSection}
+            activeChip={activeChip}
+            setActiveChip={setActiveChip}
+            assistantText={assistantText}
+            setAssistantText={setAssistantText}
+            submitAssistant={submitAssistant}
+            assistantReply={assistantReply}
+          />
         </main>
       </div>
 
@@ -176,7 +179,15 @@ export default function CupMatePage() {
   );
 }
 
-function Sidebar({ t }: { t: typeof translations.en }) {
+function Sidebar({
+  t,
+  activeSection,
+  setActiveSection
+}: {
+  t: typeof translations.en;
+  activeSection: DesktopSection;
+  setActiveSection: (section: DesktopSection) => void;
+}) {
   return (
     <aside className="sidebar">
       <div className="brand">
@@ -187,8 +198,8 @@ function Sidebar({ t }: { t: typeof translations.en }) {
         </div>
       </div>
       <nav className="nav-list" aria-label="Main navigation">
-        {navItems.map(([key, Icon], index) => (
-          <button className={`nav-item ${index === 0 ? "active" : ""}`} key={key}>
+        {navItems.map(([key, Icon, section]) => (
+          <button className={`nav-item ${activeSection === section ? "active" : ""}`} key={key} onClick={() => setActiveSection(section)} aria-current={activeSection === section ? "page" : undefined}>
             <Icon size={20} />
             <span>{t[key]}</span>
           </button>
@@ -198,7 +209,7 @@ function Sidebar({ t }: { t: typeof translations.en }) {
         <h3>World Cup 2026</h3>
         <p>JUNE 11 - JULY 19</p>
         <p>Stay updated with the latest news, matches and events.</p>
-        <button className="primary-button">{t.exploreMatches}</button>
+        <button className="primary-button" onClick={() => setActiveSection("matches")}>{t.exploreMatches}</button>
       </div>
       <div className="profile-card">
         <div className="avatar">A</div>
@@ -210,6 +221,128 @@ function Sidebar({ t }: { t: typeof translations.en }) {
       </div>
     </aside>
   );
+}
+
+function DesktopContent({
+  section,
+  t,
+  setSection,
+  activeChip,
+  setActiveChip,
+  assistantText,
+  setAssistantText,
+  submitAssistant,
+  assistantReply
+}: {
+  section: DesktopSection;
+  t: typeof translations.en;
+  setSection: (section: DesktopSection) => void;
+  activeChip: string;
+  setActiveChip: (chip: string) => void;
+  assistantText: string;
+  setAssistantText: (value: string) => void;
+  submitAssistant: (value?: string) => void;
+  assistantReply: string;
+}) {
+  if (section === "dashboard") {
+    return (
+      <div className="content-grid">
+        <section className="stack">
+          <Hero t={t} setSection={setSection} />
+          <NextMatches t={t} setSection={setSection} />
+          <NewsSection t={t} />
+          <FanZonesSection t={t} />
+        </section>
+        <aside className="right-rail">
+          <MapPanel t={t} activeChip={activeChip} setActiveChip={setActiveChip} />
+          <ItineraryPanel t={t} />
+          <AssistantPanel
+            t={t}
+            assistantText={assistantText}
+            setAssistantText={setAssistantText}
+            submitAssistant={submitAssistant}
+            assistantReply={assistantReply}
+          />
+        </aside>
+      </div>
+    );
+  }
+
+  return (
+    <div className="desktop-section-shell">
+      <MenuSection
+        section={section}
+        t={t}
+        activeChip={activeChip}
+        setActiveChip={setActiveChip}
+        assistantText={assistantText}
+        setAssistantText={setAssistantText}
+        submitAssistant={submitAssistant}
+        assistantReply={assistantReply}
+      />
+    </div>
+  );
+}
+
+function MenuSection({
+  section,
+  t,
+  activeChip,
+  setActiveChip,
+  assistantText,
+  setAssistantText,
+  submitAssistant,
+  assistantReply
+}: {
+  section: Exclude<DesktopSection, "dashboard">;
+  t: typeof translations.en;
+  activeChip: string;
+  setActiveChip: (chip: string) => void;
+  assistantText: string;
+  setAssistantText: (value: string) => void;
+  submitAssistant: (value?: string) => void;
+  assistantReply: string;
+}) {
+  switch (section) {
+    case "matches":
+      return <MatchesPanel t={t} />;
+    case "fanZones":
+      return <FanZonesPanel t={t} />;
+    case "stadiums":
+      return <StadiumsPanel t={t} />;
+    case "travel":
+      return <TravelPanel t={t} />;
+    case "watch":
+      return <WatchPanel t={t} />;
+    case "community":
+      return <CommunityPanel t={t} />;
+    case "tickets":
+      return <TicketsPanel t={t} />;
+    case "news":
+      return <NewsPanel t={t} />;
+    case "assistant":
+      return <AssistantMenuPanel t={t} />;
+    default:
+      return (
+        <div className="content-grid">
+          <section className="stack">
+            <Hero t={t} setSection={() => undefined} />
+            <NextMatches t={t} setSection={() => undefined} />
+          </section>
+          <aside className="right-rail">
+            <MapPanel t={t} activeChip={activeChip} setActiveChip={setActiveChip} />
+            <ItineraryPanel t={t} />
+            <AssistantPanel
+              t={t}
+              assistantText={assistantText}
+              setAssistantText={setAssistantText}
+              submitAssistant={submitAssistant}
+              assistantReply={assistantReply}
+            />
+          </aside>
+        </div>
+      );
+  }
 }
 
 function Topbar({ t, locale, setLocale }: { t: typeof translations.en; locale: Locale; setLocale: (locale: Locale) => void }) {
@@ -241,22 +374,22 @@ function LanguagePicker({ locale, setLocale, compact = false }: { locale: Locale
   );
 }
 
-function Hero({ t }: { t: typeof translations.en }) {
+function Hero({ t, setSection }: { t: typeof translations.en; setSection: (section: DesktopSection) => void }) {
   return (
     <div className="hero">
       <div className="hero-content">
         <h1>{t.heroTitle}</h1>
         <p>{t.heroSub}</p>
-        <button className="primary-button">{t.exploreMatches}</button>
+        <button className="primary-button" onClick={() => setSection("matches")}>{t.exploreMatches}</button>
       </div>
     </div>
   );
 }
 
-function NextMatches({ t }: { t: typeof translations.en }) {
+function NextMatches({ t, setSection }: { t: typeof translations.en; setSection: (section: DesktopSection) => void }) {
   return (
     <section className="section-card">
-      <SectionHead title={t.nextMatches} action={t.viewFullSchedule} />
+      <SectionHead title={t.nextMatches} action={t.viewFullSchedule} onAction={() => setSection("matches")} />
       <div className="match-row">
         {matches.map((match) => (
           <article className="match-card" key={`${match.home}-${match.away}`}>
@@ -323,11 +456,11 @@ function FanZoneCard({ zone }: { zone: (typeof fanZones)[number] }) {
   );
 }
 
-function SectionHead({ title, action }: { title: string; action: string }) {
+function SectionHead({ title, action, onAction }: { title: string; action: string; onAction?: () => void }) {
   return (
     <div className="section-head">
       <h2>{title}</h2>
-      <button className="link-button">{action}</button>
+      <button className="link-button" onClick={onAction}>{action}</button>
     </div>
   );
 }
