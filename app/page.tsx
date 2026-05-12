@@ -34,7 +34,9 @@ import {
   Trophy,
   Users,
   Utensils,
-  WalletCards
+  WalletCards,
+  Award,
+  Shield
 } from "lucide-react";
 import { fanZones, fans, itinerary, matches, mobileMatches, news, places } from "@/lib/mock-data";
 import { getLanguage, languages, Locale, translations } from "@/lib/i18n";
@@ -191,7 +193,7 @@ function Sidebar({
   return (
     <aside className="sidebar">
       <div className="brand">
-        <div className="logo-mark"><Trophy size={26} /></div>
+        <img className="brand-cup" src="/assets/cupmate-trophy-white.png" alt="" />
         <div>
           <h1 className="brand-title">CUPMATE</h1>
           <p className="brand-subtitle">{t.brandSubtitle}</p>
@@ -205,16 +207,40 @@ function Sidebar({
           </button>
         ))}
       </nav>
-      <button className="world-cup-poster" onClick={() => setActiveSection("matches")} aria-label="Open World Cup matches">
-        <img src="/assets/sidebar-cupmate-poster.png" alt="CupMate FIFA World Cup 2026 poster with trophy and stadium" />
-      </button>
-      <div className="profile-card">
-        <div className="avatar">A</div>
-        <div style={{ minWidth: 0 }}>
-          <strong>Alex Johnson</strong>
-          <p className="brand-subtitle" style={{ margin: "4px 0 0" }}>New York, USA</p>
+
+      <button className="sidebar-event-card" onClick={() => setActiveSection("matches")} aria-label="Open World Cup matches">
+        <div className="sidebar-event-copy">
+          <h3>World Cup 2026</h3>
+          <strong>JUNE 11 - JULY 19, 2026</strong>
+          <p>104 matches, 16 host cities, 1 champion.</p>
+          <span>{t.exploreMatches}</span>
         </div>
-        <Settings size={18} style={{ marginLeft: "auto" }} />
+        <img src="/assets/world-cup-gold.png" alt="" />
+      </button>
+
+      <div className="sidebar-stats-card" aria-label="World Cup summary">
+        <div className="sidebar-stat-row">
+          <CalendarDays size={24} />
+          <strong>104 Matches</strong>
+        </div>
+        <div className="sidebar-stat-row">
+          <Award size={24} />
+          <strong>16 Host Cities</strong>
+        </div>
+        <div className="sidebar-stat-row">
+          <Shield size={24} />
+          <strong>3 Countries</strong>
+        </div>
+        <div className="sidebar-stat-row">
+          <Trophy size={24} />
+          <strong>1 One Champion</strong>
+        </div>
+      </div>
+
+      <div className="sidebar-flags" aria-label="Host countries">
+        <span>🇺🇸</span>
+        <span>🇨🇦</span>
+        <span>🇲🇽</span>
       </div>
     </aside>
   );
