@@ -1,7 +1,7 @@
 import { ArrowRight, Newspaper, Ticket, Trophy, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { translations, type Locale } from "@/lib/i18n";
-import type { NewsItemData } from "@/lib/content-data";
+import { NEWS_IMAGE_FALLBACK, type NewsItemData } from "@/lib/content-data";
 
 type NewsPanelProps = {
   locale?: Locale;
@@ -14,6 +14,12 @@ function panelText(locale: Locale = "en", t?: typeof translations.en) {
 }
 
 const storyIcons = [Trophy, Ticket, Newspaper] as const;
+
+function handleNewsImageError(event: { currentTarget: HTMLImageElement }) {
+  if (event.currentTarget.getAttribute("src") !== NEWS_IMAGE_FALLBACK) {
+    event.currentTarget.src = NEWS_IMAGE_FALLBACK;
+  }
+}
 
 export function NewsPanel({ locale = "en", t, news }: NewsPanelProps) {
   const copy = panelText(locale, t);
@@ -51,6 +57,10 @@ export function NewsPanel({ locale = "en", t, news }: NewsPanelProps) {
         <img
           src={lead.image}
           alt=""
+          decoding="async"
+          fetchPriority="high"
+          loading="eager"
+          onError={handleNewsImageError}
           style={{ width: "100%", height: 230, objectFit: "cover", borderRadius: 10 }}
         />
         <div style={{ display: "grid", alignContent: "center", gap: 10 }}>
@@ -68,7 +78,7 @@ export function NewsPanel({ locale = "en", t, news }: NewsPanelProps) {
           const Icon = storyIcons[index + 1] ?? Newspaper;
           return (
             <button className="news-card news-card-button" key={item.id ?? item.title} type="button" onClick={() => setSelectedArticle(item)}>
-              <img src={item.image} alt="" />
+              <img src={item.image} alt="" decoding="async" loading="lazy" onError={handleNewsImageError} />
               <div>
                 <p className="small muted" style={{ display: "flex", gap: 6, alignItems: "center", margin: "0 0 6px" }}>
                   <Icon size={14} /> {item.meta}
@@ -118,7 +128,7 @@ export function ArticleReader({ article, onClose }: { article: NewsItemData | nu
         <button className="article-reader-close" type="button" onClick={onClose} aria-label="Close article">
           <X size={20} />
         </button>
-        <img className="article-reader-image" src={article.image} alt="" />
+        <img className="article-reader-image" src={article.image} alt="" decoding="async" loading="eager" onError={handleNewsImageError} />
         <div className="article-reader-body">
           <span className="tag">{article.meta}</span>
           <h2>{article.title}</h2>

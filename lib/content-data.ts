@@ -1,22 +1,22 @@
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 
-const fallbackImage = "/assets/news/los-angeles-world-cup-surface-final-prep.png";
+export const NEWS_IMAGE_FALLBACK = "/assets/news/los-angeles-world-cup-surface-final-prep.webp";
 
 const newsImagesBySlug: Record<string, string> = {
-  "fanatics-fest-nyc-fifa-final-weekend": "/assets/news/fanatics-fest-nyc-fifa-final-weekend.png",
-  "fifa-disciplinary-rules-world-cup-2026": "/assets/news/fifa-disciplinary-rules-world-cup-2026.png",
-  "iran-seeks-world-cup-visa-guarantees": "/assets/news/iran-seeks-world-cup-visa-guarantees.png",
-  "lays-world-cup-inspired-flavors-canada": "/assets/news/lays-world-cup-inspired-flavors-canada.png",
-  "los-angeles-world-cup-surface-final-prep": "/assets/news/los-angeles-world-cup-surface-final-prep.png",
-  "metlife-world-cup-train-fare-drops": "/assets/news/metlife-world-cup-train-fare-drops.png",
-  "nora-fatehi-world-cup-opening-ceremony-toronto": "/assets/news/nora-fatehi-world-cup-opening-ceremony-toronto.png",
-  "plan-los-angeles-world-cup-experience": "/assets/news/plan-los-angeles-world-cup-experience.png",
-  "record-fifa-payouts-world-cup-2026": "/assets/news/record-fifa-payouts-world-cup-2026.png",
-  "shakira-burna-boy-world-cup-song-teaser": "/assets/news/shakira-burna-boy-world-cup-song-teaser.png",
-  "us-hotels-world-cup-demand-check": "/assets/news/us-hotels-world-cup-demand-check.png",
-  "visa-hdfc-world-cup-fan-access-promotion": "/assets/news/visa-hdfc-world-cup-fan-access-promotion.png",
-  "world-cup-2026-referees-appointed": "/assets/news/world-cup-2026-referees-appointed.png",
-  "world-cup-2026-squad-size-26": "/assets/news/world-cup-2026-squad-size-26.png"
+  "fanatics-fest-nyc-fifa-final-weekend": "/assets/news/fanatics-fest-nyc-fifa-final-weekend.webp",
+  "fifa-disciplinary-rules-world-cup-2026": "/assets/news/fifa-disciplinary-rules-world-cup-2026.webp",
+  "iran-seeks-world-cup-visa-guarantees": "/assets/news/iran-seeks-world-cup-visa-guarantees.webp",
+  "lays-world-cup-inspired-flavors-canada": "/assets/news/lays-world-cup-inspired-flavors-canada.webp",
+  "los-angeles-world-cup-surface-final-prep": "/assets/news/los-angeles-world-cup-surface-final-prep.webp",
+  "metlife-world-cup-train-fare-drops": "/assets/news/metlife-world-cup-train-fare-drops.webp",
+  "nora-fatehi-world-cup-opening-ceremony-toronto": "/assets/news/nora-fatehi-world-cup-opening-ceremony-toronto.webp",
+  "plan-los-angeles-world-cup-experience": "/assets/news/plan-los-angeles-world-cup-experience.webp",
+  "record-fifa-payouts-world-cup-2026": "/assets/news/record-fifa-payouts-world-cup-2026.webp",
+  "shakira-burna-boy-world-cup-song-teaser": "/assets/news/shakira-burna-boy-world-cup-song-teaser.webp",
+  "us-hotels-world-cup-demand-check": "/assets/news/us-hotels-world-cup-demand-check.webp",
+  "visa-hdfc-world-cup-fan-access-promotion": "/assets/news/visa-hdfc-world-cup-fan-access-promotion.webp",
+  "world-cup-2026-referees-appointed": "/assets/news/world-cup-2026-referees-appointed.webp",
+  "world-cup-2026-squad-size-26": "/assets/news/world-cup-2026-squad-size-26.webp"
 };
 
 const newsImageFallbacks = Object.values(newsImagesBySlug);
@@ -77,7 +77,7 @@ export async function fetchNewsItems(limit = 8): Promise<NewsItemData[]> {
       text: translation?.excerpt ?? "",
       body: translation?.body ?? translation?.excerpt ?? "",
       meta: formatArticleMeta(item.category, item.published_at),
-      image: (localImage && newsImagesBySlug[localImage]) || newsImageFallbacks[index % newsImageFallbacks.length] || item.image_url || fallbackImage,
+      image: (localImage && newsImagesBySlug[localImage]) || newsImageFallbacks[index % newsImageFallbacks.length] || item.image_url || NEWS_IMAGE_FALLBACK,
       sourceUrl: item.source_url
     };
   });
@@ -118,7 +118,7 @@ export async function fetchPlaces(limit = 10): Promise<PlaceCardData[]> {
       city: [city?.name, city?.state_region].filter(Boolean).join(", "),
       distance: city?.name ?? "Host city",
       note: translation?.atmosphere ?? translation?.opening_hours_note ?? "Official World Cup fan destination.",
-      image: place.image_url || fallbackImage,
+      image: place.image_url || NEWS_IMAGE_FALLBACK,
       tags,
       latitude: place.latitude ?? null,
       longitude: place.longitude ?? null

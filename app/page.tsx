@@ -39,7 +39,7 @@ import {
   Shield
 } from "lucide-react";
 import { fans, itinerary, matches as mockMatches, news as mockNews, places as mockPlaces } from "@/lib/mock-data";
-import { fetchNewsItems, fetchPlaces, NewsItemData, PlaceCardData } from "@/lib/content-data";
+import { fetchNewsItems, fetchPlaces, NEWS_IMAGE_FALLBACK, NewsItemData, PlaceCardData } from "@/lib/content-data";
 import { getLanguage, languages, Locale, translations } from "@/lib/i18n";
 import { fetchWorldCupMatches, MatchCardData } from "@/lib/world-cup-data";
 
@@ -71,6 +71,12 @@ const mobilePrompts = [
   "What's the weather in New Jersey?",
   "Find a place to watch the match"
 ];
+
+function handleNewsImageError(event: { currentTarget: HTMLImageElement }) {
+  if (event.currentTarget.getAttribute("src") !== NEWS_IMAGE_FALLBACK) {
+    event.currentTarget.src = NEWS_IMAGE_FALLBACK;
+  }
+}
 
 type MapPoint = {
   id: string;
@@ -548,7 +554,7 @@ function NewsSection({ t, news }: { t: typeof translations.en; news: NewsItemDat
       <div className="news-grid">
         {news.slice(0, 3).map((item) => (
           <button className="news-card news-card-button" key={item.id ?? item.title} type="button" onClick={() => setSelectedArticle(item)}>
-            <img src={item.image} alt="" />
+            <img src={item.image} alt="" decoding="async" loading="lazy" onError={handleNewsImageError} />
             <div>
               <strong>{item.title}</strong>
               <p className="small muted">{item.text}</p>

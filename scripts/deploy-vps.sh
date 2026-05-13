@@ -52,9 +52,9 @@ fi
 
 echo "Deploying commit $(git rev-parse --short HEAD) from origin/$BRANCH"
 
-NEWS_ASSET_COUNT="$(find public/assets/news -maxdepth 1 -type f -name '*.png' 2>/dev/null | wc -l | tr -d ' ')"
+NEWS_ASSET_COUNT="$(find public/assets/news -maxdepth 1 -type f -name '*.webp' 2>/dev/null | wc -l | tr -d ' ')"
 if [ "$NEWS_ASSET_COUNT" -lt 14 ]; then
-  echo "Expected at least 14 news images in public/assets/news, found $NEWS_ASSET_COUNT." >&2
+  echo "Expected at least 14 optimized news images in public/assets/news, found $NEWS_ASSET_COUNT." >&2
   echo "The checkout is missing committed news assets; aborting deploy." >&2
   exit 1
 fi
@@ -66,5 +66,5 @@ else
   "${COMPOSE[@]}" up -d --build --remove-orphans
 fi
 
-"${COMPOSE[@]}" exec -T cupmate test -f /app/public/assets/news/los-angeles-world-cup-surface-final-prep.png
+"${COMPOSE[@]}" exec -T cupmate test -f /app/public/assets/news/los-angeles-world-cup-surface-final-prep.webp
 "${COMPOSE[@]}" ps
