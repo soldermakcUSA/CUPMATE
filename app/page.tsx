@@ -72,6 +72,117 @@ const mobilePrompts = [
   "Find a place to watch the match"
 ];
 
+const liveStandings = [
+  {
+    group: "Group A",
+    teams: [
+      { rank: 1, flag: "🇲🇽", name: "Mexico" },
+      { rank: 2, flag: "🇿🇦", name: "South Africa" },
+      { rank: 3, flag: "🇰🇷", name: "South Korea" },
+      { rank: 4, flag: "🇨🇿", name: "Czechia" }
+    ]
+  },
+  {
+    group: "Group B",
+    teams: [
+      { rank: 1, flag: "🇨🇦", name: "Canada" },
+      { rank: 2, flag: "🇧🇦", name: "Bosnia and Herzegovina" },
+      { rank: 3, flag: "🇶🇦", name: "Qatar" },
+      { rank: 4, flag: "🇨🇭", name: "Switzerland" }
+    ]
+  },
+  {
+    group: "Group C",
+    teams: [
+      { rank: 1, flag: "🇧🇷", name: "Brazil" },
+      { rank: 2, flag: "🇲🇦", name: "Morocco" },
+      { rank: 3, flag: "🇭🇹", name: "Haiti" },
+      { rank: 4, flag: "🏴", name: "Scotland" }
+    ]
+  },
+  {
+    group: "Group D",
+    teams: [
+      { rank: 1, flag: "🇺🇸", name: "United States" },
+      { rank: 2, flag: "🇵🇾", name: "Paraguay" },
+      { rank: 3, flag: "🇦🇺", name: "Australia" },
+      { rank: 4, flag: "🇹🇷", name: "Türkiye" }
+    ]
+  },
+  {
+    group: "Group E",
+    teams: [
+      { rank: 1, flag: "🇩🇪", name: "Germany" },
+      { rank: 2, flag: "🇨🇼", name: "Curacao" },
+      { rank: 3, flag: "🇨🇮", name: "Ivory Coast" },
+      { rank: 4, flag: "🇪🇨", name: "Ecuador" }
+    ]
+  },
+  {
+    group: "Group F",
+    teams: [
+      { rank: 1, flag: "🇳🇱", name: "Netherlands" },
+      { rank: 2, flag: "🇯🇵", name: "Japan" },
+      { rank: 3, flag: "🇸🇪", name: "Sweden" },
+      { rank: 4, flag: "🇹🇳", name: "Tunisia" }
+    ]
+  },
+  {
+    group: "Group G",
+    teams: [
+      { rank: 1, flag: "🇧🇪", name: "Belgium" },
+      { rank: 2, flag: "🇪🇬", name: "Egypt" },
+      { rank: 3, flag: "🇮🇷", name: "Iran" },
+      { rank: 4, flag: "🇳🇿", name: "New Zealand" }
+    ]
+  },
+  {
+    group: "Group H",
+    teams: [
+      { rank: 1, flag: "🇪🇸", name: "Spain" },
+      { rank: 2, flag: "🇨🇻", name: "Cape Verde" },
+      { rank: 3, flag: "🇸🇦", name: "Saudi Arabia" },
+      { rank: 4, flag: "🇺🇾", name: "Uruguay" }
+    ]
+  },
+  {
+    group: "Group I",
+    teams: [
+      { rank: 1, flag: "🇫🇷", name: "France" },
+      { rank: 2, flag: "🇸🇳", name: "Senegal" },
+      { rank: 3, flag: "🇮🇶", name: "Iraq" },
+      { rank: 4, flag: "🇳🇴", name: "Norway" }
+    ]
+  },
+  {
+    group: "Group J",
+    teams: [
+      { rank: 1, flag: "🇦🇷", name: "Argentina" },
+      { rank: 2, flag: "🇩🇿", name: "Algeria" },
+      { rank: 3, flag: "🇦🇹", name: "Austria" },
+      { rank: 4, flag: "🇯🇴", name: "Jordan" }
+    ]
+  },
+  {
+    group: "Group K",
+    teams: [
+      { rank: 1, flag: "🇵🇹", name: "Portugal" },
+      { rank: 2, flag: "🇨🇩", name: "Congo DR" },
+      { rank: 3, flag: "🇺🇿", name: "Uzbekistan" },
+      { rank: 4, flag: "🇨🇴", name: "Colombia" }
+    ]
+  },
+  {
+    group: "Group L",
+    teams: [
+      { rank: 1, flag: "🏴", name: "England" },
+      { rank: 2, flag: "🇭🇷", name: "Croatia" },
+      { rank: 3, flag: "🇬🇭", name: "Ghana" },
+      { rank: 4, flag: "🇵🇦", name: "Panama" }
+    ]
+  }
+];
+
 function handleNewsImageError(event: { currentTarget: HTMLImageElement }) {
   if (event.currentTarget.getAttribute("src") !== NEWS_IMAGE_FALLBACK) {
     event.currentTarget.src = NEWS_IMAGE_FALLBACK;
@@ -383,13 +494,7 @@ function DesktopContent({
         <aside className="right-rail">
           <MapPanel t={t} activeChip={activeChip} setActiveChip={setActiveChip} places={places} />
           <ItineraryPanel t={t} />
-          <AssistantPanel
-            t={t}
-            assistantText={assistantText}
-            setAssistantText={setAssistantText}
-            submitAssistant={submitAssistant}
-            assistantReply={assistantReply}
-          />
+          <LiveStandingsPanel />
         </aside>
       </div>
     );
@@ -706,6 +811,52 @@ function ItineraryPanel({ t }: { t: typeof translations.en }) {
         </div>
       ))}
       <button className="prompt-button" style={{ textAlign: "center", marginTop: 12 }}>+ {t.addItinerary}</button>
+    </section>
+  );
+}
+
+function LiveStandingsPanel() {
+  return (
+    <section className="standings-card" aria-labelledby="live-standings-title">
+      <div className="standings-intro">
+        <h2 id="live-standings-title">2026 Live Standings</h2>
+        <p>When games are live, standings update in real-time.</p>
+        <div className="standings-live-key">
+          <span aria-hidden="true" />
+          <span>Team is currently playing</span>
+        </div>
+      </div>
+
+      <div className="standings-groups">
+        {liveStandings.map((group) => (
+          <div className="standings-group" key={group.group}>
+            <div className="standings-header">
+              <strong>{group.group}</strong>
+              <span>MP</span>
+              <span>W-D-L</span>
+              <span>GF</span>
+              <span>GA</span>
+              <span>GD</span>
+              <span>PTS</span>
+            </div>
+            {group.teams.map((team) => (
+              <div className={`standings-row ${team.rank === 3 ? "qualification-line" : ""}`} key={team.name}>
+                <span className="standings-rank">{team.rank}</span>
+                <span className="standings-team">
+                  <span className="standings-flag" aria-hidden="true">{team.flag}</span>
+                  <strong>{team.name}</strong>
+                </span>
+                <span>0</span>
+                <span>0-0-0</span>
+                <span>0</span>
+                <span>0</span>
+                <span>0</span>
+                <span>0</span>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
     </section>
   );
 }

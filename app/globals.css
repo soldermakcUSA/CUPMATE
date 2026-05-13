@@ -371,6 +371,7 @@ img {
 .content-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(410px, 470px);
+  align-items: start;
   gap: 24px;
 }
 
@@ -509,6 +510,7 @@ img {
 .stack {
   min-width: 0;
   display: grid;
+  align-content: start;
   gap: 16px;
 }
 
@@ -946,6 +948,154 @@ img {
 .map-card,
 .assistant-card {
   padding: 18px;
+}
+
+.standings-card {
+  min-width: 0;
+  max-height: clamp(560px, 64vh, 760px);
+  padding: 22px 18px 18px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: var(--card-shadow);
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #c4c8d4 transparent;
+}
+
+.standings-card::-webkit-scrollbar {
+  width: 8px;
+}
+
+.standings-card::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.standings-card::-webkit-scrollbar-thumb {
+  background: #c4c8d4;
+  border-radius: 999px;
+}
+
+.standings-intro h2 {
+  margin: 0;
+  text-transform: uppercase;
+  font-size: 25px;
+  line-height: 1;
+  font-weight: 920;
+  letter-spacing: 0;
+}
+
+.standings-intro p {
+  margin: 13px 0 18px;
+  color: #101828;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.standings-live-key {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 26px;
+  color: #7a7d85;
+  font-size: 12px;
+}
+
+.standings-live-key span:first-child {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 auto;
+  background: #e60000;
+  border-radius: 50%;
+}
+
+.standings-groups {
+  display: grid;
+  gap: 24px;
+}
+
+.standings-group {
+  min-width: 0;
+}
+
+.standings-header {
+  display: grid;
+  grid-template-columns: minmax(134px, 1fr) 24px 48px 24px 24px 24px 28px;
+  gap: 5px;
+  align-items: end;
+  padding-bottom: 10px;
+  color: #777b84;
+  border-bottom: 1px solid #dfe2e8;
+  font-size: 11px;
+  text-align: right;
+}
+
+.standings-header strong {
+  color: #080d1b;
+  text-align: left;
+  text-transform: uppercase;
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 920;
+}
+
+.standings-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 24px minmax(104px, 1fr) 24px 48px 24px 24px 24px 28px;
+  gap: 5px;
+  align-items: center;
+  min-height: 58px;
+  border-bottom: 1px solid #e4e6ec;
+  font-size: 13px;
+  text-align: right;
+}
+
+.standings-row:last-child {
+  border-bottom: 0;
+}
+
+.standings-row.qualification-line::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  border-top: 1px dashed #80838b;
+}
+
+.standings-rank {
+  color: #747882;
+  text-align: center;
+}
+
+.standings-team {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+}
+
+.standings-team strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 14px;
+  line-height: 1.12;
+}
+
+.standings-flag {
+  display: grid;
+  width: 34px;
+  height: 24px;
+  flex: 0 0 auto;
+  place-items: center;
+  overflow: hidden;
+  background: #f8fafc;
+  border: 1px solid #e1e4ea;
+  font-size: 24px;
+  line-height: 1;
 }
 
 .us-map {
