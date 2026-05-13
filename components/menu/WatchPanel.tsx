@@ -37,8 +37,8 @@ export function WatchPanel({ t = translations.en, places }: WatchPanelProps) {
           <h3 style={{ margin: "0 0 8px", fontSize: 24 }}>{featuredPlace.name}</h3>
           <p className="small muted">{featuredPlace.note}</p>
           <div className="tags">
-            <span className="tag">Live Screen</span>
-            <span className="tag">Reservations</span>
+            <span className="tag">{t.liveScreen}</span>
+            <span className="tag">{t.reservations}</span>
             <span className="tag">{featuredPlace.distance}</span>
           </div>
           <button className="primary-button" style={{ marginTop: 18 }}>{t.seeDetails}</button>

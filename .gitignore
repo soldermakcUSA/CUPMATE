@@ -19,3 +19,7 @@ cupmate-desktop.png
 cupmate-mobile.png
 cupmate-mobile-ai.png
 cupmate-menu-*.png
+
+__pycache__/
+*.py[cod]
+tmp/

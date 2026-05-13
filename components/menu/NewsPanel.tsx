@@ -90,12 +90,12 @@ export function NewsPanel({ locale = "en", t, news }: NewsPanelProps) {
           );
         })}
       </div>
-      <ArticleReader article={selectedArticle} onClose={() => setSelectedArticle(null)} />
+      <ArticleReader article={selectedArticle} onClose={() => setSelectedArticle(null)} t={copy} />
     </section>
   );
 }
 
-export function ArticleReader({ article, onClose }: { article: NewsItemData | null; onClose: () => void }) {
+export function ArticleReader({ article, onClose, t = translations.en }: { article: NewsItemData | null; onClose: () => void; t?: typeof translations.en }) {
   useEffect(() => {
     if (!article) return;
 
@@ -125,7 +125,7 @@ export function ArticleReader({ article, onClose }: { article: NewsItemData | nu
   return (
     <div className="article-reader-backdrop" role="presentation" onMouseDown={onClose}>
       <article className="article-reader" role="dialog" aria-modal="true" aria-label={article.title} onMouseDown={(event) => event.stopPropagation()}>
-        <button className="article-reader-close" type="button" onClick={onClose} aria-label="Close article">
+        <button className="article-reader-close" type="button" onClick={onClose} aria-label={t.closeArticle}>
           <X size={20} />
         </button>
         <img className="article-reader-image" src={article.image} alt="" decoding="async" loading="eager" onError={handleNewsImageError} />
@@ -138,7 +138,7 @@ export function ArticleReader({ article, onClose }: { article: NewsItemData | nu
               <p key={paragraph}>{paragraph}</p>
             ))}
           </div>
-          <p className="article-reader-source">CupMate original report</p>
+          <p className="article-reader-source">{t.originalReport}</p>
         </div>
       </article>
     </div>

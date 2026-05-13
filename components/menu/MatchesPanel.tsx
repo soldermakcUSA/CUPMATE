@@ -25,7 +25,7 @@ export function MatchesPanel({ t, matches }: MatchesPanelProps) {
       <div className="matches-panel-hero">
         <div>
           <span className="tag">{featuredMatch.group}</span>
-          <h3>{featuredMatch.home} vs {featuredMatch.away}</h3>
+          <h3>{featuredMatch.home} {t.versus} {featuredMatch.away}</h3>
           <p className="small muted">
             <CalendarDays size={14} aria-hidden="true" /> {featuredMatch.date}
             <span aria-hidden="true"> · </span>
@@ -47,7 +47,7 @@ export function MatchesPanel({ t, matches }: MatchesPanelProps) {
             </div>
             <div className="match-flags">
               <span>{match.home}</span>
-              <span className="small">vs</span>
+              <span className="small">{t.versus}</span>
               <span>{match.away}</span>
             </div>
             <p className="small muted">{match.date} · {match.time}</p>

@@ -1,3 +1,5 @@
+import { pickLocalizedTranslation, localizedDateFormatterLocale } from "@/lib/content-localization";
+import type { Locale } from "@/lib/i18n";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 
 export const NEWS_IMAGE_FALLBACK = "/assets/news/los-angeles-world-cup-surface-final-prep.webp";
@@ -48,11 +50,11 @@ type SupabaseLike = ReturnType<typeof createBrowserSupabaseClient> & {
   from: (relation: string) => any;
 };
 
-export async function fetchNewsItems(limit = 8): Promise<NewsItemData[]> {
+export async function fetchNewsItems(limit = 8, locale: Locale = "en"): Promise<NewsItemData[]> {
   const supabase = createBrowserSupabaseClient() as SupabaseLike;
   const { data, error } = await supabase
     .from("articles")
-    .select("id,category,image_url,source_url,published_at,article_translations(slug,title,excerpt,body)")
+    .select("id,category,image_url,source_url,published_at,article_translations(language_code,slug,title,excerpt,body)")
     .eq("status", "published")
     .eq("type", "news")
     .order("published_at", { ascending: false })
@@ -64,7 +66,7 @@ export async function fetchNewsItems(limit = 8): Promise<NewsItemData[]> {
 
   return (data ?? []).map((item: any, index: number) => {
     const translations = item.article_translations ?? [];
-    const translation = translations[0];
+    const translation = pickLocalizedTranslation<any>(translations, locale);
     const slug = translation?.slug;
     const localImage = translations
       .map((entry: any) => entry?.slug)
@@ -76,14 +78,14 @@ export async function fetchNewsItems(limit = 8): Promise<NewsItemData[]> {
       title: translation?.title ?? "World Cup update",
       text: translation?.excerpt ?? "",
       body: translation?.body ?? translation?.excerpt ?? "",
-      meta: formatArticleMeta(item.category, item.published_at),
+      meta: formatArticleMeta(item.category, item.published_at, locale),
       image: (localImage && newsImagesBySlug[localImage]) || newsImageFallbacks[index % newsImageFallbacks.length] || item.image_url || NEWS_IMAGE_FALLBACK,
       sourceUrl: item.source_url
     };
   });
 }
 
-export async function fetchPlaces(limit = 10): Promise<PlaceCardData[]> {
+export async function fetchPlaces(limit = 10, locale: Locale = "en"): Promise<PlaceCardData[]> {
   const supabase = createBrowserSupabaseClient() as SupabaseLike;
   const { data, error } = await supabase
     .from("places")
@@ -92,9 +94,9 @@ export async function fetchPlaces(limit = 10): Promise<PlaceCardData[]> {
       latitude,
       longitude,
       image_url,
-      place_translations(name, address, atmosphere, opening_hours_note),
-      host_cities(host_city_translations(name, state_region)),
-      place_tags(tags(tag_translations(label)))
+      place_translations(language_code,name, address, atmosphere, opening_hours_note),
+      host_cities(host_city_translations(language_code,name, state_region)),
+      place_tags(tags(tag_translations(language_code,label)))
     `)
     .eq("is_published", true)
     .order("is_sponsored", { ascending: false })
@@ -105,19 +107,19 @@ export async function fetchPlaces(limit = 10): Promise<PlaceCardData[]> {
   }
 
   return (data ?? []).map((place: any) => {
-    const translation = place.place_translations?.[0];
-    const city = place.host_cities?.host_city_translations?.[0];
+    const translation = pickLocalizedTranslation<any>(place.place_translations, locale);
+    const city = pickLocalizedTranslation<any>(place.host_cities?.host_city_translations, locale);
     const tags = (place.place_tags ?? [])
-      .map((row: any) => row.tags?.tag_translations?.[0]?.label)
+      .map((row: any) => pickLocalizedTranslation<any>(row.tags?.tag_translations, locale)?.label)
       .filter(Boolean)
       .slice(0, 4);
 
     return {
       name: translation?.name ?? "World Cup place",
-      type: humanizePlaceType(place.type),
+      type: humanizePlaceType(place.type, locale),
       city: [city?.name, city?.state_region].filter(Boolean).join(", "),
-      distance: city?.name ?? "Host city",
-      note: translation?.atmosphere ?? translation?.opening_hours_note ?? "Official World Cup fan destination.",
+      distance: city?.name ?? hostCityFallback(locale),
+      note: translation?.atmosphere ?? translation?.opening_hours_note ?? officialDestinationFallback(locale),
       image: place.image_url || NEWS_IMAGE_FALLBACK,
       tags,
       latitude: place.latitude ?? null,
@@ -126,16 +128,45 @@ export async function fetchPlaces(limit = 10): Promise<PlaceCardData[]> {
   });
 }
 
-function formatArticleMeta(category: string | null, publishedAt: string | null) {
+function formatArticleMeta(category: string | null, publishedAt: string | null, locale: Locale) {
   const date = publishedAt
-    ? new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" }).format(new Date(publishedAt))
-    : "Latest";
-  return [date, category ?? "News"].join(" · ");
+    ? new Intl.DateTimeFormat(localizedDateFormatterLocale(locale), { month: "short", day: "numeric" }).format(new Date(publishedAt))
+    : latestFallback(locale);
+  return [date, category ?? newsFallback(locale)].join(" · ");
 }
 
-function humanizePlaceType(type: string) {
-  return type
+const placeTypeLabels: Partial<Record<Locale, Record<string, string>>> = {
+  ru: { sports_bar: "Спорт-бар", restaurant: "Ресторан", fan_zone: "Фан-зона" },
+  es: { sports_bar: "Bar deportivo", restaurant: "Restaurante", fan_zone: "Fan zone" },
+  fr: { sports_bar: "Bar sportif", restaurant: "Restaurant", fan_zone: "Fan zone" },
+  de: { sports_bar: "Sportsbar", restaurant: "Restaurant", fan_zone: "Fan-Zone" },
+  pt: { sports_bar: "Bar esportivo", restaurant: "Restaurante", fan_zone: "Fan zone" },
+  it: { sports_bar: "Sports bar", restaurant: "Ristorante", fan_zone: "Fan zone" },
+  ar: { sports_bar: "بار رياضي", restaurant: "مطعم", fan_zone: "منطقة مشجعين" },
+  zh: { sports_bar: "体育酒吧", restaurant: "餐厅", fan_zone: "球迷区" },
+  ja: { sports_bar: "スポーツバー", restaurant: "レストラン", fan_zone: "ファンゾーン" },
+  ko: { sports_bar: "스포츠 바", restaurant: "레스토랑", fan_zone: "팬존" }
+};
+
+function humanizePlaceType(type: string, locale: Locale) {
+  return placeTypeLabels[locale]?.[type] ?? type
     .split("_")
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join(" ");
+}
+
+function latestFallback(locale: Locale) {
+  return locale === "ru" ? "Новое" : "Latest";
+}
+
+function newsFallback(locale: Locale) {
+  return locale === "ru" ? "Новости" : "News";
+}
+
+function hostCityFallback(locale: Locale) {
+  return locale === "ru" ? "Город-организатор" : "Host city";
+}
+
+function officialDestinationFallback(locale: Locale) {
+  return locale === "ru" ? "Официальное место для болельщиков Чемпионата мира." : "Official World Cup fan destination.";
 }

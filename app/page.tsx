@@ -273,7 +273,7 @@ export default function CupMatePage() {
   useEffect(() => {
     let isMounted = true;
 
-    fetchWorldCupMatches(12)
+    fetchWorldCupMatches(12, locale)
       .then((items) => {
         if (isMounted && items.length > 0) {
           setWorldCupMatches(items);
@@ -283,7 +283,7 @@ export default function CupMatePage() {
         console.warn("Unable to load World Cup matches from Supabase.", error);
       });
 
-    fetchNewsItems(14)
+    fetchNewsItems(14, locale)
       .then((items) => {
         if (isMounted && items.length > 0) {
           setContentNews(items);
@@ -293,7 +293,7 @@ export default function CupMatePage() {
         console.warn("Unable to load World Cup news from Supabase.", error);
       });
 
-    fetchPlaces(10)
+    fetchPlaces(10, locale)
       .then((items) => {
         if (isMounted && items.length > 0) {
           setContentPlaces(items);
@@ -306,7 +306,7 @@ export default function CupMatePage() {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [locale]);
 
   const mobileTitle = useMemo(() => {
     const titles: Record<Screen, string> = {
@@ -344,6 +344,7 @@ export default function CupMatePage() {
             setAssistantText={setAssistantText}
             submitAssistant={submitAssistant}
             assistantReply={assistantReply}
+            locale={locale}
             matches={worldCupMatches}
             news={contentNews}
             places={contentPlaces}
@@ -465,6 +466,7 @@ function DesktopContent({
   setAssistantText,
   submitAssistant,
   assistantReply,
+  locale,
   matches,
   news,
   places
@@ -478,6 +480,7 @@ function DesktopContent({
   setAssistantText: (value: string) => void;
   submitAssistant: (value?: string) => void;
   assistantReply: string;
+  locale: Locale;
   matches: MatchCardData[];
   news: NewsItemData[];
   places: PlaceCardData[];
@@ -511,6 +514,7 @@ function DesktopContent({
         setAssistantText={setAssistantText}
         submitAssistant={submitAssistant}
         assistantReply={assistantReply}
+        locale={locale}
         matches={matches}
         news={news}
         places={places}
@@ -528,6 +532,7 @@ function MenuSection({
   setAssistantText,
   submitAssistant,
   assistantReply,
+  locale,
   matches,
   news,
   places
@@ -540,6 +545,7 @@ function MenuSection({
   setAssistantText: (value: string) => void;
   submitAssistant: (value?: string) => void;
   assistantReply: string;
+  locale: Locale;
   matches: MatchCardData[];
   news: NewsItemData[];
   places: PlaceCardData[];
@@ -560,7 +566,7 @@ function MenuSection({
     case "tickets":
       return <TicketsPanel t={t} />;
     case "news":
-      return <NewsPanel t={t} news={news} />;
+      return <NewsPanel locale={locale} t={t} news={news} />;
     case "assistant":
       return <AssistantMenuPanel t={t} />;
     default:
@@ -637,7 +643,7 @@ function NextMatches({ t, setSection, matches }: { t: typeof translations.en; se
             <p className="small muted" style={{ textAlign: "center" }}>{match.group}</p>
             <div className="match-flags">
               <span>{match.home}</span>
-              <span className="small">vs</span>
+              <span className="small">{t.versus}</span>
               <span>{match.away}</span>
             </div>
             <p className="small muted" style={{ textAlign: "center" }}>{match.date} · {match.time}</p>
@@ -668,7 +674,7 @@ function NewsSection({ t, news }: { t: typeof translations.en; news: NewsItemDat
           </button>
         ))}
       </div>
-      <ArticleReader article={selectedArticle} onClose={() => setSelectedArticle(null)} />
+      <ArticleReader article={selectedArticle} onClose={() => setSelectedArticle(null)} t={t} />
     </section>
   );
 }

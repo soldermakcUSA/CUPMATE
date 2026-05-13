@@ -80,7 +80,12 @@ const en = {
   findNow: "Find Now",
   chat: "Chat",
   aiGreeting: "Hi Alex! How can I help you today?",
-  lang: "Language"
+  lang: "Language",
+  liveScreen: "Live Screen",
+  reservations: "Reservations",
+  closeArticle: "Close article",
+  originalReport: "CupMate original report",
+  versus: "vs"
 };
 
 const overrides: Record<Exclude<Locale, "en">, Partial<typeof en>> = {
@@ -93,7 +98,7 @@ const overrides: Record<Exclude<Locale, "en">, Partial<typeof en>> = {
   zh: { dashboard: "仪表盘", matches: "比赛", fanZones: "球迷区", stadiums: "体育场", travel: "旅行路线", watch: "观赛地点", community: "社区", tickets: "门票", news: "新闻", assistant: "AI 助手", search: "搜索比赛、球队、地点...", exploreMatches: "浏览比赛", nextMatches: "下一场比赛", interactiveMap: "互动地图", itinerary: "我的行程", home: "首页", map: "地图", profile: "个人", lang: "语言" },
   ja: { dashboard: "ダッシュボード", matches: "試合", fanZones: "ファンゾーン", stadiums: "スタジアム", travel: "移動ルート", watch: "観戦場所", community: "コミュニティ", tickets: "チケット", news: "ニュース", assistant: "AIアシスタント", search: "試合、チーム、場所を検索...", exploreMatches: "試合を見る", nextMatches: "次の試合", interactiveMap: "インタラクティブマップ", itinerary: "旅程", home: "ホーム", map: "地図", profile: "プロフィール", lang: "言語" },
   ko: { dashboard: "대시보드", matches: "경기", fanZones: "팬존", stadiums: "경기장", travel: "여행 경로", watch: "시청 장소", community: "커뮤니티", tickets: "티켓", news: "뉴스", assistant: "AI 어시스턴트", search: "경기, 팀, 장소 검색...", exploreMatches: "경기 보기", nextMatches: "다음 경기", interactiveMap: "인터랙티브 지도", itinerary: "내 일정", home: "홈", map: "지도", profile: "프로필", lang: "언어" },
-  ru: { dashboard: "Дашборд", matches: "Матчи", fanZones: "Фан-зоны", stadiums: "Стадионы", travel: "Маршруты", watch: "Где смотреть", community: "Сообщество", tickets: "Билеты", news: "Новости", assistant: "AI-ассистент", search: "Поиск матчей, команд, мест...", exploreMatches: "Смотреть матчи", nextMatches: "Ближайшие матчи", interactiveMap: "Интерактивная карта", itinerary: "Мой маршрут", home: "Главная", map: "Карта", profile: "Профиль", lang: "Язык" }
+  ru: { dashboard: "Дашборд", matches: "Матчи", fanZones: "Фан-зоны", stadiums: "Стадионы", travel: "Маршруты", watch: "Где смотреть", community: "Сообщество", tickets: "Билеты", news: "Новости", assistant: "AI-ассистент", search: "Поиск матчей, команд, мест...", exploreMatches: "Смотреть матчи", nextMatches: "Ближайшие матчи", interactiveMap: "Интерактивная карта", itinerary: "Мой маршрут", home: "Главная", map: "Карта", profile: "Профиль", lang: "Язык", liveScreen: "Большой экран", reservations: "Бронирование", closeArticle: "Закрыть статью", originalReport: "Оригинальный материал CupMate", versus: "против" }
 };
 
 export const translations: Record<Locale, typeof en> = Object.fromEntries(
