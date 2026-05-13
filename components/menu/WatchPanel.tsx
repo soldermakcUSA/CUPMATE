@@ -16,7 +16,7 @@ export function WatchPanel({ t = translations.en, places }: WatchPanelProps) {
         <div>
           <h2 id="watch-panel-title">{t.watch}</h2>
           <p className="small muted" style={{ margin: "6px 0 0" }}>
-            <MapPin size={14} style={{ verticalAlign: "text-bottom" }} /> Miami, USA
+            <MapPin size={14} style={{ verticalAlign: "text-bottom" }} /> {t.miamiUsa}
           </p>
         </div>
         <button className="link-button">{t.viewAll}</button>

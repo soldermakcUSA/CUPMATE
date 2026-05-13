@@ -1,18 +1,17 @@
 import { MessageCircle, Radio, Users } from "lucide-react";
-import { fanZones, fans } from "../../lib/mock-data";
-import { translations } from "../../lib/i18n";
+import { localizedFallbackFans, localizedFallbackFanZones } from "@/lib/localized-static-data";
+import { translations, type Locale } from "../../lib/i18n";
 
 type CommunityPanelProps = {
   t?: typeof translations.en;
+  locale?: Locale;
 };
 
-const feedItems = [
-  "Argentina fans meeting near Times Square Fan Fest",
-  "Brazil supporters organizing a pre-match walk",
-  "Japan fans sharing transit tips for MetLife Stadium"
-];
+export function CommunityPanel({ t = translations.en, locale = "en" }: CommunityPanelProps) {
+  const feedItems = [t.communityFeedArgentina, t.communityFeedBrazil, t.communityFeedJapan];
+  const fans = localizedFallbackFans(locale);
+  const fanZones = localizedFallbackFanZones(locale);
 
-export function CommunityPanel({ t = translations.en }: CommunityPanelProps) {
   return (
     <section className="section-card" aria-labelledby="community-panel-title">
       <div className="section-head">
@@ -35,7 +34,7 @@ export function CommunityPanel({ t = translations.en }: CommunityPanelProps) {
             <p className="small" style={{ marginTop: 0 }}>
               <Users size={15} style={{ verticalAlign: "text-bottom" }} /> {t.findFans}
             </p>
-            <h3 style={{ margin: "0 0 10px" }}>12,840 fans nearby</h3>
+            <h3 style={{ margin: "0 0 10px" }}>{t.fansNearbyCount}</h3>
             <p style={{ marginBottom: 16 }}>{t.connectFans}</p>
             <button className="prompt-button" style={{ width: "auto" }}>{t.findNow}</button>
           </div>

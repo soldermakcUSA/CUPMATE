@@ -1,11 +1,13 @@
 import { CircleParking, MapPin, Navigation, ShieldCheck, Ticket, Utensils, WalletCards } from "lucide-react";
-import { matches } from "@/lib/mock-data";
-import { translations } from "@/lib/i18n";
+import { translations, type Locale } from "@/lib/i18n";
+import type { MatchCardData } from "@/lib/world-cup-data";
 
 type Translation = typeof translations.en;
 
 type StadiumsPanelProps = {
   t: Translation;
+  locale: Locale;
+  matches: MatchCardData[];
 };
 
 const stadiums = [
@@ -14,7 +16,7 @@ const stadiums = [
     city: "East Rutherford, NJ",
     capacity: "82,500",
     gatesOpen: "2:00 PM",
-    match: matches[2],
+    matchIndex: 2,
     image: "https://images.unsplash.com/photo-1556056504-5c7696c4c28d?auto=format&fit=crop&w=900&q=80"
   },
   {
@@ -22,7 +24,7 @@ const stadiums = [
     city: "Mexico City, Mexico",
     capacity: "87,523",
     gatesOpen: "12:00 PM",
-    match: matches[0],
+    matchIndex: 0,
     image: "https://images.unsplash.com/photo-1577223625816-7546f13df25d?auto=format&fit=crop&w=900&q=80"
   },
   {
@@ -30,13 +32,18 @@ const stadiums = [
     city: "Dallas, TX",
     capacity: "80,000",
     gatesOpen: "3:00 PM",
-    match: matches[3],
+    matchIndex: 3,
     image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=900&q=80"
   }
 ];
 
-export function StadiumsPanel({ t }: StadiumsPanelProps) {
-  const featuredStadium = stadiums[0];
+export function StadiumsPanel({ t, matches }: StadiumsPanelProps) {
+  const stadiumList = stadiums.map((stadium) => ({ ...stadium, match: matches[stadium.matchIndex] ?? matches[0] })).filter((stadium) => stadium.match);
+  const featuredStadium = stadiumList[0];
+
+  if (!featuredStadium) {
+    return null;
+  }
 
   return (
     <section className="section-card menu-panel stadiums-panel" aria-labelledby="stadiums-panel-title">
@@ -73,7 +80,7 @@ export function StadiumsPanel({ t }: StadiumsPanelProps) {
       </div>
 
       <div className="stadiums-panel-list" aria-label={t.stadiumGuide}>
-        {stadiums.map((stadium) => (
+            {stadiumList.map((stadium) => (
           <article className="itinerary-row stadiums-panel-row" key={stadium.name}>
             <div className="date-tile">{stadium.match.date.split(",")[0].toUpperCase()}</div>
             <div>
@@ -81,7 +88,7 @@ export function StadiumsPanel({ t }: StadiumsPanelProps) {
               <p className="small muted">{stadium.city}</p>
             </div>
             <div>
-              <strong>{stadium.match.home} vs {stadium.match.away}</strong>
+              <strong>{stadium.match.home} {t.versus} {stadium.match.away}</strong>
               <p className="small muted">{stadium.match.time} · {stadium.capacity}</p>
             </div>
             <button className="link-button">{t.seeDetails}</button>

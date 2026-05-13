@@ -1,9 +1,12 @@
 import { Bus, Car, Footprints, MapPin, Navigation, Train } from "lucide-react";
-import { itinerary, matches } from "../../lib/mock-data";
-import { translations } from "../../lib/i18n";
+import { localizedFallbackItinerary } from "@/lib/localized-static-data";
+import { translations, type Locale } from "../../lib/i18n";
+import type { MatchCardData } from "@/lib/world-cup-data";
 
 type TravelPanelProps = {
   t?: typeof translations.en;
+  locale?: Locale;
+  matches: MatchCardData[];
 };
 
 const routeModes = [
@@ -13,14 +16,14 @@ const routeModes = [
   { key: "taxi", Icon: Bus }
 ] as const;
 
-const routeSteps = [
-  "Walk to Secaucus Junction",
-  "Train to Meadowlands",
-  "Follow event signs to Gate C"
-];
+export function TravelPanel({ t = translations.en, locale = "en", matches }: TravelPanelProps) {
+  const featuredMatch = matches[2] ?? matches[0];
+  const localizedItinerary = localizedFallbackItinerary(locale);
+  const routeSteps = [t.walkToSecaucus, t.trainToMeadowlands, t.followSignsGateC];
 
-export function TravelPanel({ t = translations.en }: TravelPanelProps) {
-  const featuredMatch = matches[2];
+  if (!featuredMatch) {
+    return null;
+  }
 
   return (
     <section className="section-card" aria-labelledby="travel-panel-title">
@@ -40,15 +43,15 @@ export function TravelPanel({ t = translations.en }: TravelPanelProps) {
             <div className="route-line" style={{ inset: "72px 62px 72px 58px" }} />
             <span className="marker green" style={{ left: "16%", top: "24%" }} />
             <span className="map-label" style={{ left: "calc(16% + 24px)", top: "24%" }}>
-              New York Penn
+              {t.newYorkPenn}
             </span>
             <span className="marker" style={{ left: "48%", top: "56%" }} />
             <span className="map-label" style={{ left: "calc(48% + 24px)", top: "56%" }}>
-              Secaucus
+              {t.secaucus}
             </span>
             <span className="marker red" style={{ right: "14%", bottom: "18%" }} />
             <span className="map-label" style={{ right: "calc(14% + 24px)", bottom: "18%" }}>
-              MetLife
+              {t.metlife}
             </span>
           </div>
 
@@ -64,10 +67,10 @@ export function TravelPanel({ t = translations.en }: TravelPanelProps) {
         <div className="match-card" style={{ minHeight: "auto" }}>
           <p className="small muted" style={{ marginTop: 0 }}>{t.recommendedRoute}</p>
           <h3 style={{ margin: "0 0 6px" }}>
-            <Navigation size={18} style={{ verticalAlign: "text-bottom" }} /> 45 min by train
+            <Navigation size={18} style={{ verticalAlign: "text-bottom" }} /> {t.routeDurationTrain}
           </h3>
           <p className="small muted" style={{ margin: "0 0 18px" }}>
-            {featuredMatch.home} vs {featuredMatch.away} · {featuredMatch.time}
+            {featuredMatch.home} {t.versus} {featuredMatch.away} · {featuredMatch.time}
           </p>
 
           <div className="mobile-list" style={{ marginTop: 0 }}>
@@ -84,7 +87,7 @@ export function TravelPanel({ t = translations.en }: TravelPanelProps) {
       </div>
 
       <div className="match-row" style={{ marginTop: 16 }}>
-        {itinerary.map((item) => (
+        {localizedItinerary.map((item) => (
           <article className="match-card" key={item.match} style={{ minHeight: 150 }}>
             <p className="small muted" style={{ marginTop: 0 }}>{item.day}</p>
             <strong>{item.match}</strong>

@@ -2,46 +2,45 @@
 
 import { useState } from "react";
 import { Bot, MapPin, Send, Sparkles, Train } from "lucide-react";
-import { fanZones, itinerary, places } from "@/lib/mock-data";
+import { localizedFallbackItinerary } from "@/lib/localized-static-data";
+import type { PlaceCardData } from "@/lib/content-data";
 import { translations, type Locale } from "@/lib/i18n";
 
 type AssistantMenuPanelProps = {
   locale?: Locale;
   t?: typeof translations.en;
+  places: PlaceCardData[];
 };
-
-const promptExamples = [
-  "Where should I watch the match in Miami?",
-  "How early should I leave for the stadium?",
-  "What is on my itinerary?"
-];
 
 function panelText(locale: Locale = "en", t?: typeof translations.en) {
   return t ?? translations[locale] ?? translations.en;
 }
 
-function buildReply(question: string) {
+function buildReply(question: string, copy: typeof translations.en, places: PlaceCardData[], locale: Locale) {
   const normalized = question.toLowerCase();
+  const itinerary = localizedFallbackItinerary(locale);
 
   if (normalized.includes("miami") || normalized.includes("watch")) {
-    return `Try ${places[0].name} or ${places[1].name}. Both are close to fan activity, and ${places[0].name} is only ${places[0].distance} away.`;
+    return `${copy.assistantTipPrefix} ${copy.assistantReplyWatch}`;
   }
 
   if (normalized.includes("itinerary") || normalized.includes("ticket")) {
-    return `You have ${itinerary.length} saved match days. Your next ticket is ${itinerary[0].match} at ${itinerary[0].venue}.`;
+    return `${copy.itinerary}: ${itinerary.length}. ${itinerary[0].match} · ${itinerary[0].venue}.`;
   }
 
-  return "Leave at least 90 minutes before kickoff, keep your ticket QR ready, and use transit where available around host venues.";
+  return `${copy.assistantTipPrefix} ${copy.assistantReplyTransit}`;
 }
 
-export function AssistantMenuPanel({ locale = "en", t }: AssistantMenuPanelProps) {
+export function AssistantMenuPanel({ locale = "en", t, places }: AssistantMenuPanelProps) {
   const copy = panelText(locale, t);
   const [assistantText, setAssistantText] = useState("");
   const [assistantReply, setAssistantReply] = useState(copy.aiGreeting);
+  const promptExamples = [copy.assistantPromptWatchPlace, copy.assistantPromptMetlifeTransit, copy.assistantPromptFanZones];
+  const featuredPlace = places[0];
 
   function submitAssistant(value = assistantText) {
     if (!value.trim()) return;
-    setAssistantReply(buildReply(value));
+    setAssistantReply(buildReply(value, copy, places, locale));
     setAssistantText("");
   }
 
@@ -68,18 +67,18 @@ export function AssistantMenuPanel({ locale = "en", t }: AssistantMenuPanelProps
       >
         <article className="match-card assistant-menu-panel-card" style={{ minHeight: 126 }}>
           <Sparkles size={18} color="#5b35f5" />
-          <strong style={{ display: "block", marginTop: 10 }}>Smart plan</strong>
-          <p className="small muted">Match day timing, ticket checks, and nearby options.</p>
+          <strong style={{ display: "block", marginTop: 10 }}>{copy.smartPlan}</strong>
+          <p className="small muted">{copy.smartPlanDescription}</p>
         </article>
         <article className="match-card assistant-menu-panel-card" style={{ minHeight: 126 }}>
           <Train size={18} color="#245bff" />
           <strong style={{ display: "block", marginTop: 10 }}>{copy.travel}</strong>
-          <p className="small muted">Routes and exit guidance for saved matches.</p>
+          <p className="small muted">{copy.routesDescription}</p>
         </article>
         <article className="match-card assistant-menu-panel-card" style={{ minHeight: 126 }}>
           <MapPin size={18} color="#12b76a" />
           <strong style={{ display: "block", marginTop: 10 }}>{copy.fanZones}</strong>
-          <p className="small muted">{fanZones[0].name} is {fanZones[0].distance} away.</p>
+          <p className="small muted">{featuredPlace ? `${featuredPlace.name} · ${featuredPlace.distance}` : copy.popularFanZones}</p>
         </article>
       </div>
 

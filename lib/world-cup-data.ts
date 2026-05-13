@@ -1,5 +1,6 @@
 import { pickLocalizedTranslation, localizedDateFormatterLocale } from "@/lib/content-localization";
 import type { Locale } from "@/lib/i18n";
+import { localizeVenue, staticText } from "@/lib/localized-static-data";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 
 export type MatchCardData = {
@@ -118,7 +119,7 @@ function formatVenue(stadium: StadiumRelation, locale: Locale) {
   const stadiumName = pickLocalizedTranslation(stadium?.stadium_translations, locale)?.name ?? venueFallback(locale);
   const city = pickLocalizedTranslation(stadium?.host_cities?.host_city_translations, locale);
   const cityLabel = [city?.name, city?.state_region].filter(Boolean).join(", ");
-  return cityLabel ? `${stadiumName}, ${cityLabel}` : stadiumName;
+  return localizeVenue(cityLabel ? `${stadiumName}, ${cityLabel}` : stadiumName, locale);
 }
 
 function formatStage(stage: string, locale: Locale) {
@@ -164,9 +165,9 @@ function localizeGroup(groupName: string | null, locale: Locale) {
 }
 
 function worldCupMatchFallback(locale: Locale) {
-  return locale === "ru" ? "Матч Чемпионата мира" : "World Cup match";
+  return staticText(locale).genericArticleTitle;
 }
 
 function venueFallback(locale: Locale) {
-  return locale === "ru" ? "Стадион уточняется" : "Venue TBD";
+  return locale === "ru" ? "Стадион уточняется" : locale === "es" ? "Sede por confirmar" : locale === "fr" ? "Stade à confirmer" : locale === "de" ? "Spielort offen" : locale === "zh" ? "场馆待定" : staticText(locale).hostCity;
 }

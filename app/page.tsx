@@ -38,9 +38,16 @@ import {
   Award,
   Shield
 } from "lucide-react";
-import { fans, itinerary, matches as mockMatches, news as mockNews, places as mockPlaces } from "@/lib/mock-data";
 import { fetchNewsItems, fetchPlaces, NEWS_IMAGE_FALLBACK, NewsItemData, PlaceCardData } from "@/lib/content-data";
 import { getLanguage, languages, Locale, translations } from "@/lib/i18n";
+import {
+  localizedFallbackFans,
+  localizedFallbackItinerary,
+  localizedFallbackMatches,
+  localizedFallbackNews,
+  localizedFallbackPlaces,
+  localizeTeamName
+} from "@/lib/localized-static-data";
 import { fetchWorldCupMatches, MatchCardData } from "@/lib/world-cup-data";
 
 type Screen = "home" | "matches" | "map" | "route" | "stadium" | "watch" | "community" | "assistant";
@@ -58,19 +65,6 @@ const navItems = [
   ["news", WalletCards, "news"],
   ["assistant", Sparkles, "assistant"]
 ] as const;
-
-const promptExamples = [
-  "Where can I watch Argentina vs Brazil in Miami?",
-  "How do I get to MetLife Stadium by public transport?",
-  "What are the best fan zones in New York?"
-];
-
-const mobilePrompts = [
-  "How do I get to MetLife Stadium?",
-  "Where are the best fan zones?",
-  "What's the weather in New Jersey?",
-  "Find a place to watch the match"
-];
 
 const liveStandings = [
   {
@@ -200,6 +194,14 @@ type MapPoint = {
   accent?: "red" | "green";
 };
 
+function localizeMapMeta(meta: string, t: typeof translations.en) {
+  if (meta === "Opening match") return t.nextMatch;
+  if (meta === "Final host") return t.worldCup2026;
+  const matchCount = meta.match(/^(\d+)\s+matches$/i);
+  if (matchCount) return `${matchCount[1]} ${t.matches.toLowerCase()}`;
+  return meta;
+}
+
 const hostCityPoints: MapPoint[] = [
   { id: "vancouver", label: "Vancouver", detail: "BC Place", meta: "7 matches", latitude: 49.2827, longitude: -123.1207, kind: "stadium", accent: "green" },
   { id: "toronto", label: "Toronto", detail: "BMO Field", meta: "6 matches", latitude: 43.6532, longitude: -79.3832, kind: "stadium" },
@@ -259,15 +261,17 @@ export default function CupMatePage() {
   const [mobileScreen, setMobileScreen] = useState<Screen>("home");
   const [activeChip, setActiveChip] = useState(t.stadiums);
   const [assistantText, setAssistantText] = useState("");
-  const [assistantReply, setAssistantReply] = useState("MetLife Stadium is easiest by train via Secaucus Junction. Plan 45 minutes and keep your ticket QR ready.");
-  const [worldCupMatches, setWorldCupMatches] = useState<MatchCardData[]>(mockMatches);
-  const [contentNews, setContentNews] = useState<NewsItemData[]>(mockNews);
-  const [contentPlaces, setContentPlaces] = useState<PlaceCardData[]>(
-    mockPlaces.map((place) => ({ ...place, city: "Miami, USA", tags: ["Live Screen", "Food"], latitude: 25.7752, longitude: -80.186 }))
-  );
+  const [assistantReply, setAssistantReply] = useState(t.metlifeTransitTip);
+  const [worldCupMatches, setWorldCupMatches] = useState<MatchCardData[]>(() => localizedFallbackMatches("en"));
+  const [contentNews, setContentNews] = useState<NewsItemData[]>(() => localizedFallbackNews("en"));
+  const [contentPlaces, setContentPlaces] = useState<PlaceCardData[]>(() => localizedFallbackPlaces("en"));
 
   useEffect(() => {
     setActiveChip(translations[locale].stadiums);
+    setAssistantReply(translations[locale].metlifeTransitTip);
+    setWorldCupMatches(localizedFallbackMatches(locale));
+    setContentNews(localizedFallbackNews(locale));
+    setContentPlaces(localizedFallbackPlaces(locale));
   }, [locale]);
 
   useEffect(() => {
@@ -324,7 +328,7 @@ export default function CupMatePage() {
 
   function submitAssistant(value = assistantText) {
     if (!value.trim()) return;
-    setAssistantReply(`CupMate tip: ${value.includes("Miami") ? "try Blackbird Ordinary or Mango's Tropical Cafe. Both are close to fan activity and easy to reach by rideshare." : "use public transit first, avoid peak exits, and save the route to your itinerary."}`);
+    setAssistantReply(`${t.assistantTipPrefix} ${value.includes("Miami") ? t.assistantReplyWatch : t.assistantReplyTransit}`);
     setAssistantText("");
   }
 
@@ -361,7 +365,7 @@ export default function CupMatePage() {
           <div className="mobile-screen">
             {mobileScreen !== "home" && (
               <div className="mobile-header">
-                <button className="icon-button" onClick={() => setMobileScreen("home")} aria-label="Back">
+                <button className="icon-button" onClick={() => setMobileScreen("home")} aria-label={t.back}>
                   ‹
                 </button>
                 <h2>{mobileTitle}</h2>
@@ -374,7 +378,7 @@ export default function CupMatePage() {
             {mobileScreen === "route" && <MobileRoute t={t} />}
             {mobileScreen === "stadium" && <MobileStadium t={t} />}
             {mobileScreen === "watch" && <MobileWatch t={t} places={contentPlaces} />}
-            {mobileScreen === "community" && <MobileCommunity t={t} />}
+            {mobileScreen === "community" && <MobileCommunity t={t} locale={locale} />}
             {mobileScreen === "assistant" && (
               <MobileAssistant
                 t={t}
@@ -409,7 +413,7 @@ function Sidebar({
           <p className="brand-subtitle">{t.brandSubtitle}</p>
         </div>
       </div>
-      <nav className="nav-list" aria-label="Main navigation">
+      <nav className="nav-list" aria-label={t.mainNavigation}>
         {navItems.map(([key, Icon, section]) => (
           <button className={`nav-item ${activeSection === section ? "active" : ""}`} key={key} onClick={() => setActiveSection(section)} aria-current={activeSection === section ? "page" : undefined}>
             <Icon size={20} />
@@ -418,36 +422,36 @@ function Sidebar({
         ))}
       </nav>
 
-      <button className="sidebar-event-card" onClick={() => setActiveSection("matches")} aria-label="Open World Cup matches">
+      <button className="sidebar-event-card" onClick={() => setActiveSection("matches")} aria-label={t.openWorldCupMatches}>
         <div className="sidebar-event-copy">
-          <h3>World Cup 2026</h3>
-          <strong>JUNE 11 - JULY 19, 2026</strong>
-          <p>104 matches, 16 host cities, 1 champion.</p>
+          <h3>{t.worldCup2026}</h3>
+          <strong>{t.tournamentDates}</strong>
+          <p>{t.tournamentSummary}</p>
           <span>{t.exploreMatches}</span>
         </div>
         <img src="/assets/world-cup-gold.png" alt="" />
       </button>
 
-      <div className="sidebar-stats-card" aria-label="World Cup summary">
+      <div className="sidebar-stats-card" aria-label={t.worldCupSummary}>
         <div className="sidebar-stat-row">
           <CalendarDays size={24} />
-          <strong>104 Matches</strong>
+          <strong>{t.matchesCount}</strong>
         </div>
         <div className="sidebar-stat-row">
           <Award size={24} />
-          <strong>16 Host Cities</strong>
+          <strong>{t.hostCitiesCount}</strong>
         </div>
         <div className="sidebar-stat-row">
           <Shield size={24} />
-          <strong>3 Countries</strong>
+          <strong>{t.hostCountriesCount}</strong>
         </div>
         <div className="sidebar-stat-row">
           <Trophy size={24} />
-          <strong>1 One Champion</strong>
+          <strong>{t.championCount}</strong>
         </div>
       </div>
 
-      <div className="sidebar-flags" aria-label="Host countries">
+      <div className="sidebar-flags" aria-label={t.hostCountries}>
         <span>🇺🇸</span>
         <span>🇨🇦</span>
         <span>🇲🇽</span>
@@ -496,8 +500,8 @@ function DesktopContent({
         </section>
         <aside className="right-rail">
           <MapPanel t={t} activeChip={activeChip} setActiveChip={setActiveChip} places={places} />
-          <ItineraryPanel t={t} />
-          <LiveStandingsPanel />
+          <ItineraryPanel t={t} locale={locale} />
+          <LiveStandingsPanel t={t} locale={locale} />
         </aside>
       </div>
     );
@@ -556,19 +560,19 @@ function MenuSection({
     case "fanZones":
       return <FanZonesPanel t={t} places={places} />;
     case "stadiums":
-      return <StadiumsPanel t={t} />;
+      return <StadiumsPanel t={t} locale={locale} matches={matches} />;
     case "travel":
-      return <TravelPanel t={t} />;
+      return <TravelPanel t={t} locale={locale} matches={matches} />;
     case "watch":
       return <WatchPanel t={t} places={places} />;
     case "community":
-      return <CommunityPanel t={t} />;
+      return <CommunityPanel t={t} locale={locale} />;
     case "tickets":
-      return <TicketsPanel t={t} />;
+      return <TicketsPanel t={t} locale={locale} matches={matches} />;
     case "news":
       return <NewsPanel locale={locale} t={t} news={news} />;
     case "assistant":
-      return <AssistantMenuPanel t={t} />;
+      return <AssistantMenuPanel t={t} locale={locale} places={places} />;
     default:
       return (
         <div className="content-grid">
@@ -578,7 +582,7 @@ function MenuSection({
           </section>
           <aside className="right-rail">
             <MapPanel t={t} activeChip={activeChip} setActiveChip={setActiveChip} places={places} />
-            <ItineraryPanel t={t} />
+            <ItineraryPanel t={t} locale={locale} />
             <AssistantPanel
               t={t}
               assistantText={assistantText}
@@ -600,7 +604,7 @@ function Topbar({ t, locale, setLocale }: { t: typeof translations.en; locale: L
         <input placeholder={t.search} aria-label={t.search} />
       </label>
       <div className="top-actions">
-        <button className="icon-button" aria-label="Notifications"><Bell size={20} /></button>
+        <button className="icon-button" aria-label={t.notifications}><Bell size={20} /></button>
         <LanguagePicker locale={locale} setLocale={setLocale} />
         <div className="avatar">A</div>
       </div>
@@ -612,7 +616,7 @@ function LanguagePicker({ locale, setLocale, compact = false }: { locale: Locale
   return (
     <label style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
       {!compact && <Languages size={18} className="muted" />}
-      <select className="language-select" value={locale} onChange={(event) => setLocale(event.target.value as Locale)} aria-label="Language">
+      <select className="language-select" value={locale} onChange={(event) => setLocale(event.target.value as Locale)} aria-label={translations[locale].lang}>
         {languages.map((language) => (
           <option key={language.code} value={language.code}>{compact ? language.short : `${language.short} · ${language.name}`}</option>
         ))}
@@ -748,11 +752,11 @@ function MapPanel({
       hostCityPoints.slice(0, 8).map((point) => ({
         ...point,
         id: `${point.id}-parking`,
-        detail: `${point.label} matchday parking and transit hub`,
-        meta: "Parking guidance",
+        detail: `${point.label} · ${t.parking}`,
+        meta: t.recommendedRoute,
         kind: "parking" as const
       })),
-    []
+    [t]
   );
   const mapPoints =
     activeChip === t.fanZones ? fanFestivalPoints
@@ -769,7 +773,7 @@ function MapPanel({
   return (
     <section className="map-card">
       <SectionHead title={t.interactiveMap} action={t.viewFullMap} />
-      <div className="us-map interactive-map" aria-label="Interactive FIFA World Cup 2026 map">
+      <div className="us-map interactive-map" aria-label={t.interactiveMap}>
         <div className="map-grid" aria-hidden="true" />
         <div className="map-landmass" aria-hidden="true" />
         {mapPoints.map((point) => {
@@ -789,7 +793,7 @@ function MapPanel({
           <span className="tag">{activeChip}</span>
           <strong>{selectedPoint.label}</strong>
           <p className="small muted">{selectedPoint.detail}</p>
-          <p className="small muted">{selectedPoint.meta}</p>
+          <p className="small muted">{localizeMapMeta(selectedPoint.meta, t)}</p>
         </div>
       </div>
       <div className="chip-row">
@@ -801,11 +805,13 @@ function MapPanel({
   );
 }
 
-function ItineraryPanel({ t }: { t: typeof translations.en }) {
+function ItineraryPanel({ t, locale }: { t: typeof translations.en; locale: Locale }) {
+  const localizedItinerary = localizedFallbackItinerary(locale);
+
   return (
     <section className="map-card">
-      <SectionHead title={t.itinerary} action="See full itinerary" />
-      {itinerary.map((item) => (
+      <SectionHead title={t.itinerary} action={t.seeFullItinerary} />
+      {localizedItinerary.map((item) => (
         <div className="itinerary-row" key={item.match}>
           <div className="date-tile">{item.day}</div>
           <strong>{item.time}</strong>
@@ -821,15 +827,15 @@ function ItineraryPanel({ t }: { t: typeof translations.en }) {
   );
 }
 
-function LiveStandingsPanel() {
+function LiveStandingsPanel({ t, locale }: { t: typeof translations.en; locale: Locale }) {
   return (
     <section className="standings-card" aria-labelledby="live-standings-title">
       <div className="standings-intro">
-        <h2 id="live-standings-title">2026 Live Standings</h2>
-        <p>When games are live, standings update in real-time.</p>
+        <h2 id="live-standings-title">{t.liveStandingsTitle}</h2>
+        <p>{t.liveStandingsDescription}</p>
         <div className="standings-live-key">
           <span aria-hidden="true" />
-          <span>Team is currently playing</span>
+          <span>{t.teamCurrentlyPlaying}</span>
         </div>
       </div>
 
@@ -838,19 +844,19 @@ function LiveStandingsPanel() {
           <div className="standings-group" key={group.group}>
             <div className="standings-header">
               <strong>{group.group}</strong>
-              <span>MP</span>
-              <span>W-D-L</span>
-              <span>GF</span>
-              <span>GA</span>
-              <span>GD</span>
-              <span>PTS</span>
+              <span>{t.playedShort}</span>
+              <span>{t.recordShort}</span>
+              <span>{t.goalsForShort}</span>
+              <span>{t.goalsAgainstShort}</span>
+              <span>{t.goalDifferenceShort}</span>
+              <span>{t.pointsShort}</span>
             </div>
             {group.teams.map((team) => (
               <div className={`standings-row ${team.rank === 3 ? "qualification-line" : ""}`} key={team.name}>
                 <span className="standings-rank">{team.rank}</span>
                 <span className="standings-team">
                   <span className="standings-flag" aria-hidden="true">{team.flag}</span>
-                  <strong>{team.name}</strong>
+                  <strong>{localizeTeamName(team.name, locale)}</strong>
                 </span>
                 <span>0</span>
                 <span>0-0-0</span>
@@ -880,6 +886,8 @@ function AssistantPanel({
   submitAssistant: (value?: string) => void;
   assistantReply: string;
 }) {
+  const promptExamples = [t.assistantPromptWatchMiami, t.assistantPromptMetlifeTransit, t.assistantPromptFanZonesNewYork];
+
   return (
     <section className="assistant-card">
       <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
@@ -915,7 +923,7 @@ function MobileHome({ t, setMobileScreen, matches }: { t: typeof translations.en
       </div>
       <div className="gradient-card">
         <p>{t.nextMatch}</p>
-        <h3>{featuredMatch.home} vs {featuredMatch.away}</h3>
+        <h3>{featuredMatch.home} {t.versus} {featuredMatch.away}</h3>
         <p className="small">{featuredMatch.venue}</p>
       </div>
       <SectionHead title={t.matchesToday} action={t.viewAll} />
@@ -940,7 +948,7 @@ function MobileMatches({ t, matches }: { t: typeof translations.en; matches: Mat
         {[t.all, t.myTime, t.byTeam, t.byVenue].map((chip, index) => <button className={`chip ${index === 0 ? "active" : ""}`} key={chip}>{chip}</button>)}
       </div>
       <div className="date-strip">{[12, 13, 14, 15, 16, 17].map((date, index) => <span className={`date-pill ${index === 0 ? "active" : ""}`} key={date}>{date}</span>)}</div>
-      <h3>Thursday, June 12</h3>
+      <h3>{t.thursdayJune12}</h3>
       <div className="mobile-list">
         {matches.map((match) => (
           <article className="mobile-match" key={`${match.home}-${match.away}`}>
@@ -962,7 +970,7 @@ function MobileMap({ t, setMobileScreen, places }: { t: typeof translations.en; 
 
   return (
     <>
-      <p className="small"><MapPin size={14} /> New York, USA <ChevronDown size={14} /></p>
+      <p className="small"><MapPin size={14} /> {t.newYorkUsa} <ChevronDown size={14} /></p>
       <div className="mobile-map interactive-map" aria-label="Mobile host city map">
         <div className="map-grid" aria-hidden="true" />
         <div className="map-landmass" aria-hidden="true" />
@@ -998,9 +1006,9 @@ function MobileRoute({ t }: { t: typeof translations.en }) {
       </div>
       <div className="mobile-map"><div className="route-line" /><span className="marker green" style={{ left: "15%", top: "26%" }} /><span className="marker red" style={{ right: "12%", bottom: "18%" }} /></div>
       <h3>MetLife Stadium</h3>
-      <p className="small muted">East Rutherford, NJ</p>
+      <p className="small muted">{t.eastRutherfordNj}</p>
       <div className="mobile-list">
-        {["Walk to Secaucus Junction · 5 min", "Train to Meadowlands · 25 min", "Walk to Stadium · 15 min"].map((step) => <div className="route-step" key={step}>{step}</div>)}
+        {[`${t.walkToSecaucus} · 5 min`, `${t.trainToMeadowlands} · 25 min`, `${t.walkToStadium} · 15 min`].map((step) => <div className="route-step" key={step}>{step}</div>)}
       </div>
       <button className="primary-button" style={{ width: "100%", marginTop: 18 }}>{t.startNavigation}</button>
     </>
@@ -1013,15 +1021,15 @@ function MobileStadium({ t }: { t: typeof translations.en }) {
       <div className="stadium-hero">
         <div>
           <h2>MetLife Stadium</h2>
-          <p>East Rutherford, NJ</p>
+          <p>{t.eastRutherfordNj}</p>
         </div>
       </div>
       <div className="info-icons">
-        {[ShieldCheck, WalletCards, Utensils, Ticket, CircleParking].map((Icon, index) => <button key={index} aria-label="Info"><Icon size={19} /></button>)}
+        {[ShieldCheck, WalletCards, Utensils, Ticket, CircleParking].map((Icon, index) => <button key={index} aria-label={t.helpfulInfo}><Icon size={19} /></button>)}
       </div>
       <h3>{t.helpfulInfo}</h3>
       <div className="mobile-list">
-        {[[t.gatesOpen, "2:00 PM"], [t.capacity, "82,500"], [t.parking, "Lots open 6:00 AM"], [t.cashlessVenue, "Yes"], [t.prohibitedItems, t.viewAll]].map(([label, value]) => (
+        {[[t.gatesOpen, "2:00 PM"], [t.capacity, "82,500"], [t.parking, t.gatesBeforeKickoff], [t.cashlessVenue, t.viewAll], [t.prohibitedItems, t.viewAll]].map(([label, value]) => (
           <div className="mobile-match" key={label}><span>{label}</span><strong>{value}</strong></div>
         ))}
       </div>
@@ -1033,7 +1041,7 @@ function MobileStadium({ t }: { t: typeof translations.en }) {
 function MobileWatch({ t, places }: { t: typeof translations.en; places: PlaceCardData[] }) {
   return (
     <>
-      <p className="small"><MapPin size={14} /> Miami, USA</p>
+      <p className="small"><MapPin size={14} /> {t.miamiUsa}</p>
       <div className="chip-row">{[t.all, t.sportsBars, t.restaurants, t.fanZones].map((chip, index) => <button className={`chip ${index === 0 ? "active" : ""}`} key={chip}>{chip}</button>)}</div>
       <div className="mobile-list">
         {places.map((place) => (
@@ -1048,7 +1056,9 @@ function MobileWatch({ t, places }: { t: typeof translations.en; places: PlaceCa
   );
 }
 
-function MobileCommunity({ t }: { t: typeof translations.en }) {
+function MobileCommunity({ t, locale }: { t: typeof translations.en; locale: Locale }) {
+  const localizedFans = localizedFallbackFans(locale);
+
   return (
     <>
       <div className="chip-row">{[t.feed, t.nearbyFans, t.groups].map((chip, index) => <button className={`chip ${index === 1 ? "active" : ""}`} key={chip}>{chip}</button>)}</div>
@@ -1059,7 +1069,7 @@ function MobileCommunity({ t }: { t: typeof translations.en }) {
       </div>
       <h3>{t.nearbyFans}</h3>
       <div className="mobile-list">
-        {fans.map((fan) => (
+        {localizedFans.map((fan) => (
           <article className="fan-row" key={fan.name}>
             <div className="avatar">{fan.avatar}</div>
             <div><strong>{fan.name}</strong><p className="small muted">{fan.country}</p><p className="small muted">{fan.status}</p></div>
@@ -1072,6 +1082,8 @@ function MobileCommunity({ t }: { t: typeof translations.en }) {
 }
 
 function MobileAssistant({ t, assistantText, setAssistantText, submitAssistant }: { t: typeof translations.en; assistantText: string; setAssistantText: (value: string) => void; submitAssistant: (value?: string) => void }) {
+  const mobilePrompts = [t.assistantPromptMetlife, t.assistantPromptFanZones, t.assistantPromptWeather, t.assistantPromptWatchPlace];
+
   return (
     <div className="ai-mobile">
       <div className="ai-robot">🤖</div>
