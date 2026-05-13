@@ -19,6 +19,8 @@ const newsImagesBySlug: Record<string, string> = {
   "world-cup-2026-squad-size-26": "/assets/news/world-cup-2026-squad-size-26.png"
 };
 
+const newsImageFallbacks = Object.values(newsImagesBySlug);
+
 export type NewsItemData = {
   id?: string;
   slug?: string;
@@ -60,9 +62,13 @@ export async function fetchNewsItems(limit = 8): Promise<NewsItemData[]> {
     throw error;
   }
 
-  return (data ?? []).map((item: any) => {
-    const translation = item.article_translations?.[0];
+  return (data ?? []).map((item: any, index: number) => {
+    const translations = item.article_translations ?? [];
+    const translation = translations[0];
     const slug = translation?.slug;
+    const localImage = translations
+      .map((entry: any) => entry?.slug)
+      .find((entrySlug: string | undefined) => entrySlug && newsImagesBySlug[entrySlug]);
 
     return {
       id: item.id,
@@ -71,7 +77,7 @@ export async function fetchNewsItems(limit = 8): Promise<NewsItemData[]> {
       text: translation?.excerpt ?? "",
       body: translation?.body ?? translation?.excerpt ?? "",
       meta: formatArticleMeta(item.category, item.published_at),
-      image: (slug && newsImagesBySlug[slug]) || item.image_url || fallbackImage,
+      image: (localImage && newsImagesBySlug[localImage]) || newsImageFallbacks[index % newsImageFallbacks.length] || item.image_url || fallbackImage,
       sourceUrl: item.source_url
     };
   });
