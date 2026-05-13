@@ -51,5 +51,20 @@ if [ -z "${NEXT_PUBLIC_SUPABASE_URL:-}" ] || [ -z "${NEXT_PUBLIC_SUPABASE_ANON_K
 fi
 
 echo "Deploying commit $(git rev-parse --short HEAD) from origin/$BRANCH"
-"${COMPOSE[@]}" up -d --build --remove-orphans
+
+NEWS_ASSET_COUNT="$(find public/assets/news -maxdepth 1 -type f -name '*.png' 2>/dev/null | wc -l | tr -d ' ')"
+if [ "$NEWS_ASSET_COUNT" -lt 14 ]; then
+  echo "Expected at least 14 news images in public/assets/news, found $NEWS_ASSET_COUNT." >&2
+  echo "The checkout is missing committed news assets; aborting deploy." >&2
+  exit 1
+fi
+
+if [ "${DEPLOY_NO_CACHE:-1}" = "1" ]; then
+  "${COMPOSE[@]}" build --no-cache cupmate
+  "${COMPOSE[@]}" up -d --remove-orphans
+else
+  "${COMPOSE[@]}" up -d --build --remove-orphans
+fi
+
+"${COMPOSE[@]}" exec -T cupmate test -f /app/public/assets/news/los-angeles-world-cup-surface-final-prep.png
 "${COMPOSE[@]}" ps

@@ -1,6 +1,23 @@
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 
-const fallbackImage = "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=900&q=80";
+const fallbackImage = "/assets/news/los-angeles-world-cup-surface-final-prep.png";
+
+const newsImagesBySlug: Record<string, string> = {
+  "fanatics-fest-nyc-fifa-final-weekend": "/assets/news/fanatics-fest-nyc-fifa-final-weekend.png",
+  "fifa-disciplinary-rules-world-cup-2026": "/assets/news/fifa-disciplinary-rules-world-cup-2026.png",
+  "iran-seeks-world-cup-visa-guarantees": "/assets/news/iran-seeks-world-cup-visa-guarantees.png",
+  "lays-world-cup-inspired-flavors-canada": "/assets/news/lays-world-cup-inspired-flavors-canada.png",
+  "los-angeles-world-cup-surface-final-prep": "/assets/news/los-angeles-world-cup-surface-final-prep.png",
+  "metlife-world-cup-train-fare-drops": "/assets/news/metlife-world-cup-train-fare-drops.png",
+  "nora-fatehi-world-cup-opening-ceremony-toronto": "/assets/news/nora-fatehi-world-cup-opening-ceremony-toronto.png",
+  "plan-los-angeles-world-cup-experience": "/assets/news/plan-los-angeles-world-cup-experience.png",
+  "record-fifa-payouts-world-cup-2026": "/assets/news/record-fifa-payouts-world-cup-2026.png",
+  "shakira-burna-boy-world-cup-song-teaser": "/assets/news/shakira-burna-boy-world-cup-song-teaser.png",
+  "us-hotels-world-cup-demand-check": "/assets/news/us-hotels-world-cup-demand-check.png",
+  "visa-hdfc-world-cup-fan-access-promotion": "/assets/news/visa-hdfc-world-cup-fan-access-promotion.png",
+  "world-cup-2026-referees-appointed": "/assets/news/world-cup-2026-referees-appointed.png",
+  "world-cup-2026-squad-size-26": "/assets/news/world-cup-2026-squad-size-26.png"
+};
 
 export type NewsItemData = {
   id?: string;
@@ -45,14 +62,16 @@ export async function fetchNewsItems(limit = 8): Promise<NewsItemData[]> {
 
   return (data ?? []).map((item: any) => {
     const translation = item.article_translations?.[0];
+    const slug = translation?.slug;
+
     return {
       id: item.id,
-      slug: translation?.slug,
+      slug,
       title: translation?.title ?? "World Cup update",
       text: translation?.excerpt ?? "",
       body: translation?.body ?? translation?.excerpt ?? "",
       meta: formatArticleMeta(item.category, item.published_at),
-      image: item.image_url || fallbackImage,
+      image: (slug && newsImagesBySlug[slug]) || item.image_url || fallbackImage,
       sourceUrl: item.source_url
     };
   });
