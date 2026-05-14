@@ -7,6 +7,12 @@ const outputDir = "public/assets/news";
 const logoDataUri = `data:image/png;base64,${readFileSync("public/assets/cupmate-trophy-white.png").toString("base64")}`;
 
 const covers = [
+  ["france-names-world-cup-squad-risser", "Teams"],
+  ["brazil-ancelotti-extends-2030-world-cup", "Teams"],
+  ["metlife-final-natural-grass-installation", "Stadiums"],
+  ["seattle-world-cup-transit-plan", "Transit"],
+  ["mexico-city-azteca-world-cup-guide", "Host Cities"],
+  ["world-cup-final-halftime-show-lineup", "Music"],
   ["los-angeles-world-cup-surface-final-prep", "Stadiums"],
   ["us-hotels-world-cup-demand-check", "Travel"],
   ["lays-world-cup-inspired-flavors-canada", "Commerce"],

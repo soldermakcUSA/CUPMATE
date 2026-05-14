@@ -6,18 +6,24 @@ import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 export const NEWS_IMAGE_FALLBACK = "/assets/news/los-angeles-world-cup-surface-final-prep.webp";
 
 const newsImagesBySlug: Record<string, string> = {
+  "brazil-ancelotti-extends-2030-world-cup": "/assets/news/brazil-ancelotti-extends-2030-world-cup.png",
   "fanatics-fest-nyc-fifa-final-weekend": "/assets/news/fanatics-fest-nyc-fifa-final-weekend.webp",
   "fifa-disciplinary-rules-world-cup-2026": "/assets/news/fifa-disciplinary-rules-world-cup-2026.webp",
+  "france-names-world-cup-squad-risser": "/assets/news/france-names-world-cup-squad-risser.png",
   "iran-seeks-world-cup-visa-guarantees": "/assets/news/iran-seeks-world-cup-visa-guarantees.webp",
   "lays-world-cup-inspired-flavors-canada": "/assets/news/lays-world-cup-inspired-flavors-canada.webp",
   "los-angeles-world-cup-surface-final-prep": "/assets/news/los-angeles-world-cup-surface-final-prep.webp",
+  "metlife-final-natural-grass-installation": "/assets/news/metlife-final-natural-grass-installation.png",
   "metlife-world-cup-train-fare-drops": "/assets/news/metlife-world-cup-train-fare-drops.webp",
+  "mexico-city-azteca-world-cup-guide": "/assets/news/mexico-city-azteca-world-cup-guide.png",
   "nora-fatehi-world-cup-opening-ceremony-toronto": "/assets/news/nora-fatehi-world-cup-opening-ceremony-toronto.webp",
   "plan-los-angeles-world-cup-experience": "/assets/news/plan-los-angeles-world-cup-experience.webp",
   "record-fifa-payouts-world-cup-2026": "/assets/news/record-fifa-payouts-world-cup-2026.webp",
+  "seattle-world-cup-transit-plan": "/assets/news/seattle-world-cup-transit-plan.png",
   "shakira-burna-boy-world-cup-song-teaser": "/assets/news/shakira-burna-boy-world-cup-song-teaser.webp",
   "us-hotels-world-cup-demand-check": "/assets/news/us-hotels-world-cup-demand-check.webp",
   "visa-hdfc-world-cup-fan-access-promotion": "/assets/news/visa-hdfc-world-cup-fan-access-promotion.webp",
+  "world-cup-final-halftime-show-lineup": "/assets/news/world-cup-final-halftime-show-lineup.png",
   "world-cup-2026-referees-appointed": "/assets/news/world-cup-2026-referees-appointed.webp",
   "world-cup-2026-squad-size-26": "/assets/news/world-cup-2026-squad-size-26.webp"
 };

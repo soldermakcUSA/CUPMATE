@@ -26,6 +26,114 @@ SEED_PATH = ROOT / "supabase" / "seed-news.sql"
 NEWS_ITEMS = [
     {
         "category": "Teams",
+        "title": "France names World Cup squad with Risser surprise",
+        "slug": "france-names-world-cup-squad-risser",
+        "excerpt": "Didier Deschamps' 26-player France list leans on elite attacking depth and includes a first major-tournament call-up for goalkeeper Robin Risser.",
+        "body": "France's World Cup squad is built around familiar firepower, but the selection still delivered a fresh storyline with Robin Risser earning a place after his breakthrough season. For CupMate users, the update matters because squad news shapes saved-team alerts, expected lineups and the way fans plan around France's group-stage matches.",
+        "source_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/france-world-cup-squad-named",
+        "image_url": None,
+        "published_at": "2026-05-14T18:43:00+00:00",
+        "translations": {
+            "ru": {
+                "slug": "frantsiya-nazvala-zayavku-na-chm-s-risserom",
+                "title": "Франция назвала заявку на ЧМ с неожиданным вызовом Риссера",
+                "excerpt": "Дидье Дешам сохранил мощную атакующую основу и добавил свежий сюжет: вратарь Робин Риссер получил место в заявке.",
+                "body": "Франция подходит к Чемпионату мира с ожидаемо сильной обоймой в атаке, но заявка всё равно дала новый повод для обсуждений: Робин Риссер получил вызов после яркого клубного сезона. Для болельщиков это не просто список фамилий, а основа для прогнозов состава, уведомлений по сборной и планирования матчей Франции в CupMate.",
+            }
+        },
+    },
+    {
+        "category": "Teams",
+        "title": "Brazil extends Carlo Ancelotti through 2030",
+        "slug": "brazil-ancelotti-extends-2030-world-cup",
+        "excerpt": "Brazil moved before the tournament to keep Carlo Ancelotti in charge through the next World Cup cycle.",
+        "body": "Brazil's federation has extended Carlo Ancelotti's contract through the 2030 World Cup, a major continuity signal before the 2026 tournament begins. For fans, the move adds context to Brazil's squad choices: the coach is not only managing the coming month, but also shaping a longer project.",
+        "source_url": "https://www.fifa.com/en/articles/carlo-ancelotti-brazil-contract-extension",
+        "image_url": None,
+        "published_at": "2026-05-14T18:12:00+00:00",
+        "translations": {
+            "ru": {
+                "slug": "braziliya-prodlila-kontrakt-anchelotti-do-2030",
+                "title": "Бразилия продлила контракт Анчелотти до 2030 года",
+                "excerpt": "Перед стартом турнира сборная Бразилии закрепила тренерскую линию сразу на следующий цикл.",
+                "body": "Бразилия продлила контракт Карло Анчелотти до Чемпионата мира 2030 года. Это важный сигнал перед турниром 2026: тренер выбирает состав не только под ближайший месяц, но и в рамках более длинного проекта, поэтому решения по игрокам получают дополнительный контекст.",
+            }
+        },
+    },
+    {
+        "category": "Stadiums",
+        "title": "Natural grass installed at the World Cup final venue",
+        "slug": "metlife-final-natural-grass-installation",
+        "excerpt": "FIFA says pitch installation is complete at the New York New Jersey stadium that will stage the 2026 final.",
+        "body": "The natural grass surface is now in place at the New York New Jersey final venue, one of the most important infrastructure milestones before the tournament. The work is part of a broader pitch programme across all 16 host stadiums, and it matters for both match quality and player safety.",
+        "source_url": "https://inside.fifa.com/news/pitch-installation-world-cup-2026-final-new-york-new-jersey",
+        "image_url": None,
+        "published_at": "2026-05-08T15:00:00+00:00",
+        "translations": {
+            "ru": {
+                "slug": "na-stadione-finala-chm-ulozhili-naturalnyy-gazon",
+                "title": "На стадионе финала ЧМ уложили натуральный газон",
+                "excerpt": "FIFA сообщила о завершении ключевого этапа подготовки поля на арене Нью-Йорк / Нью-Джерси.",
+                "body": "Натуральное покрытие на стадионе финала в Нью-Йорке / Нью-Джерси уже уложено. Для турнира это один из главных инфраструктурных этапов: качество газона влияет на скорость игры, безопасность футболистов и общее впечатление от решающих матчей.",
+            }
+        },
+    },
+    {
+        "category": "Transport",
+        "title": "Seattle prepares for World Cup transit crunch",
+        "slug": "seattle-world-cup-transit-plan",
+        "excerpt": "Seattle is warning residents and fans to expect road closures, crowded light rail and packed ferries around matches at Lumen Field.",
+        "body": "Seattle's World Cup plan is moving from abstract preparation to practical match-day logistics. With six matches set for Lumen Field, fans should expect a transit-first approach, perimeter road closures and heavy pressure on trains, ferries and downtown corridors.",
+        "source_url": "https://www.axios.com/local/seattle/2026/05/13/seattle-world-cup-2026-traffic-light-rail-ferry-lumen-field-road-closures",
+        "image_url": None,
+        "published_at": "2026-05-13T12:00:00+00:00",
+        "translations": {
+            "ru": {
+                "slug": "sietl-gotovitsya-k-transportnoy-nagruzke-vo-vremya-chm",
+                "title": "Сиэтл готовится к транспортной нагрузке во время ЧМ",
+                "excerpt": "Город предупреждает о перекрытиях, перегруженном light rail и большом спросе на паромы вокруг матчей на Lumen Field.",
+                "body": "Подготовка Сиэтла к Чемпионату мира переходит в практическую фазу. Шесть матчей на Lumen Field означают приоритет общественного транспорта, перекрытия вокруг стадиона и серьёзную нагрузку на поезда, паромы и центральные улицы. Болельщикам лучше заранее сохранять маршрут и запас по времени.",
+            }
+        },
+    },
+    {
+        "category": "Travel",
+        "title": "Mexico City readies culture, food and crowds for the opener",
+        "slug": "mexico-city-azteca-world-cup-guide",
+        "excerpt": "Mexico City is preparing to showcase its food, history and scale while managing congestion around Estadio Azteca.",
+        "body": "Mexico City will be one of the defining host-city stories of the tournament: a huge, layered capital welcoming fans to the opening match at Estadio Azteca. The practical side is just as important as the cultural appeal, from Metro and light-rail routes to crowd management around the stadium.",
+        "source_url": "https://apnews.com/article/d317e214b976c7247b82d88d395e058c",
+        "image_url": None,
+        "published_at": "2026-05-14T15:04:00+00:00",
+        "translations": {
+            "ru": {
+                "slug": "mehiko-gotovit-kulturu-edu-i-potoki-bolelschikov-k-otkrytiyu-chm",
+                "title": "Мехико готовит культуру, еду и потоки болельщиков к открытию ЧМ",
+                "excerpt": "Город будет показывать свою кухню и историю, параллельно решая вопросы трафика вокруг Эстадио Ацтека.",
+                "body": "Мехико станет одной из главных городских историй турнира: огромная столица примет болельщиков на матч открытия на Эстадио Ацтека. Культурная часть выглядит мощно, но практические детали не менее важны: метро, легкорельсовые маршруты, точки питания и управление потоками около стадиона.",
+            }
+        },
+    },
+    {
+        "category": "Music",
+        "title": "World Cup final adds a first halftime show",
+        "slug": "world-cup-final-halftime-show-lineup",
+        "excerpt": "FIFA confirmed Madonna, Shakira and BTS for the first World Cup final halftime show at the New York New Jersey venue.",
+        "body": "The 2026 final will add a new entertainment layer: a halftime show headlined by Madonna, Shakira and BTS and tied to the FIFA Global Citizen Education Fund. For fans in New York New Jersey, the announcement turns the final into an even larger event-planning challenge around timing, entry and post-match movement.",
+        "source_url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/madonna-shakira-bts-co-headline-historic-final-halftime-show",
+        "image_url": None,
+        "published_at": "2026-05-14T16:00:00+00:00",
+        "translations": {
+            "ru": {
+                "slug": "final-chm-vpervye-poluchit-halftime-show",
+                "title": "Финал ЧМ впервые получит halftime show",
+                "excerpt": "FIFA подтвердила музыкальное шоу в перерыве финала в Нью-Йорке / Нью-Джерси с Мадонной, Шакирой и BTS.",
+                "body": "Финал Чемпионата мира 2026 получит новый развлекательный слой: FIFA анонсировала первое шоу в перерыве финала с Мадонной, Шакирой и BTS, связанное с FIFA Global Citizen Education Fund. Для болельщиков это делает день финала ещё более насыщенным и требует внимательнее планировать вход, тайминг и обратный маршрут.",
+            }
+        },
+    },
+    {
+        "category": "Teams",
         "title": "Iraq completes the 48-team World Cup lineup",
         "slug": "iraq-completes-48-team-world-cup-lineup",
         "excerpt": "Iraq's qualification closes the expanded 48-team field for the 2026 FIFA World Cup.",
@@ -147,6 +255,36 @@ def sql_quote(value: str | None) -> str:
     return "'" + value.replace("'", "''") + "'"
 
 
+def translation_rows(item: dict[str, Any]):
+    yield {
+        "language_code": "en",
+        "slug": item["slug"],
+        "title": item["title"],
+        "excerpt": item["excerpt"],
+        "body": item["body"],
+        "seo_title": item["title"],
+        "seo_description": item["excerpt"],
+    }
+    for language_code, translation in item.get("translations", {}).items():
+        yield {
+            "language_code": language_code,
+            "slug": translation["slug"],
+            "title": translation["title"],
+            "excerpt": translation["excerpt"],
+            "body": translation["body"],
+            "seo_title": translation.get("seo_title", translation["title"]),
+            "seo_description": translation.get("seo_description", translation["excerpt"]),
+        }
+
+
+def article_uuid(item: dict[str, Any]) -> str:
+    return str(uuid.uuid5(uuid.NAMESPACE_URL, item["source_url"]))
+
+
+def seed_rows_for_all_items() -> list[dict[str, Any]]:
+    return [{"id": article_uuid(item), "item": item} for item in NEWS_ITEMS]
+
+
 def write_seed(rows: list[dict[str, Any]]) -> None:
     SEED_PATH.parent.mkdir(parents=True, exist_ok=True)
     lines = ["-- Generated CupMate news seed. Run in Supabase SQL Editor if anon inserts are blocked.", ""]
@@ -158,11 +296,12 @@ def write_seed(rows: list[dict[str, Any]]) -> None:
             f"({sql_quote(article_id)}, 'news', 'published', {sql_quote(item['category'])}, {sql_quote(item.get('image_url'))}, {sql_quote(item['source_url'])}, {sql_quote(item['published_at'])}) "
             "on conflict (id) do nothing;"
         )
-        lines.append(
-            "insert into public.article_translations (article_id, language_code, slug, title, excerpt, body, seo_title, seo_description) values "
-            f"({sql_quote(article_id)}, 'en', {sql_quote(item['slug'])}, {sql_quote(item['title'])}, {sql_quote(item['excerpt'])}, {sql_quote(item['body'])}, {sql_quote(item['title'])}, {sql_quote(item['excerpt'])}) "
-            "on conflict (article_id, language_code) do nothing;"
-        )
+        for translation in translation_rows(item):
+            lines.append(
+                "insert into public.article_translations (article_id, language_code, slug, title, excerpt, body, seo_title, seo_description) values "
+                f"({sql_quote(article_id)}, {sql_quote(translation['language_code'])}, {sql_quote(translation['slug'])}, {sql_quote(translation['title'])}, {sql_quote(translation['excerpt'])}, {sql_quote(translation['body'])}, {sql_quote(translation['seo_title'])}, {sql_quote(translation['seo_description'])}) "
+                "on conflict (article_id, language_code) do nothing;"
+            )
         lines.append("")
     SEED_PATH.write_text("\n".join(lines))
 
@@ -186,7 +325,7 @@ def main() -> int:
             skipped.append(item["slug"])
             continue
 
-        article_id = str(uuid.uuid4())
+        article_id = article_uuid(item)
         prepared.append({"id": article_id, "item": item})
         try:
             supabase_request(
@@ -203,30 +342,22 @@ def main() -> int:
                 },
                 prefer="return=representation",
             )
-            supabase_request(
-                "article_translations",
-                method="POST",
-                payload={
-                    "article_id": article_id,
-                    "language_code": "en",
-                    "slug": item["slug"],
-                    "title": item["title"],
-                    "excerpt": item["excerpt"],
-                    "body": item["body"],
-                    "seo_title": item["title"],
-                    "seo_description": item["excerpt"],
-                },
-                prefer="return=representation",
-            )
+            for translation in translation_rows(item):
+                supabase_request(
+                    "article_translations",
+                    method="POST",
+                    payload={**translation, "article_id": article_id},
+                    prefer="return=representation",
+                )
             inserted.append(item["slug"])
         except HTTPError as exc:
             body = exc.read().decode(errors="ignore")
             print(f"INSERT_BLOCKED {exc.code}: {body}")
-            write_seed(prepared)
+            write_seed(seed_rows_for_all_items())
             print(json.dumps({"inserted": inserted, "skipped": skipped, "downloaded": downloaded, "seed": str(SEED_PATH)}, ensure_ascii=False, indent=2))
             return 2
 
-    write_seed(prepared)
+    write_seed(seed_rows_for_all_items())
     print(json.dumps({"inserted": inserted, "skipped": skipped, "downloaded": downloaded, "seed": str(SEED_PATH)}, ensure_ascii=False, indent=2))
     return 0
 
