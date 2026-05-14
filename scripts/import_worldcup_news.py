@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Import curated World Cup 2026 news into CupMate Supabase.
 
-Uses the public anon key from .env.local. If RLS blocks inserts, the script
-writes a SQL seed file that can be run in Supabase SQL Editor.
+Uses SUPABASE_SERVICE_ROLE_KEY when provided, otherwise falls back to the public
+anon key from .env.local. If RLS blocks inserts, the script writes a SQL seed
+file that can be run in Supabase SQL Editor.
 """
 from __future__ import annotations
 
@@ -206,7 +207,7 @@ def load_env() -> None:
 
 def supabase_request(path: str, method: str = "GET", payload: Any | None = None, prefer: str | None = None):
     base = os.environ["NEXT_PUBLIC_SUPABASE_URL"].rstrip("/")
-    key = os.environ["NEXT_PUBLIC_SUPABASE_ANON_KEY"]
+    key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY") or os.environ["NEXT_PUBLIC_SUPABASE_ANON_KEY"]
     headers = {
         "apikey": key,
         "Authorization": f"Bearer {key}",
