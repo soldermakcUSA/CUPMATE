@@ -1,9 +1,11 @@
 import { pickLocalizedTranslation, localizedDateFormatterLocale } from "@/lib/content-localization";
 import type { Locale } from "@/lib/i18n";
 import { localizeVenue, staticText } from "@/lib/localized-static-data";
+import { matchSlugFromCodes } from "@/lib/match-details";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 
 export type MatchCardData = {
+  slug: string;
   group: string;
   home: string;
   away: string;
@@ -95,6 +97,7 @@ function toMatchCardData(match: MatchRow, locale: Locale): MatchCardData {
   });
 
   return {
+    slug: matchSlugFromCodes(match.home_team?.fifa_code, match.away_team?.fifa_code) ?? "world-cup-match",
     group: localizeGroup(match.group_name, locale) ?? formatStage(match.stage, locale),
     home: formatTeam(match.home_team, title, "home", locale),
     away: formatTeam(match.away_team, title, "away", locale),

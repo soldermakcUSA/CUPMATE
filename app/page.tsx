@@ -1,6 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { AppSidebar, type SidebarSection } from "@/components/AppSidebar";
 import { AssistantMenuPanel } from "@/components/menu/AssistantPanel";
 import { CommunityPanel } from "@/components/menu/CommunityPanel";
 import { FanZonesPanel } from "@/components/menu/FanZonesPanel";
@@ -23,20 +25,15 @@ import {
   Map,
   MapPin,
   MessageCircle,
-  Navigation,
   Plane,
   Search,
   Send,
   Settings,
   ShieldCheck,
-  Sparkles,
   Ticket,
-  Trophy,
   Users,
   Utensils,
-  WalletCards,
-  Award,
-  Shield
+  WalletCards
 } from "lucide-react";
 import { fetchNewsItems, fetchPlaces, NEWS_IMAGE_FALLBACK, NewsItemData, PlaceCardData } from "@/lib/content-data";
 import { getLanguage, languages, Locale, translations } from "@/lib/i18n";
@@ -51,20 +48,8 @@ import {
 import { fetchWorldCupMatches, MatchCardData } from "@/lib/world-cup-data";
 
 type Screen = "home" | "matches" | "map" | "route" | "stadium" | "watch" | "community" | "assistant";
-type DesktopSection = "dashboard" | "matches" | "fanZones" | "stadiums" | "travel" | "watch" | "community" | "tickets" | "news" | "assistant";
-
-const navItems = [
-  ["dashboard", Home, "dashboard"],
-  ["matches", CalendarDays, "matches"],
-  ["fanZones", MapPin, "fanZones"],
-  ["stadiums", Trophy, "stadiums"],
-  ["travel", Navigation, "travel"],
-  ["watch", Utensils, "watch"],
-  ["community", Users, "community"],
-  ["tickets", Ticket, "tickets"],
-  ["news", WalletCards, "news"],
-  ["assistant", Sparkles, "assistant"]
-] as const;
+type DesktopSection = SidebarSection;
+const desktopSections: DesktopSection[] = ["dashboard", "matches", "fanZones", "stadiums", "travel", "watch", "community", "tickets", "news", "assistant"];
 
 const liveStandings = [
   {
@@ -267,6 +252,13 @@ export default function CupMatePage() {
   const [contentPlaces, setContentPlaces] = useState<PlaceCardData[]>(() => localizedFallbackPlaces("en"));
 
   useEffect(() => {
+    const section = new URLSearchParams(window.location.search).get("section") as DesktopSection | null;
+    if (section && desktopSections.includes(section)) {
+      setDesktopSection(section);
+    }
+  }, []);
+
+  useEffect(() => {
     setActiveChip(translations[locale].stadiums);
     setAssistantReply(translations[locale].metlifeTransitTip);
     setWorldCupMatches(localizedFallbackMatches(locale));
@@ -335,7 +327,7 @@ export default function CupMatePage() {
   return (
     <>
       <div className="desktop-app app-shell">
-        <Sidebar t={t} activeSection={desktopSection} setActiveSection={setDesktopSection} />
+        <AppSidebar t={t} activeSection={desktopSection} setActiveSection={setDesktopSection} />
         <main className="main">
           <Topbar t={t} locale={locale} setLocale={setLocale} />
           <DesktopContent
@@ -392,71 +384,6 @@ export default function CupMatePage() {
         <MobileNav t={t} active={mobileScreen} setActive={setMobileScreen} />
       </div>
     </>
-  );
-}
-
-function Sidebar({
-  t,
-  activeSection,
-  setActiveSection
-}: {
-  t: typeof translations.en;
-  activeSection: DesktopSection;
-  setActiveSection: (section: DesktopSection) => void;
-}) {
-  return (
-    <aside className="sidebar">
-      <div className="brand">
-        <img className="brand-cup" src="/assets/cupmate-trophy-white.png" alt="" />
-        <div>
-          <h1 className="brand-title">CUPMATE</h1>
-          <p className="brand-subtitle">{t.brandSubtitle}</p>
-        </div>
-      </div>
-      <nav className="nav-list" aria-label={t.mainNavigation}>
-        {navItems.map(([key, Icon, section]) => (
-          <button className={`nav-item ${activeSection === section ? "active" : ""}`} key={key} onClick={() => setActiveSection(section)} aria-current={activeSection === section ? "page" : undefined}>
-            <Icon size={20} />
-            <span>{t[key]}</span>
-          </button>
-        ))}
-      </nav>
-
-      <button className="sidebar-event-card" onClick={() => setActiveSection("matches")} aria-label={t.openWorldCupMatches}>
-        <div className="sidebar-event-copy">
-          <h3>{t.worldCup2026}</h3>
-          <strong>{t.tournamentDates}</strong>
-          <p>{t.tournamentSummary}</p>
-          <span>{t.exploreMatches}</span>
-        </div>
-        <img src="/assets/world-cup-gold.png" alt="" />
-      </button>
-
-      <div className="sidebar-stats-card" aria-label={t.worldCupSummary}>
-        <div className="sidebar-stat-row">
-          <CalendarDays size={24} />
-          <strong>{t.matchesCount}</strong>
-        </div>
-        <div className="sidebar-stat-row">
-          <Award size={24} />
-          <strong>{t.hostCitiesCount}</strong>
-        </div>
-        <div className="sidebar-stat-row">
-          <Shield size={24} />
-          <strong>{t.hostCountriesCount}</strong>
-        </div>
-        <div className="sidebar-stat-row">
-          <Trophy size={24} />
-          <strong>{t.championCount}</strong>
-        </div>
-      </div>
-
-      <div className="sidebar-flags" aria-label={t.hostCountries}>
-        <span>🇺🇸</span>
-        <span>🇨🇦</span>
-        <span>🇲🇽</span>
-      </div>
-    </aside>
   );
 }
 
@@ -652,7 +579,7 @@ function NextMatches({ t, setSection, matches }: { t: typeof translations.en; se
             </div>
             <p className="small muted" style={{ textAlign: "center" }}>{match.date} · {match.time}</p>
             <p className="small muted" style={{ textAlign: "center" }}>{match.venue}</p>
-            <button className="link-button" style={{ width: "100%", marginTop: 12 }}>{t.seeDetails}</button>
+            <Link className="link-button match-details-link" href={`/matches/${match.slug}`}>{t.seeDetails}</Link>
           </article>
         ))}
       </div>
@@ -951,13 +878,13 @@ function MobileMatches({ t, matches }: { t: typeof translations.en; matches: Mat
       <h3>{t.thursdayJune12}</h3>
       <div className="mobile-list">
         {matches.map((match) => (
-          <article className="mobile-match" key={`${match.home}-${match.away}`}>
+          <Link className="mobile-match mobile-match-link" key={`${match.home}-${match.away}`} href={`/matches/${match.slug}`}>
             <strong>{match.home}</strong>
             <span>{match.time}</span>
             <strong>{match.away}</strong>
             <span className="small muted">{match.group}</span>
             <p className="small muted" style={{ gridColumn: "1 / -1" }}>{match.venue}</p>
-          </article>
+          </Link>
         ))}
       </div>
     </>

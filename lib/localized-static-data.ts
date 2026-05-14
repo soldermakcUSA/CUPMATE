@@ -1,7 +1,8 @@
-import { fanZones, fans, itinerary, matches, news, places } from "@/lib/mock-data";
+import { fanZones, fans, itinerary, news, places } from "@/lib/mock-data";
 import type { NewsItemData, PlaceCardData } from "@/lib/content-data";
 import type { Locale } from "@/lib/i18n";
 import { localizedDateFormatterLocale } from "@/lib/content-localization";
+import { allMatchDetails, localizeMatchDetail } from "@/lib/match-details";
 import type { MatchCardData } from "@/lib/world-cup-data";
 
 type StaticText = {
@@ -165,13 +166,20 @@ export function localizeVenue(venue: string, locale: Locale) {
 }
 
 export function localizedFallbackMatches(locale: Locale): MatchCardData[] {
-  return matches.map((match) => ({
-    ...match,
-    group: localizeGroup(match.group, locale),
-    date: formatDate(match.date.replace(", 2026", ""), locale),
-    time: formatTime(match.time, locale),
-    venue: localizeVenue(match.venue, locale)
-  }));
+  return allMatchDetails().map((match) => {
+    const localizedMatch = localizeMatchDetail(match, locale);
+    const [datePart, timePart = ""] = match.kickoff.split(" · ");
+
+    return {
+      slug: match.slug,
+      group: localizeGroup(match.group, locale),
+      home: `${localizedMatch.home.flag} ${localizedMatch.home.code}`,
+      away: `${localizedMatch.away.flag} ${localizedMatch.away.code}`,
+      date: formatDate(datePart.replace(", 2026", ""), locale),
+      time: formatTime(timePart.replace(/\s+ET$/, ""), locale),
+      venue: localizeVenue(`${localizedMatch.venue}, ${localizedMatch.city}`, locale)
+    };
+  });
 }
 
 export function localizedFallbackNews(locale: Locale): NewsItemData[] {
