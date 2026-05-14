@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { AppSidebar, type SidebarSection } from "@/components/AppSidebar";
+import { TeamFlag, TeamLabel } from "@/components/TeamFlag";
 import { AssistantMenuPanel } from "@/components/menu/AssistantPanel";
 import { CommunityPanel } from "@/components/menu/CommunityPanel";
 import { FanZonesPanel } from "@/components/menu/FanZonesPanel";
@@ -573,9 +574,9 @@ function NextMatches({ t, setSection, matches }: { t: typeof translations.en; se
           <article className="match-card" key={`${match.home}-${match.away}`}>
             <p className="small muted" style={{ textAlign: "center" }}>{match.group}</p>
             <div className="match-flags">
-              <span>{match.home}</span>
+              <span><TeamLabel value={match.home} /></span>
               <span className="small">{t.versus}</span>
-              <span>{match.away}</span>
+              <span><TeamLabel value={match.away} /></span>
             </div>
             <p className="small muted" style={{ textAlign: "center" }}>{match.date} · {match.time}</p>
             <p className="small muted" style={{ textAlign: "center" }}>{match.venue}</p>
@@ -782,7 +783,9 @@ function LiveStandingsPanel({ t, locale }: { t: typeof translations.en; locale: 
               <div className={`standings-row ${team.rank === 3 ? "qualification-line" : ""}`} key={team.name}>
                 <span className="standings-rank">{team.rank}</span>
                 <span className="standings-team">
-                  <span className="standings-flag" aria-hidden="true">{team.flag}</span>
+                  <span className="standings-flag">
+                    <TeamFlag team={team.name} fallback={team.flag} className="standings-flag-media" />
+                  </span>
                   <strong>{localizeTeamName(team.name, locale)}</strong>
                 </span>
                 <span>0</span>

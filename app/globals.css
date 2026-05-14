@@ -630,6 +630,22 @@ img {
   font-weight: 850;
 }
 
+.team-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.team-label-flag {
+  width: 42px;
+  height: 28px;
+  flex: 0 0 auto;
+  object-fit: cover;
+  border: 1px solid #dfe4ec;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+}
+
 .muted {
   color: var(--muted);
 }
@@ -1092,6 +1108,16 @@ img {
   border: 1px solid #e1e4ea;
   font-size: 24px;
   line-height: 1;
+}
+
+.standings-flag-media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  text-align: center;
+  font-size: 22px;
+  line-height: 22px;
 }
 
 .us-map {
@@ -1560,6 +1586,20 @@ img {
   font-size: 34px;
 }
 
+.match-detail-team-flag,
+.group-standing-flag,
+.squad-column-flag,
+.recent-form-flag {
+  display: inline-block;
+  width: 42px;
+  height: 28px;
+  flex: 0 0 auto;
+  object-fit: cover;
+  vertical-align: middle;
+  border: 1px solid #dfe4ec;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+}
+
 .team-detail-title strong,
 .team-detail-title small {
   display: block;
@@ -1635,6 +1675,11 @@ img {
   line-height: 1;
 }
 
+.group-standing-flag {
+  width: 34px;
+  height: 22px;
+}
+
 .group-standing-team b,
 .group-standing-team small {
   display: block;
@@ -1687,6 +1732,11 @@ img {
   border-radius: 14px;
   background: #eef2ff;
   font-size: 28px;
+}
+
+.squad-column-flag {
+  width: 34px;
+  height: 22px;
 }
 
 .squad-column-head h3 {
@@ -1795,7 +1845,15 @@ img {
 }
 
 .recent-form-grid h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin: 0 0 4px;
+}
+
+.recent-form-flag {
+  width: 34px;
+  height: 22px;
 }
 
 .recent-form-row {

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CalendarDays, Clock, MapPin, Plus, Trophy } from "lucide-react";
+import { TeamLabel } from "@/components/TeamFlag";
 import { translations } from "@/lib/i18n";
 import type { MatchCardData } from "@/lib/world-cup-data";
 
@@ -47,9 +48,9 @@ export function MatchesPanel({ t, matches }: MatchesPanelProps) {
               <Trophy size={16} aria-hidden="true" />
             </div>
             <div className="match-flags">
-              <span>{match.home}</span>
+              <span><TeamLabel value={match.home} /></span>
               <span className="small">{t.versus}</span>
-              <span>{match.away}</span>
+              <span><TeamLabel value={match.away} /></span>
             </div>
             <p className="small muted">{match.date} · {match.time}</p>
             <p className="small muted">{match.venue}</p>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { ArrowLeft, BarChart3, CalendarDays, ExternalLink, History, MapPin, Radio, Shield, Trophy, Users } from "lucide-react";
 import { AppSidebar } from "@/components/AppSidebar";
+import { TeamFlag, TeamLabel } from "@/components/TeamFlag";
 import { findMatchDetail, formatAmericanOdds, impliedProbability, localizeMatchDetail, type MatchDetail } from "@/lib/match-details";
 import { getLanguage, type Locale, translations } from "@/lib/i18n";
 import { getTeamSquad, type SquadPlayer, type TeamSquad } from "@/lib/squad-data";
@@ -119,9 +120,9 @@ export function MatchDetailClient({ slug }: { slug: string }) {
           <div>
             <span className="tag">{detail.group}</span>
             <h1>
-              <span>{detail.home.flag} {detail.home.code}</span>
+              <span><TeamLabel value={`${detail.home.flag} ${detail.home.code}`} /></span>
               <small>{t.versus}</small>
-              <span>{detail.away.flag} {detail.away.code}</span>
+              <span><TeamLabel value={`${detail.away.flag} ${detail.away.code}`} /></span>
             </h1>
             <p><CalendarDays size={17} /> {detail.kickoff}</p>
             <p><MapPin size={17} /> {detail.venue}, {detail.city}</p>
@@ -180,7 +181,7 @@ export function MatchDetailClient({ slug }: { slug: string }) {
               {[detail.home, detail.away].map((team) => (
                 <article className="team-detail-card" key={team.code}>
                   <div className="team-detail-title">
-                    <span>{team.flag}</span>
+                    <TeamFlag team={team.name} fallback={team.flag} className="match-detail-team-flag" />
                     <div>
                       <strong>{team.name}</strong>
                       <small>{team.code}</small>
@@ -219,7 +220,7 @@ export function MatchDetailClient({ slug }: { slug: string }) {
                 <div className={`group-standing-row ${team.isMatchTeam ? "is-match-team" : ""}`} key={team.name}>
                   <strong>{team.position}</strong>
                   <span className="group-standing-team">
-                    <span>{team.flag}</span>
+                    <TeamFlag team={team.name} fallback={team.flag} className="group-standing-flag" />
                     <span>
                       <b>{team.name}</b>
                       <small>{team.code}</small>
@@ -282,7 +283,7 @@ function SquadColumn({
     return (
       <article className="squad-column">
         <div className="squad-column-head">
-          <span>{team.flag}</span>
+          <span><TeamFlag team={team.name} fallback={team.flag} className="squad-column-flag" /></span>
           <div>
             <h3>{team.name}</h3>
             <p>{copy.pendingTitle}</p>
@@ -296,7 +297,7 @@ function SquadColumn({
   return (
     <article className="squad-column">
       <div className="squad-column-head">
-        <span>{team.flag}</span>
+        <span><TeamFlag team={team.name} fallback={team.flag} className="squad-column-flag" /></span>
         <div>
           <h3>{team.name}</h3>
           <p>{squad.status} · {squad.players.length} {copy.players}</p>
@@ -341,7 +342,7 @@ function initials(name: string) {
 function RecentForm({ detail }: { detail: MatchDetail["home"] }) {
   return (
     <article>
-      <h3>{detail.flag} {detail.name}</h3>
+      <h3><TeamFlag team={detail.name} fallback={detail.flag} className="recent-form-flag" /> {detail.name}</h3>
       {detail.previousGames.map((game) => (
         <div className="recent-form-row" key={`${detail.code}-${game.date}-${game.opponent}`}>
           <span>{game.date}</span>
