@@ -22,6 +22,7 @@ export default function WorldCupSchedulePage() {
       description="A search-friendly schedule hub for fans who need more than dates: match context, venues, tickets, odds, squads, host-city logistics and next steps."
       primaryHref="/?section=matches"
       primaryLabel="Open match planner"
+      activeSection="matches"
       sections={[
         {
           title: "Match pages built for intent",

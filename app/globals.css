@@ -3069,6 +3069,14 @@ img {
   padding: 48px clamp(18px, 5vw, 72px) 72px;
 }
 
+.seo-shell {
+  background: #f6f8fc;
+}
+
+.seo-shell-main {
+  min-width: 0;
+}
+
 .seo-hero {
   max-width: 1060px;
   margin: 0 auto 28px;
@@ -3263,5 +3271,17 @@ img {
 
   .seo-page {
     padding-inline: 14px;
+  }
+}
+
+@media (max-width: 980px) {
+  .seo-shell {
+    display: block;
+  }
+
+  .seo-shell .sidebar {
+    position: static;
+    height: auto;
+    min-height: 0;
   }
 }

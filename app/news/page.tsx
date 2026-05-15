@@ -18,6 +18,7 @@ export default function NewsSeoPage() {
       description="CupMate should turn every ticket, transport, squad, stadium and host-city update into practical planning advice for fans."
       primaryHref="/?section=news"
       primaryLabel="Open news panel"
+      activeSection="news"
       sections={[
         {
           title: "Editorial angle",

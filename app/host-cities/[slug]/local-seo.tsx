@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SeoLandingPage } from "@/components/SeoLandingPage";
+import { SeoShell } from "@/components/SeoShell";
 import { getSiteUrl, hostCityGuides } from "@/lib/seo";
 
 export type LocalSeoKind = "where-to-watch" | "fan-zones" | "tickets";
@@ -177,13 +178,15 @@ export function HostCityLocalSeoPage({ kind, slug }: { kind: LocalSeoKind; slug:
 
   if (!city) {
     return (
-      <main className="seo-page">
-        <section className="seo-hero">
-          <p>World Cup 2026 local guide</p>
-          <h1>Host city guide not found</h1>
-          <span>This local SEO page is available for selected CupMate host-city guides.</span>
-        </section>
-      </main>
+      <SeoShell activeSection="travel">
+        <main className="seo-page">
+          <section className="seo-hero">
+            <p>World Cup 2026 local guide</p>
+            <h1>Host city guide not found</h1>
+            <span>This local SEO page is available for selected CupMate host-city guides.</span>
+          </section>
+        </main>
+      </SeoShell>
     );
   }
 
@@ -199,6 +202,7 @@ export function HostCityLocalSeoPage({ kind, slug }: { kind: LocalSeoKind; slug:
       description={description}
       primaryHref={page.primaryHref}
       primaryLabel={page.primaryLabel}
+      activeSection={kind === "tickets" ? "tickets" : kind === "fan-zones" ? "fanZones" : "watch"}
       sections={[
         ...page.sections(city),
         {

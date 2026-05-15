@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { allMatchDetails, formatAmericanOdds } from "@/lib/match-details";
 import { contentClusters, getSiteUrl, hostCityGuides, stadiumGuides } from "@/lib/seo";
+import { SeoShell } from "@/components/SeoShell";
+import type { SidebarSection } from "@/components/AppSidebar";
 
 type SeoLandingPageProps = {
   eyebrow: string;
@@ -14,38 +16,40 @@ type SeoLandingPageProps = {
     items?: string[];
   }>;
   jsonLd?: object;
+  activeSection?: SidebarSection;
 };
 
-export function SeoLandingPage({ eyebrow, title, description, primaryHref = "/?section=matches", primaryLabel = "Open CupMate planner", sections, jsonLd }: SeoLandingPageProps) {
+export function SeoLandingPage({ eyebrow, title, description, primaryHref = "/?section=matches", primaryLabel = "Open CupMate planner", sections, jsonLd, activeSection = "dashboard" }: SeoLandingPageProps) {
   const matches = allMatchDetails().slice(0, 8);
   const siteUrl = getSiteUrl();
 
   return (
-    <main className="seo-page">
-      {jsonLd ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} /> : null}
-      <section className="seo-hero">
-        <p>{eyebrow}</p>
-        <h1>{title}</h1>
-        <span>{description}</span>
-        <div className="seo-actions">
-          <Link className="primary-button" href={primaryHref}>{primaryLabel}</Link>
-          <Link className="link-button" href="/world-cup-2026-schedule">View schedule</Link>
-        </div>
-      </section>
+    <SeoShell activeSection={activeSection}>
+      <main className="seo-page">
+        {jsonLd ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} /> : null}
+        <section className="seo-hero">
+          <p>{eyebrow}</p>
+          <h1>{title}</h1>
+          <span>{description}</span>
+          <div className="seo-actions">
+            <Link className="primary-button" href={primaryHref}>{primaryLabel}</Link>
+            <Link className="link-button" href="/world-cup-2026-schedule">View schedule</Link>
+          </div>
+        </section>
 
-      <section className="seo-grid" aria-label="World Cup 2026 planning topics">
-        {sections.map((section) => (
-          <article className="seo-card" key={section.title}>
-            <h2>{section.title}</h2>
-            <p>{section.body}</p>
-            {section.items ? (
-              <ul>
-                {section.items.map((item) => <li key={item}>{item}</li>)}
-              </ul>
-            ) : null}
-          </article>
-        ))}
-      </section>
+        <section className="seo-grid" aria-label="World Cup 2026 planning topics">
+          {sections.map((section) => (
+            <article className="seo-card" key={section.title}>
+              <h2>{section.title}</h2>
+              <p>{section.body}</p>
+              {section.items ? (
+                <ul>
+                  {section.items.map((item) => <li key={item}>{item}</li>)}
+                </ul>
+              ) : null}
+            </article>
+          ))}
+        </section>
 
       <section className="seo-band">
         <div>
@@ -107,6 +111,7 @@ export function SeoLandingPage({ eyebrow, title, description, primaryHref = "/?s
           })
         }}
       />
-    </main>
+      </main>
+    </SeoShell>
   );
 }

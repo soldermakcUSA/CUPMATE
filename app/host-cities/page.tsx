@@ -20,6 +20,7 @@ export default function HostCitiesSeoPage() {
       description="Plan the tournament city by city with stadium locations, fan-zone context, local movement, hotel geography and match-day timing."
       primaryHref="/?section=travel"
       primaryLabel="Open travel planner"
+      activeSection="travel"
       sections={[
         {
           title: "16 cities, different decisions",

@@ -18,6 +18,7 @@ export default function FanZonesSeoPage() {
       description="Plan where to gather before and during matches with host-city fan-zone ideas, big-screen viewing notes and supporter-friendly timing."
       primaryHref="/?section=fanZones"
       primaryLabel="Open fan zones"
+      activeSection="fanZones"
       sections={[
         {
           title: "Fan-zone pages can capture local search",

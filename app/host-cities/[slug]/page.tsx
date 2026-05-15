@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { SeoShell } from "@/components/SeoShell";
 import { getSiteUrl, hostCityGuides } from "@/lib/seo";
 import { getLocalSeoLinks } from "./local-seo";
 
@@ -34,9 +35,11 @@ export default async function HostCityDetailPage({ params }: HostCityPageProps) 
 
   if (!city) {
     return (
-      <main className="seo-page">
-        <section className="seo-hero"><h1>Host city not found</h1></section>
-      </main>
+      <SeoShell activeSection="travel">
+        <main className="seo-page">
+          <section className="seo-hero"><h1>Host city not found</h1></section>
+        </main>
+      </SeoShell>
     );
   }
 
@@ -54,48 +57,50 @@ export default async function HostCityDetailPage({ params }: HostCityPageProps) 
   const localSeoLinks = getLocalSeoLinks(city.slug);
 
   return (
-    <main className="seo-page">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <section className="seo-hero">
-        <p>World Cup 2026 host city</p>
-        <h1>{city.city} World Cup 2026 travel guide</h1>
-        <span>{city.stadium} is the tournament anchor for this city. CupMate focuses on {city.focus}.</span>
-        <div className="seo-actions">
-          <Link className="primary-button" href="/?section=travel">Open travel planner</Link>
-          <Link className="link-button" href="/host-cities">All host cities</Link>
-        </div>
-      </section>
-      <section className="seo-grid">
-        <article className="seo-card">
-          <h2>Match-day priorities</h2>
-          <p>Fans should plan arrival time, ticket access, stadium approach, post-match exit and a backup viewing plan before they arrive in {city.city}.</p>
-          <ul>
-            <li>Primary stadium: {city.stadium}</li>
-            <li>Country: {city.country}</li>
-            <li>Planning focus: {city.focus}</li>
-          </ul>
-        </article>
-        <article className="seo-card">
-          <h2>SEO intent covered</h2>
-          <p>This page targets local World Cup searches around travel, fan zones, tickets, transit and places to watch. It gives search engines a dedicated URL for {city.city} instead of hiding the city inside an app panel.</p>
-          <ul>
-            <li>{city.city} World Cup 2026</li>
-            <li>{city.stadium} World Cup 2026</li>
-            <li>{city.city} fan zones and match-day travel</li>
-          </ul>
-        </article>
-        {localSeoLinks.length ? (
+    <SeoShell activeSection="travel">
+      <main className="seo-page">
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        <section className="seo-hero">
+          <p>World Cup 2026 host city</p>
+          <h1>{city.city} World Cup 2026 travel guide</h1>
+          <span>{city.stadium} is the tournament anchor for this city. CupMate focuses on {city.focus}.</span>
+          <div className="seo-actions">
+            <Link className="primary-button" href="/?section=travel">Open travel planner</Link>
+            <Link className="link-button" href="/host-cities">All host cities</Link>
+          </div>
+        </section>
+        <section className="seo-grid">
           <article className="seo-card">
-            <h2>Local planning pages</h2>
-            <p>Selected host-city searches now have dedicated CupMate URLs for high-intent planning around places to watch, fan zones and tickets.</p>
+            <h2>Match-day priorities</h2>
+            <p>Fans should plan arrival time, ticket access, stadium approach, post-match exit and a backup viewing plan before they arrive in {city.city}.</p>
             <ul>
-              {localSeoLinks.map((link) => (
-                <li key={link.href}><Link href={link.href}>{city.city} {link.label}</Link></li>
-              ))}
+              <li>Primary stadium: {city.stadium}</li>
+              <li>Country: {city.country}</li>
+              <li>Planning focus: {city.focus}</li>
             </ul>
           </article>
-        ) : null}
-      </section>
-    </main>
+          <article className="seo-card">
+            <h2>SEO intent covered</h2>
+            <p>This page targets local World Cup searches around travel, fan zones, tickets, transit and places to watch. It gives search engines a dedicated URL for {city.city} instead of hiding the city inside an app panel.</p>
+            <ul>
+              <li>{city.city} World Cup 2026</li>
+              <li>{city.stadium} World Cup 2026</li>
+              <li>{city.city} fan zones and match-day travel</li>
+            </ul>
+          </article>
+          {localSeoLinks.length ? (
+            <article className="seo-card">
+              <h2>Local planning pages</h2>
+              <p>Selected host-city searches now have dedicated CupMate URLs for high-intent planning around places to watch, fan zones and tickets.</p>
+              <ul>
+                {localSeoLinks.map((link) => (
+                  <li key={link.href}><Link href={link.href}>{city.city} {link.label}</Link></li>
+                ))}
+              </ul>
+            </article>
+          ) : null}
+        </section>
+      </main>
+    </SeoShell>
   );
 }

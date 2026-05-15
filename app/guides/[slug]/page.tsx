@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { SeoShell } from "@/components/SeoShell";
 import { articleJsonLd, editorialArticles, faqJsonLd, findEditorialArticle } from "@/lib/editorial-content";
 
 type GuidePageProps = { params: Promise<{ slug: string }> };
@@ -40,21 +41,24 @@ export default async function GuideArticlePage({ params }: GuidePageProps) {
 
   if (!article) {
     return (
-      <main className="seo-page">
-        <section className="seo-hero"><h1>Guide not found</h1></section>
-      </main>
+      <SeoShell activeSection="news">
+        <main className="seo-page">
+          <section className="seo-hero"><h1>Guide not found</h1></section>
+        </main>
+      </SeoShell>
     );
   }
 
   return (
-    <main className="seo-page">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd(article)) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(article)) }} />
-      <article className="seo-article">
-        <Link className="link-button" href="/guides">All guides</Link>
-        <p className="seo-meta">{article.category} · Updated {article.updatedAt} · {article.readingTime}</p>
-        <h1>{article.title}</h1>
-        <p className="seo-lede">{article.intro}</p>
+    <SeoShell activeSection="news">
+      <main className="seo-page">
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd(article)) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(article)) }} />
+        <article className="seo-article">
+          <Link className="link-button" href="/guides">All guides</Link>
+          <p className="seo-meta">{article.category} · Updated {article.updatedAt} · {article.readingTime}</p>
+          <h1>{article.title}</h1>
+          <p className="seo-lede">{article.intro}</p>
 
         {article.sections.map((section) => (
           <section key={section.title}>
@@ -86,7 +90,8 @@ export default async function GuideArticlePage({ params }: GuidePageProps) {
             ))}
           </ul>
         </section>
-      </article>
-    </main>
+        </article>
+      </main>
+    </SeoShell>
   );
 }

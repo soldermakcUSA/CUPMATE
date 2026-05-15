@@ -48,7 +48,7 @@ export function AppSidebar({ t, activeSection = "dashboard", setActiveSection }:
       <div className="brand">
         <img className="brand-cup" src="/assets/cupmate-trophy-white.png" alt="" />
         <div>
-          <h1 className="brand-title">CUPMATE</h1>
+          <div className="brand-title">CUPMATE</div>
           <p className="brand-subtitle">{t.brandSubtitle}</p>
         </div>
       </div>

@@ -18,6 +18,7 @@ export default function WhereToWatchSeoPage() {
       description="Find sports bars, restaurants, fan zones and local viewing options with enough context to choose the right place before kickoff."
       primaryHref="/?section=watch"
       primaryLabel="Open watch guide"
+      activeSection="watch"
       sections={[
         {
           title: "Local discovery opportunity",

@@ -18,6 +18,7 @@ export default function TicketsSeoPage() {
       description="A fan-focused ticket guide for understanding demand, official channels, resale caution, budget reminders and match-by-match decisions."
       primaryHref="/?section=tickets"
       primaryLabel="Open ticket tools"
+      activeSection="tickets"
       sections={[
         {
           title: "Ticket intent is high value",

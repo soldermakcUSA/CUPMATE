@@ -20,6 +20,7 @@ export default function StadiumsSeoPage() {
       description="Compare the most important World Cup 2026 venues by capacity, match count, host city, transit path and practical arrival strategy."
       primaryHref="/?section=stadiums"
       primaryLabel="Open stadium guide"
+      activeSection="stadiums"
       sections={[
         {
           title: "Venue details that matter",
