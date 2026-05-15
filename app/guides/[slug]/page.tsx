@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { SeoRelatedLinks } from "@/components/SeoRelatedLinks";
 import { SeoShell } from "@/components/SeoShell";
+import { SeoBreadcrumbs } from "@/components/SeoBreadcrumbs";
+import { SeoUpdated } from "@/components/SeoUpdated";
 import { articleJsonLd, editorialArticles, faqJsonLd, findEditorialArticle } from "@/lib/editorial-content";
 
 type GuidePageProps = { params: Promise<{ slug: string }> };
@@ -54,9 +57,16 @@ export default async function GuideArticlePage({ params }: GuidePageProps) {
       <main className="seo-page">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd(article)) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(article)) }} />
+        <SeoBreadcrumbs
+          items={[
+            { name: "CupMate", href: "/" },
+            { name: "Guides", href: "/guides" },
+            { name: article.title, href: `/guides/${article.slug}` }
+          ]}
+        />
         <article className="seo-article">
           <Link className="link-button" href="/guides">All guides</Link>
-          <p className="seo-meta">{article.category} · Updated {article.updatedAt} · {article.readingTime}</p>
+          <SeoUpdated date={article.updatedAt} prefix={article.category} suffix={article.readingTime} />
           <h1>{article.title}</h1>
           <p className="seo-lede">{article.intro}</p>
 
@@ -91,6 +101,7 @@ export default async function GuideArticlePage({ params }: GuidePageProps) {
           </ul>
         </section>
         </article>
+        <SeoRelatedLinks currentPath={`/guides/${article.slug}`} category={article.category} />
       </main>
     </SeoShell>
   );

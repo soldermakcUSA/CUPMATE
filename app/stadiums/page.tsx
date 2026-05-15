@@ -21,6 +21,7 @@ export default function StadiumsSeoPage() {
       primaryHref="/?section=stadiums"
       primaryLabel="Open stadium guide"
       activeSection="stadiums"
+      breadcrumbs={[{ name: "CupMate", href: "/" }, { name: "Stadiums", href: "/stadiums" }]}
       sections={[
         {
           title: "Venue details that matter",

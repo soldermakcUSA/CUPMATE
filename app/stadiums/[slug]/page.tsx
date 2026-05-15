@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { SeoRelatedLinks } from "@/components/SeoRelatedLinks";
 import { SeoShell } from "@/components/SeoShell";
+import { SeoBreadcrumbs } from "@/components/SeoBreadcrumbs";
+import { SeoUpdated } from "@/components/SeoUpdated";
 import { getSiteUrl, stadiumGuides } from "@/lib/seo";
 
 type StadiumPageProps = { params: Promise<{ slug: string }> };
@@ -59,6 +62,13 @@ export default async function StadiumDetailPage({ params }: StadiumPageProps) {
     <SeoShell activeSection="stadiums">
       <main className="seo-page">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        <SeoBreadcrumbs
+          items={[
+            { name: "CupMate", href: "/" },
+            { name: "Stadiums", href: "/stadiums" },
+            { name: stadium.name, href: `/stadiums/${stadium.slug}` }
+          ]}
+        />
         <section className="seo-hero">
           <p>World Cup 2026 stadium</p>
           <h1>{stadium.name} World Cup 2026 stadium guide</h1>
@@ -68,6 +78,7 @@ export default async function StadiumDetailPage({ params }: StadiumPageProps) {
             <Link className="link-button" href="/stadiums">All stadiums</Link>
           </div>
         </section>
+        <SeoUpdated />
         <section className="seo-grid">
           <article className="seo-card">
             <h2>Fan planning facts</h2>
@@ -89,6 +100,7 @@ export default async function StadiumDetailPage({ params }: StadiumPageProps) {
             </ul>
           </article>
         </section>
+        <SeoRelatedLinks currentPath={`/stadiums/${stadium.slug}`} category="Stadium" />
       </main>
     </SeoShell>
   );

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SeoShell } from "@/components/SeoShell";
+import { SeoBreadcrumbs } from "@/components/SeoBreadcrumbs";
+import { SeoUpdated } from "@/components/SeoUpdated";
 
 export const metadata: Metadata = {
   title: { absolute: "About CupMate | Independent World Cup 2026 Fan Planner" },
@@ -12,6 +14,7 @@ export default function AboutPage() {
   return (
     <SeoShell activeSection="dashboard">
       <main className="seo-page">
+        <SeoBreadcrumbs items={[{ name: "CupMate", href: "/" }, { name: "About", href: "/about" }]} />
         <section className="seo-hero">
           <p>About CupMate</p>
           <h1>Independent planning help for World Cup 2026 fans</h1>
@@ -21,6 +24,7 @@ export default function AboutPage() {
             <Link className="link-button" href="/world-cup-2026-schedule">Open schedule</Link>
           </div>
         </section>
+        <SeoUpdated />
         <section className="seo-grid">
           <article className="seo-card">
             <h2>How CupMate uses sources</h2>

@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getSiteUrl } from "@/lib/seo";
+import { getSiteUrl, splitSitemaps } from "@/lib/seo";
 
 export default function robots(): MetadataRoute.Robots {
   const siteUrl = getSiteUrl();
@@ -10,7 +10,7 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/api/", "/_next/"]
     },
-    sitemap: `${siteUrl}/sitemap.xml`,
+    sitemap: [`${siteUrl}/sitemap.xml`, ...splitSitemaps.map((sitemap) => `${siteUrl}${sitemap.path}`)],
     host: siteUrl
   };
 }

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SeoShell } from "@/components/SeoShell";
+import { SeoBreadcrumbs } from "@/components/SeoBreadcrumbs";
+import { SeoUpdated } from "@/components/SeoUpdated";
 import { editorialArticles } from "@/lib/editorial-content";
 import { getSiteUrl } from "@/lib/seo";
 
@@ -33,6 +35,7 @@ export default function GuidesIndexPage() {
             })
           }}
         />
+        <SeoBreadcrumbs items={[{ name: "CupMate", href: "/" }, { name: "Guides", href: "/guides" }]} />
         <section className="seo-hero">
           <p>World Cup 2026 guides</p>
           <h1>Fan-first guides for tickets, travel, stadiums and watch plans</h1>
@@ -42,10 +45,11 @@ export default function GuidesIndexPage() {
             <Link className="link-button" href="/?section=assistant">Ask CupMate</Link>
           </div>
         </section>
+        <SeoUpdated />
         <section className="seo-grid">
           {editorialArticles.map((article) => (
             <article className="seo-card" key={article.slug}>
-              <p className="seo-meta">{article.category} · Updated {article.updatedAt} · {article.readingTime}</p>
+              <SeoUpdated date={article.updatedAt} prefix={article.category} suffix={article.readingTime} />
               <h2><Link href={`/guides/${article.slug}`}>{article.title}</Link></h2>
               <p>{article.description}</p>
               <ul>

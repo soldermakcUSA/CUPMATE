@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
-import { sitemapEntries } from "@/lib/seo";
+import { sitemapIndexEntries } from "@/lib/seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return sitemapEntries();
+  return sitemapIndexEntries();
 }

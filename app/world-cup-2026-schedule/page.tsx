@@ -23,6 +23,8 @@ export default function WorldCupSchedulePage() {
       primaryHref="/?section=matches"
       primaryLabel="Open match planner"
       activeSection="matches"
+      currentPath="/world-cup-2026-schedule"
+      breadcrumbs={[{ name: "CupMate", href: "/" }, { name: "Schedule", href: "/world-cup-2026-schedule" }]}
       sections={[
         {
           title: "Match pages built for intent",

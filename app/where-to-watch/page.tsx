@@ -19,6 +19,7 @@ export default function WhereToWatchSeoPage() {
       primaryHref="/?section=watch"
       primaryLabel="Open watch guide"
       activeSection="watch"
+      breadcrumbs={[{ name: "CupMate", href: "/" }, { name: "Where to watch", href: "/where-to-watch" }]}
       sections={[
         {
           title: "Local discovery opportunity",

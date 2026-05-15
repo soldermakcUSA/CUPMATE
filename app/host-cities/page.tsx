@@ -21,6 +21,7 @@ export default function HostCitiesSeoPage() {
       primaryHref="/?section=travel"
       primaryLabel="Open travel planner"
       activeSection="travel"
+      breadcrumbs={[{ name: "CupMate", href: "/" }, { name: "Host cities", href: "/host-cities" }]}
       sections={[
         {
           title: "16 cities, different decisions",

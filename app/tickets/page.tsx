@@ -19,6 +19,7 @@ export default function TicketsSeoPage() {
       primaryHref="/?section=tickets"
       primaryLabel="Open ticket tools"
       activeSection="tickets"
+      breadcrumbs={[{ name: "CupMate", href: "/" }, { name: "Tickets", href: "/tickets" }]}
       sections={[
         {
           title: "Ticket intent is high value",

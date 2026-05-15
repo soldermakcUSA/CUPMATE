@@ -203,6 +203,14 @@ export function HostCityLocalSeoPage({ kind, slug }: { kind: LocalSeoKind; slug:
       primaryHref={page.primaryHref}
       primaryLabel={page.primaryLabel}
       activeSection={kind === "tickets" ? "tickets" : kind === "fan-zones" ? "fanZones" : "watch"}
+      currentPath={canonicalPath}
+      relatedCategory={page.navLabel}
+      breadcrumbs={[
+        { name: "CupMate", href: "/" },
+        { name: "Host cities", href: "/host-cities" },
+        { name: city.city, href: `/host-cities/${city.slug}` },
+        { name: page.navLabel, href: canonicalPath }
+      ]}
       sections={[
         ...page.sections(city),
         {

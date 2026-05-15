@@ -19,6 +19,7 @@ export default function FanZonesSeoPage() {
       primaryHref="/?section=fanZones"
       primaryLabel="Open fan zones"
       activeSection="fanZones"
+      breadcrumbs={[{ name: "CupMate", href: "/" }, { name: "Fan zones", href: "/fan-zones" }]}
       sections={[
         {
           title: "Fan-zone pages can capture local search",

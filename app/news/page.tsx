@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { SeoShell } from "@/components/SeoShell";
+import { SeoUpdated } from "@/components/SeoUpdated";
+import { newsSeoArticles } from "@/lib/news-seo-data";
 import { primarySeoPages } from "@/lib/seo";
-import { SeoLandingPage } from "@/components/SeoLandingPage";
 
 const page = primarySeoPages.find((item) => item.path === "/news")!;
 
@@ -12,25 +15,32 @@ export const metadata: Metadata = {
 
 export default function NewsSeoPage() {
   return (
-    <SeoLandingPage
-      eyebrow="World Cup 2026 news"
-      title="World Cup 2026 news with fan planning context"
-      description="CupMate should turn every ticket, transport, squad, stadium and host-city update into practical planning advice for fans."
-      primaryHref="/?section=news"
-      primaryLabel="Open news panel"
-      activeSection="news"
-      sections={[
-        {
-          title: "Editorial angle",
-          body: "The site should avoid short generic news cards. Strong articles explain what changed, why it matters, which fans are affected and what to do next.",
-          items: ["Ticket phase updates", "Transit and stadium operations", "Squad and injury context", "Host-city event changes"]
-        },
-        {
-          title: "Uniqueness strategy",
-          body: "CupMate can be distinct by pairing sourced news with original fan-planning recommendations, not by repeating the same headline every publisher covers.",
-          items: ["Add sources", "Add city impact", "Add match-day checklist", "Add ticket/travel implications"]
-        }
-      ]}
-    />
+    <SeoShell activeSection="news">
+      <main className="seo-page">
+        <section className="seo-hero">
+          <p>World Cup 2026 news</p>
+          <h1>World Cup 2026 news with fan planning context</h1>
+          <span>CupMate turns ticket, transport, squad, stadium and host-city updates into practical planning notes for fans.</span>
+          <div className="seo-actions">
+            <Link className="primary-button" href="/?section=news">Open news panel</Link>
+            <Link className="link-button" href="/world-cup-2026-schedule">View schedule</Link>
+          </div>
+        </section>
+        <SeoUpdated />
+
+        <section className="seo-grid" aria-label="World Cup 2026 news articles">
+          {newsSeoArticles.map((article) => (
+            <article className="seo-card" key={article.slug}>
+              <SeoUpdated date={article.updatedAt} prefix={article.category} />
+              <h2><Link href={`/news/${article.slug}`}>{article.title}</Link></h2>
+              <p>{article.description}</p>
+              <ul>
+                {article.impact.slice(0, 2).map((item) => <li key={item}>{item}</li>)}
+              </ul>
+            </article>
+          ))}
+        </section>
+      </main>
+    </SeoShell>
   );
 }

@@ -1,3 +1,4 @@
+import type { MetadataRoute } from "next";
 import { allMatchDetails } from "@/lib/match-details";
 import { editorialArticles } from "@/lib/editorial-content";
 
@@ -126,52 +127,89 @@ export const contentClusters = [
   "World Cup 2026 match odds"
 ];
 
-export function sitemapEntries() {
+type SitemapEntry = MetadataRoute.Sitemap[number];
+
+export const splitSitemaps = [
+  { path: "/sitemap-static.xml" },
+  { path: "/sitemap-matches.xml" },
+  { path: "/sitemap-cities.xml" },
+  { path: "/sitemap-stadiums.xml" },
+  { path: "/sitemap-guides.xml" }
+] as const;
+
+function weeklyEntry(url: string, lastModified: Date, priority: number): SitemapEntry {
+  return {
+    url,
+    lastModified,
+    changeFrequency: "weekly",
+    priority
+  };
+}
+
+export function sitemapIndexEntries(): MetadataRoute.Sitemap {
   const siteUrl = getSiteUrl();
   const now = new Date();
+
+  return splitSitemaps.map((sitemap) => ({
+    url: `${siteUrl}${sitemap.path}`,
+    lastModified: now,
+    changeFrequency: "daily" as const,
+    priority: 0.5
+  }));
+}
+
+export function staticSitemapEntries(): MetadataRoute.Sitemap {
+  const siteUrl = getSiteUrl();
+  const now = new Date();
+
+  return primarySeoPages.map((page) => ({
+    url: `${siteUrl}${page.path}`,
+    lastModified: now,
+    changeFrequency: "weekly" as const,
+    priority: page.path === "/" ? 1 : 0.85
+  }));
+}
+
+export function matchSitemapEntries(): MetadataRoute.Sitemap {
+  const siteUrl = getSiteUrl();
+  const now = new Date();
+
+  return allMatchDetails().map((match) => ({
+    url: `${siteUrl}/matches/${match.slug}`,
+    lastModified: now,
+    changeFrequency: "daily" as const,
+    priority: 0.8
+  }));
+}
+
+export function citySitemapEntries(): MetadataRoute.Sitemap {
+  const siteUrl = getSiteUrl();
+  const now = new Date();
+
   return [
-    ...primarySeoPages.map((page) => ({
-      url: `${siteUrl}${page.path}`,
-      lastModified: now,
-      changeFrequency: "weekly" as const,
-      priority: page.path === "/" ? 1 : 0.85
-    })),
-    ...allMatchDetails().map((match) => ({
-      url: `${siteUrl}/matches/${match.slug}`,
-      lastModified: now,
-      changeFrequency: "daily" as const,
-      priority: 0.8
-    })),
-    ...hostCityGuides.map((city) => ({
-      url: `${siteUrl}/host-cities/${city.slug}`,
-      lastModified: now,
-      changeFrequency: "weekly" as const,
-      priority: 0.75
-    })),
-    ...stadiumGuides.map((stadium) => ({
-      url: `${siteUrl}/stadiums/${stadium.slug}`,
-      lastModified: now,
-      changeFrequency: "weekly" as const,
-      priority: 0.75
-    })),
-    ...editorialArticles.map((article) => ({
-      url: `${siteUrl}/guides/${article.slug}`,
-      lastModified: new Date(article.updatedAt),
-      changeFrequency: "weekly" as const,
-      priority: 0.72
-    })),
-    ...["new-york-new-jersey", "los-angeles", "dallas", "miami", "atlanta", "toronto", "vancouver", "mexico-city"].flatMap((slug) =>
-      ["where-to-watch", "fan-zones", "tickets"].map((kind) => ({
-        url: `${siteUrl}/host-cities/${slug}/${kind}`,
-        lastModified: now,
-        changeFrequency: "weekly" as const,
-        priority: 0.7
-      }))
-    )
+    ...hostCityGuides.map((city) => weeklyEntry(`${siteUrl}/host-cities/${city.slug}`, now, 0.75)),
+    ...localHostCitySitemapEntries()
   ];
 }
 
-export function guideSitemapEntries() {
+export function stadiumSitemapEntries(): MetadataRoute.Sitemap {
+  const siteUrl = getSiteUrl();
+  const now = new Date();
+
+  return stadiumGuides.map((stadium) => weeklyEntry(`${siteUrl}/stadiums/${stadium.slug}`, now, 0.75));
+}
+
+export function sitemapEntries(): MetadataRoute.Sitemap {
+  return [
+    ...staticSitemapEntries(),
+    ...matchSitemapEntries(),
+    ...citySitemapEntries(),
+    ...stadiumSitemapEntries(),
+    ...guideSitemapEntries()
+  ];
+}
+
+export function guideSitemapEntries(): MetadataRoute.Sitemap {
   const siteUrl = getSiteUrl();
   return editorialArticles.map((article) => ({
     url: `${siteUrl}/guides/${article.slug}`,
@@ -181,7 +219,7 @@ export function guideSitemapEntries() {
   }));
 }
 
-export function localHostCitySitemapEntries() {
+export function localHostCitySitemapEntries(): MetadataRoute.Sitemap {
   const siteUrl = getSiteUrl();
   const now = new Date();
   return ["new-york-new-jersey", "los-angeles", "dallas", "miami", "atlanta", "toronto", "vancouver", "mexico-city"].flatMap((slug) =>
@@ -192,4 +230,55 @@ export function localHostCitySitemapEntries() {
       priority: 0.7
     }))
   );
+}
+
+function escapeXml(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
+function serializeLastModified(value: SitemapEntry["lastModified"]) {
+  if (!value) {
+    return undefined;
+  }
+
+  if (value instanceof Date) {
+    return value.toISOString();
+  }
+
+  return value;
+}
+
+export function sitemapXml(entries: MetadataRoute.Sitemap) {
+  const urls = entries
+    .map((entry) => {
+      const lastModified = serializeLastModified(entry.lastModified);
+
+      return [
+        "  <url>",
+        `    <loc>${escapeXml(entry.url)}</loc>`,
+        lastModified ? `    <lastmod>${escapeXml(lastModified)}</lastmod>` : undefined,
+        entry.changeFrequency ? `    <changefreq>${entry.changeFrequency}</changefreq>` : undefined,
+        typeof entry.priority === "number" ? `    <priority>${entry.priority.toFixed(2)}</priority>` : undefined,
+        "  </url>"
+      ]
+        .filter(Boolean)
+        .join("\n");
+    })
+    .join("\n");
+
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
+}
+
+export function sitemapXmlResponse(entries: MetadataRoute.Sitemap) {
+  return new Response(sitemapXml(entries), {
+    headers: {
+      "Content-Type": "application/xml; charset=utf-8",
+      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400"
+    }
+  });
 }

@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { SeoRelatedLinks } from "@/components/SeoRelatedLinks";
 import { SeoShell } from "@/components/SeoShell";
+import { SeoBreadcrumbs } from "@/components/SeoBreadcrumbs";
+import { SeoUpdated } from "@/components/SeoUpdated";
 import { getSiteUrl, hostCityGuides } from "@/lib/seo";
 import { getLocalSeoLinks } from "./local-seo";
 
@@ -60,6 +63,13 @@ export default async function HostCityDetailPage({ params }: HostCityPageProps) 
     <SeoShell activeSection="travel">
       <main className="seo-page">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        <SeoBreadcrumbs
+          items={[
+            { name: "CupMate", href: "/" },
+            { name: "Host cities", href: "/host-cities" },
+            { name: city.city, href: `/host-cities/${city.slug}` }
+          ]}
+        />
         <section className="seo-hero">
           <p>World Cup 2026 host city</p>
           <h1>{city.city} World Cup 2026 travel guide</h1>
@@ -69,6 +79,7 @@ export default async function HostCityDetailPage({ params }: HostCityPageProps) 
             <Link className="link-button" href="/host-cities">All host cities</Link>
           </div>
         </section>
+        <SeoUpdated />
         <section className="seo-grid">
           <article className="seo-card">
             <h2>Match-day priorities</h2>
@@ -100,6 +111,7 @@ export default async function HostCityDetailPage({ params }: HostCityPageProps) 
             </article>
           ) : null}
         </section>
+        <SeoRelatedLinks currentPath={`/host-cities/${city.slug}`} category="Host city" />
       </main>
     </SeoShell>
   );

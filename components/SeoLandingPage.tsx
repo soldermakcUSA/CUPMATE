@@ -2,7 +2,10 @@ import Link from "next/link";
 import { allMatchDetails, formatAmericanOdds } from "@/lib/match-details";
 import { contentClusters, getSiteUrl, hostCityGuides, stadiumGuides } from "@/lib/seo";
 import { SeoShell } from "@/components/SeoShell";
+import { SeoRelatedLinks } from "@/components/SeoRelatedLinks";
+import { SeoUpdated } from "@/components/SeoUpdated";
 import type { SidebarSection } from "@/components/AppSidebar";
+import { SeoBreadcrumbs, type SeoBreadcrumbItem } from "@/components/SeoBreadcrumbs";
 
 type SeoLandingPageProps = {
   eyebrow: string;
@@ -17,9 +20,24 @@ type SeoLandingPageProps = {
   }>;
   jsonLd?: object;
   activeSection?: SidebarSection;
+  breadcrumbs?: SeoBreadcrumbItem[];
+  currentPath?: string;
+  relatedCategory?: string;
 };
 
-export function SeoLandingPage({ eyebrow, title, description, primaryHref = "/?section=matches", primaryLabel = "Open CupMate planner", sections, jsonLd, activeSection = "dashboard" }: SeoLandingPageProps) {
+export function SeoLandingPage({
+  eyebrow,
+  title,
+  description,
+  primaryHref = "/?section=matches",
+  primaryLabel = "Open CupMate planner",
+  sections,
+  jsonLd,
+  activeSection = "dashboard",
+  breadcrumbs,
+  currentPath,
+  relatedCategory
+}: SeoLandingPageProps) {
   const matches = allMatchDetails().slice(0, 8);
   const siteUrl = getSiteUrl();
 
@@ -27,6 +45,7 @@ export function SeoLandingPage({ eyebrow, title, description, primaryHref = "/?s
     <SeoShell activeSection={activeSection}>
       <main className="seo-page">
         {jsonLd ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} /> : null}
+        {breadcrumbs ? <SeoBreadcrumbs items={breadcrumbs} /> : null}
         <section className="seo-hero">
           <p>{eyebrow}</p>
           <h1>{title}</h1>
@@ -36,6 +55,7 @@ export function SeoLandingPage({ eyebrow, title, description, primaryHref = "/?s
             <Link className="link-button" href="/world-cup-2026-schedule">View schedule</Link>
           </div>
         </section>
+        <SeoUpdated />
 
         <section className="seo-grid" aria-label="World Cup 2026 planning topics">
           {sections.map((section) => (
@@ -50,6 +70,8 @@ export function SeoLandingPage({ eyebrow, title, description, primaryHref = "/?s
             </article>
           ))}
         </section>
+
+        {currentPath ? <SeoRelatedLinks currentPath={currentPath} category={relatedCategory} /> : null}
 
       <section className="seo-band">
         <div>
