@@ -4,6 +4,7 @@
   "description": "CupMate multilingual World Cup companion PWA",
   "private": true,
   "scripts": {
+    "auto-news": "node scripts/auto-news.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

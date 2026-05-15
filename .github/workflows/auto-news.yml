@@ -1,0 +1,83 @@
+name: Auto World Cup News
+
+on:
+  workflow_dispatch:
+    inputs:
+      max_articles:
+        description: "Maximum articles to publish"
+        required: false
+        default: "2"
+  schedule:
+    - cron: "15 6 * * *"
+    - cron: "15 14 * * *"
+    - cron: "15 22 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: auto-world-cup-news
+  cancel-in-progress: false
+
+jobs:
+  auto-news:
+    runs-on: ubuntu-latest
+    env:
+      AUTO_NEWS_MAX_ARTICLES: ${{ github.event.inputs.max_articles || '2' }}
+      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      OPENAI_TEXT_MODEL: ${{ vars.OPENAI_TEXT_MODEL || 'gpt-5.4-mini' }}
+      OPENAI_IMAGE_MODEL: ${{ vars.OPENAI_IMAGE_MODEL || 'gpt-image-1' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check required secrets
+        id: secrets
+        shell: bash
+        run: |
+          missing=0
+          for key in OPENAI_API_KEY NEXT_PUBLIC_SUPABASE_URL NEXT_PUBLIC_SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY; do
+            if [ -z "${!key}" ]; then
+              echo "::warning::$key is not configured; auto-news will skip this run."
+              missing=1
+            fi
+          done
+          echo "missing=$missing" >> "$GITHUB_OUTPUT"
+
+      - name: Generate and publish news
+        if: steps.secrets.outputs.missing == '0'
+        run: npm run auto-news
+
+      - name: Build
+        if: steps.secrets.outputs.missing == '0'
+        run: npm run build
+
+      - name: Commit and push changes
+        if: steps.secrets.outputs.missing == '0'
+        shell: bash
+        run: |
+          if git diff --quiet --exit-code -- . ':!tmp' && [ -z "$(git ls-files --others --exclude-standard public/assets/news)" ]; then
+            echo "No generated news changes to commit."
+            exit 0
+          fi
+
+          git config user.name "cupmate-news-bot"
+          git config user.email "actions@github.com"
+          git add lib/news-seo-data.ts lib/content-data.ts public/assets/news package.json package-lock.json
+          git commit -m "Auto-publish latest World Cup news"
+          git pull --rebase origin main
+          git push origin main
