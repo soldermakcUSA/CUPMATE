@@ -3,7 +3,7 @@ import { allMatchDetails } from "@/lib/match-details";
 import { editorialArticles } from "@/lib/editorial-content";
 
 export const siteName = "CupMate";
-export const defaultSiteUrl = "https://cupmate.app";
+export const defaultSiteUrl = "https://cupmate.us";
 
 export function getSiteUrl() {
   return (process.env.NEXT_PUBLIC_SITE_URL || defaultSiteUrl).replace(/\/+$/, "");

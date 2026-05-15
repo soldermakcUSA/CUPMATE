@@ -198,7 +198,7 @@ export function renderCupMateOgImage(input: CupMateOgInput) {
         h(
           "div",
           { style: { display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" } },
-          h("div", { style: { color: "#94a3b8", fontSize: 22, fontWeight: 800 } }, "cupmate.app"),
+          h("div", { style: { color: "#94a3b8", fontSize: 22, fontWeight: 800 } }, "cupmate.us"),
           h(
             "div",
             { style: { display: "flex", gap: 10 } },
