@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, BarChart3, CalendarDays, ExternalLink, History, MapPin, Radio, Shield, Trophy, Users } from "lucide-react";
+import { ArrowLeft, BarChart3, CalendarDays, ExternalLink, History, MapPin, Radio, Shield, Ticket, Trophy, Users, WalletCards } from "lucide-react";
 import { AppSidebar } from "@/components/AppSidebar";
+import { getSeatGeekTicketForMatchSlug } from "@/components/menu/StadiumsPanel";
 import { TeamFlag, TeamLabel } from "@/components/TeamFlag";
 import { findMatchDetail, formatAmericanOdds, impliedProbability, localizeMatchDetail, type MatchDetail } from "@/lib/match-details";
 import { getLanguage, type Locale, translations } from "@/lib/i18n";
@@ -84,15 +85,37 @@ function useLocale() {
   return locale;
 }
 
+function matchTicketCopy(locale: Locale) {
+  if (locale === "ru") {
+    return {
+      title: "Билеты на матч",
+      lowestFrom: "Минимальная цена",
+      buy: "Купить на SeatGeek",
+      source: "Источник",
+      note: "Цены SeatGeek указаны как From и могут измениться до покупки."
+    };
+  }
+
+  return {
+    title: "Match tickets",
+    lowestFrom: "Lowest from",
+    buy: "Buy on SeatGeek",
+    source: "Source",
+    note: "SeatGeek prices are From listings and can change before checkout."
+  };
+}
+
 export function MatchDetailClient({ slug }: { slug: string }) {
   const locale = useLocale();
   const t = translations[locale];
   const c = copy[locale] ?? copy.en;
   const squadsText = squadCopy[locale] ?? squadCopy.en;
+  const ticketCopy = matchTicketCopy(locale);
   const detail = useMemo(() => {
     const found = findMatchDetail(slug);
     return found ? localizeMatchDetail(found, locale) : null;
   }, [locale, slug]);
+  const ticket = useMemo(() => getSeatGeekTicketForMatchSlug(slug), [slug]);
 
   if (!detail) {
     return (
@@ -151,6 +174,26 @@ export function MatchDetailClient({ slug }: { slug: string }) {
               <span><strong>{c.watch}</strong>FOX / FS1, FOX One, FOX Sports App</span>
             </div>
           </section>
+
+          {ticket && (
+            <section className="section-card match-detail-main-card match-ticket-card">
+              <div className="match-detail-section-head">
+                <Ticket size={20} />
+                <h2>{ticketCopy.title}</h2>
+              </div>
+              <div className="match-ticket-summary">
+                <div>
+                  <span>{ticketCopy.lowestFrom}</span>
+                  <strong>{ticket.price?.replace(/^From\s+/i, "") ?? "SeatGeek"}</strong>
+                  <p className="small muted">{ticket.stadiumName}, {ticket.city}</p>
+                </div>
+                <a className="primary-button" href={ticket.ticketUrl ?? ticket.cityUrl} target="_blank" rel="noreferrer">
+                  <WalletCards size={16} /> {ticketCopy.buy}
+                </a>
+              </div>
+              <p className="small muted"><strong>{ticketCopy.source}:</strong> {ticket.sourceLabel}. {ticketCopy.note}</p>
+            </section>
+          )}
 
           <section className="section-card match-detail-main-card">
             <div className="match-detail-section-head">

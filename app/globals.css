@@ -743,6 +743,321 @@ img {
   line-height: 1;
 }
 
+.ticket-market {
+  padding: 20px;
+}
+
+.ticket-market-head {
+  align-items: flex-start;
+}
+
+.ticket-market-subtitle {
+  max-width: 620px;
+  margin: 7px 0 0;
+  line-height: 1.45;
+}
+
+.ticket-market-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.46fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+.ticket-market-quickbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.ticket-pill,
+.ticket-budget-chip {
+  min-height: 34px;
+  padding: 0 12px;
+  color: #172554;
+  border: 1px solid #dce3f2;
+  border-radius: 999px;
+  background: #f8faff;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.ticket-pill.active,
+.ticket-budget-chip.active {
+  color: white;
+  border-color: transparent;
+  background: linear-gradient(135deg, #351fd5, #245bff);
+  box-shadow: 0 10px 22px rgba(36, 91, 255, 0.18);
+}
+
+.ticket-market-feature {
+  position: sticky;
+  top: 20px;
+  display: grid;
+  align-content: start;
+  gap: 13px;
+  min-height: 330px;
+  padding: 20px;
+  color: white;
+  border-radius: 14px;
+  background:
+    linear-gradient(145deg, rgba(6, 20, 47, 0.97), rgba(36, 91, 255, 0.78)),
+    url("/assets/hero-stadium-bg.png") center/cover;
+  box-shadow: var(--card-shadow);
+}
+
+.ticket-market-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  width: fit-content;
+  padding: 7px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.13);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.ticket-market-feature h3 {
+  margin: 8px 0 0;
+  font-size: clamp(28px, 3vw, 42px);
+  line-height: 1.03;
+}
+
+.ticket-market-feature p {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 750;
+}
+
+.ticket-market-feature p:last-of-type {
+  max-width: 360px;
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.ticket-market-price {
+  display: grid;
+  gap: 3px;
+  margin-top: 4px;
+}
+
+.ticket-market-price span {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.ticket-market-price strong {
+  font-size: 44px;
+  line-height: 1;
+}
+
+.ticket-quantity-panel,
+.ticket-total-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.ticket-quantity-panel span,
+.ticket-total-box span,
+.ticket-total-box small {
+  display: block;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.ticket-quantity-panel strong,
+.ticket-total-box strong {
+  display: block;
+  margin-top: 2px;
+  color: white;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.ticket-stepper {
+  display: flex;
+  gap: 7px;
+}
+
+.ticket-stepper button {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.ticket-stepper button:hover {
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.ticket-total-box {
+  display: grid;
+  justify-content: stretch;
+}
+
+.ticket-buy-button {
+  width: fit-content;
+  margin-top: 6px;
+  background: white;
+  color: #172554;
+  box-shadow: none;
+  text-decoration: none;
+}
+
+.ticket-market-board {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.ticket-market-controls {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(180px, 0.54fr) auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.ticket-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: white;
+}
+
+.ticket-search input,
+.ticket-market-controls select {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #101828;
+  font: inherit;
+  font-weight: 700;
+}
+
+.ticket-market-controls select {
+  min-height: 42px;
+  padding: 0 11px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: white;
+}
+
+.ticket-budget-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.ticket-budget-row span {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.ticket-match-list {
+  display: grid;
+  gap: 9px;
+  max-height: 520px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.ticket-match-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fbfcff;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.ticket-match-card:hover,
+.ticket-match-card.active {
+  border-color: rgba(53, 31, 213, 0.28);
+  box-shadow: 0 12px 30px rgba(23, 37, 84, 0.08);
+  transform: translateY(-1px);
+}
+
+.ticket-match-card.active {
+  background: linear-gradient(180deg, #ffffff 0%, #f5f3ff 100%);
+}
+
+.ticket-match-select {
+  padding: 0;
+  color: #071331;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-weight: 850;
+  line-height: 1.2;
+}
+
+.ticket-match-select:hover,
+.ticket-match-select:focus-visible {
+  color: #351fd5;
+  outline: 0;
+}
+
+.ticket-match-card p {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 4px 0 0;
+}
+
+.ticket-match-action {
+  display: grid;
+  justify-items: end;
+  gap: 5px;
+  text-align: right;
+}
+
+.ticket-match-action strong {
+  font-size: 18px;
+}
+
+.ticket-empty {
+  padding: 18px;
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.ticket-market-note {
+  margin: 11px 0 0;
+  line-height: 1.45;
+}
+
 .seat-category-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1973,6 +2288,42 @@ img {
   color: #071331;
 }
 
+.match-ticket-card {
+  background:
+    linear-gradient(180deg, #ffffff 0%, #f7faff 100%);
+}
+
+.match-ticket-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid #dce3f2;
+  border-radius: 12px;
+  background: white;
+}
+
+.match-ticket-summary span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.match-ticket-summary strong {
+  display: block;
+  margin-top: 3px;
+  color: #071331;
+  font-size: 34px;
+  line-height: 1;
+}
+
+.match-ticket-summary .primary-button {
+  white-space: nowrap;
+  text-decoration: none;
+}
+
 .probability-list {
   display: grid;
   gap: 14px;
@@ -2573,8 +2924,17 @@ img {
 
   .stadiums-browser,
   .stadium-detail-hero,
-  .stadium-detail-grid {
+  .stadium-detail-grid,
+  .ticket-market-layout {
     grid-template-columns: 1fr;
+  }
+
+  .ticket-market-controls {
+    grid-template-columns: minmax(0, 1fr) minmax(180px, 0.7fr);
+  }
+
+  .ticket-market-feature {
+    position: static;
   }
 
   .stadium-grid {
@@ -2661,8 +3021,22 @@ img {
   .stadiums-panel-stats,
   .route-facts,
   .seat-category-list,
-  .fan-tip-grid {
+  .fan-tip-grid,
+  .ticket-market-controls,
+  .ticket-match-card,
+  .match-ticket-summary {
     grid-template-columns: 1fr;
+  }
+
+  .ticket-match-action,
+  .match-ticket-summary {
+    justify-items: start;
+    text-align: left;
+  }
+
+  .ticket-budget-row span {
+    width: 100%;
+    margin-left: 0;
   }
 
   .stadium-card {

@@ -645,6 +645,16 @@ type SeatGeekTicketInfo = {
   matches: StadiumMatch[];
 };
 
+export type TicketMarketMatch = StadiumMatch & {
+  slug: string;
+  stadiumId: string;
+  stadiumName: string;
+  city: string;
+  cityUrl: string;
+  sourceLabel: string;
+  lowestPrice: number | null;
+};
+
 const seatGeekTicketData: Record<string, SeatGeekTicketInfo> = {
   "bc-place": {
     startingAt: "$280",
@@ -829,6 +839,52 @@ const seatGeekTicketData: Record<string, SeatGeekTicketInfo> = {
 
 export function getSeatGeekTicketInfo(stadiumId: string) {
   return seatGeekTicketData[stadiumId];
+}
+
+export function getAllSeatGeekTicketMatches(): TicketMarketMatch[] {
+  return Object.entries(seatGeekTicketData).flatMap(([stadiumId, info]) => {
+    const stadium = worldCupStadiums.find((item) => item.id === stadiumId);
+    return info.matches.map((match) => ({
+      ...match,
+      slug: ticketSlugFromLabel(match.label),
+      stadiumId,
+      stadiumName: stadium?.name ?? info.sourceLabel.replace("SeatGeek ", ""),
+      city: stadium?.city ?? info.sourceLabel.replace("SeatGeek ", ""),
+      cityUrl: info.cityUrl,
+      sourceLabel: info.sourceLabel,
+      lowestPrice: ticketPriceNumber(match.price)
+    }));
+  });
+}
+
+export function getSeatGeekTicketForMatchSlug(slug: string) {
+  return getAllSeatGeekTicketMatches().find((match) => match.slug === slug);
+}
+
+function ticketPriceNumber(price?: string) {
+  const numeric = price?.replace(/[^\d]/g, "");
+  return numeric ? Number(numeric) : null;
+}
+
+function ticketSlugFromLabel(label: string) {
+  const [home, away] = label.split(/\s+vs\s+/i);
+  return [teamSlug(home), teamSlug(away)].filter(Boolean).join("-vs-");
+}
+
+function teamSlug(value = "") {
+  const alias: Record<string, string> = {
+    usa: "united-states",
+    "united states": "united-states",
+    turkey: "turkiye",
+    "dr congo": "dr-congo",
+    "congo dr": "dr-congo"
+  };
+  const cleaned = value
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^\p{Letter}\p{Number}\s-]/gu, "")
+    .trim();
+  return alias[cleaned] ?? cleaned.replace(/\s+/g, "-");
 }
 
 export function StadiumsPanel({ t, locale, matches }: StadiumsPanelProps) {
