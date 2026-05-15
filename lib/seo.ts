@@ -1,4 +1,5 @@
 import { allMatchDetails } from "@/lib/match-details";
+import { editorialArticles } from "@/lib/editorial-content";
 
 export const siteName = "CupMate";
 export const defaultSiteUrl = "https://cupmate.app";
@@ -55,6 +56,24 @@ export const primarySeoPages = [
     title: "World Cup 2026 News and Fan Planning Updates | CupMate",
     description:
       "Follow World Cup 2026 news through a fan-planning lens: tickets, stadium operations, transport, squads, host cities and event updates."
+  },
+  {
+    path: "/guides",
+    title: "World Cup 2026 Guides | CupMate",
+    description:
+      "Read practical World Cup 2026 guides for tickets, city schedules, MetLife Stadium, fan zones, viewing options, travel and official sources."
+  },
+  {
+    path: "/about",
+    title: "About CupMate | Independent World Cup 2026 Fan Planner",
+    description:
+      "Learn what CupMate is, how it uses official sources and why it is an independent fan-planning project for World Cup 2026."
+  },
+  {
+    path: "/contact",
+    title: "Contact CupMate | World Cup 2026 Fan Planning",
+    description:
+      "Contact CupMate about World Cup 2026 guide corrections, partnerships, source updates, city listings and fan-planning feedback."
   }
 ] as const;
 
@@ -83,7 +102,17 @@ export const stadiumGuides = [
   { slug: "att-stadium", name: "AT&T Stadium", city: "Arlington, Texas", capacity: "80,000+", matches: 9, transit: "Driving, shuttles and managed event transportation" },
   { slug: "estadio-azteca", name: "Estadio Azteca", city: "Mexico City, Mexico", capacity: "87,523", matches: 5, transit: "Tren Ligero to Estadio Azteca station" },
   { slug: "bmo-field", name: "BMO Field", city: "Toronto, Canada", capacity: "45,736", matches: 6, transit: "GO Transit or TTC to Exhibition Station" },
-  { slug: "bc-place", name: "BC Place", city: "Vancouver, Canada", capacity: "54,400", matches: 7, transit: "SkyTrain to Stadium-Chinatown or Yaletown-Roundhouse" }
+  { slug: "bc-place", name: "BC Place", city: "Vancouver, Canada", capacity: "54,400", matches: 7, transit: "SkyTrain to Stadium-Chinatown or Yaletown-Roundhouse" },
+  { slug: "estadio-bbva", name: "Estadio BBVA", city: "Guadalupe, Nuevo Leon, Mexico", capacity: "53,500", matches: 4, transit: "Metrorrey and event-day road approaches toward Guadalupe" },
+  { slug: "estadio-akron", name: "Estadio Akron", city: "Zapopan, Jalisco, Mexico", capacity: "49,850", matches: 4, transit: "Mi Macro Periferico connections, shuttles, taxi or rideshare" },
+  { slug: "arrowhead-stadium", name: "Arrowhead Stadium", city: "Kansas City, Missouri", capacity: "76,416", matches: 6, transit: "Event shuttles, rideshare and managed stadium-district parking" },
+  { slug: "nrg-stadium", name: "NRG Stadium", city: "Houston, Texas", capacity: "72,220", matches: 7, transit: "METRORail Red Line to Stadium Park/Astrodome area" },
+  { slug: "mercedes-benz-stadium", name: "Mercedes-Benz Stadium", city: "Atlanta, Georgia", capacity: "71,000+", matches: 8, transit: "MARTA rail to GWCC/CNN Center or Vine City" },
+  { slug: "lincoln-financial-field", name: "Lincoln Financial Field", city: "Philadelphia, Pennsylvania", capacity: "67,594", matches: 6, transit: "SEPTA Broad Street Line to NRG Station" },
+  { slug: "lumen-field", name: "Lumen Field", city: "Seattle, Washington", capacity: "68,740", matches: 6, transit: "Link light rail and downtown walking routes" },
+  { slug: "levis-stadium", name: "Levi's Stadium", city: "Santa Clara, California", capacity: "68,500", matches: 6, transit: "VTA light rail and South Bay transit connections" },
+  { slug: "gillette-stadium", name: "Gillette Stadium", city: "Foxborough, Massachusetts", capacity: "65,878", matches: 7, transit: "Special-event commuter rail, shuttles and stadium parking" },
+  { slug: "hard-rock-stadium", name: "Hard Rock Stadium", city: "Miami Gardens, Florida", capacity: "65,326", matches: 7, transit: "Rideshare, shuttles and regional transit links toward Miami Gardens" }
 ] as const;
 
 export const contentClusters = [
@@ -124,6 +153,43 @@ export function sitemapEntries() {
       lastModified: now,
       changeFrequency: "weekly" as const,
       priority: 0.75
-    }))
+    })),
+    ...editorialArticles.map((article) => ({
+      url: `${siteUrl}/guides/${article.slug}`,
+      lastModified: new Date(article.updatedAt),
+      changeFrequency: "weekly" as const,
+      priority: 0.72
+    })),
+    ...["new-york-new-jersey", "los-angeles", "dallas", "miami", "atlanta", "toronto", "vancouver", "mexico-city"].flatMap((slug) =>
+      ["where-to-watch", "fan-zones", "tickets"].map((kind) => ({
+        url: `${siteUrl}/host-cities/${slug}/${kind}`,
+        lastModified: now,
+        changeFrequency: "weekly" as const,
+        priority: 0.7
+      }))
+    )
   ];
+}
+
+export function guideSitemapEntries() {
+  const siteUrl = getSiteUrl();
+  return editorialArticles.map((article) => ({
+    url: `${siteUrl}/guides/${article.slug}`,
+    lastModified: new Date(article.updatedAt),
+    changeFrequency: "weekly" as const,
+    priority: 0.72
+  }));
+}
+
+export function localHostCitySitemapEntries() {
+  const siteUrl = getSiteUrl();
+  const now = new Date();
+  return ["new-york-new-jersey", "los-angeles", "dallas", "miami", "atlanta", "toronto", "vancouver", "mexico-city"].flatMap((slug) =>
+    ["where-to-watch", "fan-zones", "tickets"].map((kind) => ({
+      url: `${siteUrl}/host-cities/${slug}/${kind}`,
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: 0.7
+    }))
+  );
 }

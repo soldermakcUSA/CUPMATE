@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getSiteUrl, hostCityGuides } from "@/lib/seo";
+import { getLocalSeoLinks } from "./local-seo";
 
 type HostCityPageProps = { params: Promise<{ slug: string }> };
 
@@ -50,6 +51,7 @@ export default async function HostCityDetailPage({ params }: HostCityPageProps) 
       name: `${city.city} World Cup 2026 travel guide`
     }
   };
+  const localSeoLinks = getLocalSeoLinks(city.slug);
 
   return (
     <main className="seo-page">
@@ -82,6 +84,17 @@ export default async function HostCityDetailPage({ params }: HostCityPageProps) 
             <li>{city.city} fan zones and match-day travel</li>
           </ul>
         </article>
+        {localSeoLinks.length ? (
+          <article className="seo-card">
+            <h2>Local planning pages</h2>
+            <p>Selected host-city searches now have dedicated CupMate URLs for high-intent planning around places to watch, fan zones and tickets.</p>
+            <ul>
+              {localSeoLinks.map((link) => (
+                <li key={link.href}><Link href={link.href}>{city.city} {link.label}</Link></li>
+              ))}
+            </ul>
+          </article>
+        ) : null}
       </section>
     </main>
   );
