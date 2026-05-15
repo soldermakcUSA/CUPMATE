@@ -9,7 +9,7 @@ import { CommunityPanel } from "@/components/menu/CommunityPanel";
 import { FanZonesPanel } from "@/components/menu/FanZonesPanel";
 import { MatchesPanel } from "@/components/menu/MatchesPanel";
 import { ArticleReader, NewsPanel } from "@/components/menu/NewsPanel";
-import { StadiumsPanel } from "@/components/menu/StadiumsPanel";
+import { getSeatGeekTicketInfo, StadiumsPanel, worldCupStadiums } from "@/components/menu/StadiumsPanel";
 import { TicketsPanel } from "@/components/menu/TicketsPanel";
 import { TravelPanel } from "@/components/menu/TravelPanel";
 import { WatchPanel } from "@/components/menu/WatchPanel";
@@ -256,6 +256,17 @@ export default function CupMatePage() {
     const section = new URLSearchParams(window.location.search).get("section") as DesktopSection | null;
     if (section && desktopSections.includes(section)) {
       setDesktopSection(section);
+      const mobileSectionMap: Partial<Record<DesktopSection, Screen>> = {
+        dashboard: "home",
+        matches: "matches",
+        fanZones: "map",
+        stadiums: "stadium",
+        travel: "route",
+        watch: "watch",
+        community: "community",
+        assistant: "assistant"
+      };
+      setMobileScreen(mobileSectionMap[section] ?? "home");
     }
   }, []);
 
@@ -946,24 +957,45 @@ function MobileRoute({ t }: { t: typeof translations.en }) {
 }
 
 function MobileStadium({ t }: { t: typeof translations.en }) {
+  const [selectedId, setSelectedId] = useState(worldCupStadiums[5].id);
+  const selected = worldCupStadiums.find((stadium) => stadium.id === selectedId) ?? worldCupStadiums[0];
+  const ticketInfo = getSeatGeekTicketInfo(selected.id);
+  const mobileSchedule = ticketInfo?.matches ?? selected.schedule;
+
   return (
     <>
       <div className="stadium-hero">
         <div>
-          <h2>MetLife Stadium</h2>
-          <p>{t.eastRutherfordNj}</p>
+          <h2>{selected.name}</h2>
+          <p>{selected.city}</p>
         </div>
+      </div>
+      <div className="mobile-stadium-strip" aria-label={t.stadiums}>
+        {worldCupStadiums.map((stadium) => (
+          <button className={stadium.id === selected.id ? "active" : ""} key={stadium.id} onClick={() => setSelectedId(stadium.id)}>
+            <img src={stadium.images[0]} alt="" />
+            <span>{stadium.name}</span>
+          </button>
+        ))}
       </div>
       <div className="info-icons">
         {[ShieldCheck, WalletCards, Utensils, Ticket, CircleParking].map((Icon, index) => <button key={index} aria-label={t.helpfulInfo}><Icon size={19} /></button>)}
       </div>
       <h3>{t.helpfulInfo}</h3>
       <div className="mobile-list">
-        {[[t.gatesOpen, "2:00 PM"], [t.capacity, "82,500"], [t.parking, t.gatesBeforeKickoff], [t.cashlessVenue, t.viewAll], [t.prohibitedItems, t.viewAll]].map(([label, value]) => (
+        {[[t.gatesOpen, selected.gatesOpen], [t.capacity, selected.capacity], [t.parking, selected.parkingCost], [t.publicTransport, selected.transitCost], ["SeatGeek", ticketInfo?.startingAt ?? t.viewAll]].map(([label, value]) => (
           <div className="mobile-match" key={label}><span>{label}</span><strong>{value}</strong></div>
         ))}
       </div>
-      <button className="primary-button" style={{ width: "100%", marginTop: 18 }}>{t.viewStadiumMap}</button>
+      <div className="mobile-list">
+        {mobileSchedule.slice(0, 4).map((match) => (
+          <div className="mobile-match" key={`${selected.id}-${match.date}-${match.label}`}>
+            <span>{match.date} · {match.stage}</span>
+            <strong>{match.label}{match.price ? ` · ${match.price}` : ""}</strong>
+          </div>
+        ))}
+      </div>
+      <a className="primary-button" style={{ width: "100%", marginTop: 18, textDecoration: "none" }} href={selected.navigationUrl} target="_blank" rel="noreferrer">{t.routeToStadium}</a>
     </>
   );
 }

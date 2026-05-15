@@ -493,6 +493,394 @@ img {
   padding: 14px;
 }
 
+.stadiums-guide {
+  padding: 20px;
+}
+
+.stadiums-guide-head {
+  align-items: flex-start;
+}
+
+.stadiums-guide-subtitle {
+  max-width: 660px;
+  margin: 7px 0 0;
+  line-height: 1.45;
+}
+
+.stadiums-source-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.stadiums-browser {
+  display: grid;
+  grid-template-columns: minmax(260px, 330px) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.stadium-grid {
+  display: grid;
+  max-height: calc(100vh - 186px);
+  gap: 10px;
+  overflow: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: #c4c8d4 transparent;
+}
+
+.stadium-grid::-webkit-scrollbar {
+  width: 8px;
+}
+
+.stadium-grid::-webkit-scrollbar-thumb {
+  background: #c4c8d4;
+  border-radius: 999px;
+}
+
+.stadium-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: 8px 12px;
+  min-height: 104px;
+  padding: 10px;
+  color: inherit;
+  text-align: left;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: white;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.stadium-card:hover,
+.stadium-card:focus-visible,
+.stadium-card.active {
+  border-color: rgba(53, 31, 213, 0.32);
+  box-shadow: 0 14px 34px rgba(23, 37, 84, 0.09);
+  outline: 0;
+  transform: translateY(-1px);
+}
+
+.stadium-card.active {
+  background: linear-gradient(180deg, #ffffff 0%, #f6f4ff 100%);
+}
+
+.stadium-card img {
+  grid-row: 1 / 5;
+  width: 88px;
+  height: 84px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #eef2ff;
+}
+
+.stadium-card-country {
+  width: fit-content;
+  padding: 4px 7px;
+  color: #351fd5;
+  border-radius: 999px;
+  background: #f0edff;
+  font-size: 10px;
+  font-weight: 850;
+}
+
+.stadium-card strong,
+.stadium-card small,
+.stadium-card span:last-child {
+  min-width: 0;
+}
+
+.stadium-card strong {
+  line-height: 1.1;
+}
+
+.stadium-card small {
+  color: var(--muted);
+}
+
+.stadium-card span:last-child {
+  color: #475467;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.stadium-detail {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+
+.stadium-detail-hero {
+  display: grid;
+  grid-template-columns: minmax(290px, 1fr) minmax(280px, 0.78fr);
+  gap: 14px;
+}
+
+.stadium-gallery-main {
+  min-height: 430px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #eef2ff;
+}
+
+.stadium-gallery-main img,
+.stadium-gallery-thumbs img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.stadium-detail-summary,
+.stadium-info-card {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: white;
+}
+
+.stadium-detail-summary {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+}
+
+.stadium-detail-summary h3 {
+  margin: 0;
+  font-size: clamp(28px, 3vw, 42px);
+  line-height: 1.03;
+}
+
+.stadium-detail-summary p {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin: 0;
+}
+
+.stadium-detail-stats {
+  margin: 2px 0;
+}
+
+.stadium-gallery-thumbs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.stadium-gallery-thumbs button {
+  height: 68px;
+  overflow: hidden;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 9px;
+  background: #eef2ff;
+}
+
+.stadium-gallery-thumbs button.active {
+  border-color: #5b35f5;
+}
+
+.stadium-map-button {
+  width: fit-content;
+  margin-top: 4px;
+  text-decoration: none;
+}
+
+.stadium-detail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: 14px;
+}
+
+.stadium-card-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 13px;
+}
+
+.stadium-card-title h4 {
+  margin: 0;
+  font-size: 17px;
+}
+
+.stadium-info-card p {
+  margin: 0;
+  color: #344054;
+  line-height: 1.5;
+}
+
+.route-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 13px;
+}
+
+.ticket-price-banner {
+  display: grid;
+  gap: 3px;
+  margin-bottom: 12px;
+  padding: 15px;
+  color: white;
+  border-radius: 11px;
+  background: linear-gradient(135deg, #07142f, #245bff);
+}
+
+.ticket-price-banner span {
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.ticket-price-banner strong {
+  font-size: 30px;
+  line-height: 1;
+}
+
+.seat-category-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 13px 0;
+}
+
+.seat-category-list span {
+  display: grid;
+  gap: 4px;
+  padding: 11px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #f8f9fd;
+}
+
+.seat-category-list small {
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.stadium-ticket-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  width: fit-content;
+  margin-top: 10px;
+  padding: 0;
+}
+
+.route-facts span {
+  display: grid;
+  gap: 4px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #f8f9fd;
+}
+
+.route-facts svg {
+  color: #351fd5;
+}
+
+.route-facts small {
+  color: var(--muted);
+}
+
+.stadium-schedule-card {
+  padding-bottom: 8px;
+}
+
+.stadium-match-list {
+  display: grid;
+  gap: 8px;
+}
+
+.stadium-match-row {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr) minmax(96px, auto);
+  gap: 12px;
+  align-items: center;
+  min-height: 62px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fbfcff;
+}
+
+.stadium-match-row strong {
+  display: block;
+  line-height: 1.2;
+}
+
+.stadium-match-row p {
+  margin: 3px 0 0;
+}
+
+.stadium-match-meta {
+  display: grid;
+  justify-items: end;
+  gap: 3px;
+  text-align: right;
+}
+
+.stadium-match-meta strong {
+  color: #071331;
+  font-size: 13px;
+}
+
+.fan-tip-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.fan-tip-grid article {
+  display: grid;
+  gap: 7px;
+  min-height: 132px;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fbfcff;
+}
+
+.fan-tip-grid svg {
+  color: #351fd5;
+}
+
+.fan-tip-grid p {
+  margin: 0;
+}
+
+.stadium-utility-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.stadium-utility-strip span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 0 11px;
+  color: #172554;
+  border: 1px solid #dce3f2;
+  border-radius: 999px;
+  background: #f8faff;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.stadium-disclaimer {
+  margin: 0;
+  line-height: 1.45;
+}
+
 .stack {
   min-width: 0;
   display: grid;
@@ -1399,6 +1787,47 @@ img {
   margin-top: 16px;
 }
 
+.mobile-stadium-strip {
+  display: grid;
+  grid-auto-columns: 132px;
+  grid-auto-flow: column;
+  gap: 10px;
+  overflow-x: auto;
+  margin: 14px -18px 14px;
+  padding: 0 18px 4px;
+  scrollbar-width: none;
+}
+
+.mobile-stadium-strip::-webkit-scrollbar {
+  display: none;
+}
+
+.mobile-stadium-strip button {
+  display: grid;
+  gap: 7px;
+  padding: 8px;
+  color: #101828;
+  text-align: left;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: white;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.mobile-stadium-strip button.active {
+  border-color: rgba(91, 53, 245, 0.42);
+  background: #f6f4ff;
+}
+
+.mobile-stadium-strip img {
+  width: 100%;
+  height: 74px;
+  object-fit: cover;
+  border-radius: 9px;
+  background: #eef2ff;
+}
+
 .mobile-match,
 .place-row,
 .fan-row,
@@ -2141,6 +2570,24 @@ img {
   .squad-player-list {
     grid-template-columns: 1fr;
   }
+
+  .stadiums-browser,
+  .stadium-detail-hero,
+  .stadium-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stadium-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
+  }
+
+  .fan-tip-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
 }
 
 @media (max-width: 980px) {
@@ -2208,5 +2655,35 @@ img {
 
   .news-card {
     grid-template-columns: 96px 1fr;
+  }
+
+  .stadium-grid,
+  .stadiums-panel-stats,
+  .route-facts,
+  .seat-category-list,
+  .fan-tip-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stadium-card {
+    grid-template-columns: 82px minmax(0, 1fr);
+  }
+
+  .stadium-card img {
+    width: 82px;
+  }
+
+  .stadium-gallery-main {
+    min-height: 260px;
+  }
+
+  .stadium-match-row {
+    grid-template-columns: 48px minmax(0, 1fr);
+  }
+
+  .stadium-match-meta {
+    grid-column: 2;
+    justify-items: start;
+    text-align: left;
   }
 }
