@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SeoShell } from "@/components/SeoShell";
 import { SeoUpdated } from "@/components/SeoUpdated";
-import { newsSeoArticles } from "@/lib/news-seo-data";
+import { getNewsSeoArticles } from "@/lib/news-seo-supabase";
 import { primarySeoPages } from "@/lib/seo";
 
 const page = primarySeoPages.find((item) => item.path === "/news")!;
@@ -13,7 +13,9 @@ export const metadata: Metadata = {
   alternates: { canonical: page.path }
 };
 
-export default function NewsSeoPage() {
+export default async function NewsSeoPage() {
+  const articles = await getNewsSeoArticles();
+
   return (
     <SeoShell activeSection="news">
       <main className="seo-page">
@@ -29,7 +31,7 @@ export default function NewsSeoPage() {
         <SeoUpdated />
 
         <section className="seo-grid" aria-label="World Cup 2026 news articles">
-          {newsSeoArticles.map((article) => (
+          {articles.map((article) => (
             <article className="seo-card" key={article.slug}>
               <SeoUpdated date={article.updatedAt} prefix={article.category} />
               <h2><Link href={`/news/${article.slug}`}>{article.title}</Link></h2>

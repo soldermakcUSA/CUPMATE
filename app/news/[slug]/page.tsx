@@ -4,17 +4,18 @@ import { SeoBreadcrumbs } from "@/components/SeoBreadcrumbs";
 import { SeoRelatedLinks } from "@/components/SeoRelatedLinks";
 import { SeoShell } from "@/components/SeoShell";
 import { SeoUpdated } from "@/components/SeoUpdated";
-import { findNewsSeoArticle, newsArticleJsonLd, newsSeoArticles } from "@/lib/news-seo-data";
+import { newsArticleJsonLd } from "@/lib/news-seo-data";
+import { getNewsSeoArticleBySlug, getNewsSeoStaticParams } from "@/lib/news-seo-supabase";
 
 type NewsArticlePageProps = { params: Promise<{ slug: string }> };
 
-export function generateStaticParams() {
-  return newsSeoArticles.map((article) => ({ slug: article.slug }));
+export async function generateStaticParams() {
+  return getNewsSeoStaticParams();
 }
 
 export async function generateMetadata({ params }: NewsArticlePageProps): Promise<Metadata> {
   const { slug } = await params;
-  const article = findNewsSeoArticle(slug);
+  const article = await getNewsSeoArticleBySlug(slug);
 
   if (!article) {
     return { title: "World Cup 2026 News Not Found", robots: { index: false, follow: true } };
@@ -44,7 +45,7 @@ export async function generateMetadata({ params }: NewsArticlePageProps): Promis
 
 export default async function NewsArticlePage({ params }: NewsArticlePageProps) {
   const { slug } = await params;
-  const article = findNewsSeoArticle(slug);
+  const article = await getNewsSeoArticleBySlug(slug);
 
   if (!article) {
     return (

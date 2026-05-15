@@ -33,6 +33,13 @@ const newsImagesBySlug: Record<string, string> = {
 
 const newsImageFallbacks = Object.values(newsImagesBySlug);
 
+export function getNewsImageForSlugs(slugs: Array<string | undefined | null>, fallbackIndex = 0, remoteImage?: string | null): string {
+  const localSlug = slugs.find((slug): slug is string => Boolean(slug && newsImagesBySlug[slug]));
+  const localImage = localSlug ? newsImagesBySlug[localSlug] : undefined;
+  const fallbackImage = newsImageFallbacks[fallbackIndex % newsImageFallbacks.length];
+  return localImage ?? remoteImage ?? fallbackImage ?? NEWS_IMAGE_FALLBACK;
+}
+
 export type NewsItemData = {
   id?: string;
   slug?: string;
@@ -91,7 +98,7 @@ export async function fetchNewsItems(limit = 8, locale: Locale = "en"): Promise<
       text: fallbackCopy?.excerpt ?? translation?.excerpt ?? staticText(locale).genericArticleExcerpt,
       body: fallbackCopy?.body ?? translation?.body ?? translation?.excerpt ?? staticText(locale).genericArticleBody,
       meta: formatArticleMeta(item.category, item.published_at, locale),
-      image: (localImage && newsImagesBySlug[localImage]) || newsImageFallbacks[index % newsImageFallbacks.length] || item.image_url || NEWS_IMAGE_FALLBACK,
+      image: getNewsImageForSlugs([localImage], index, item.image_url),
       sourceUrl: item.source_url
     };
   });

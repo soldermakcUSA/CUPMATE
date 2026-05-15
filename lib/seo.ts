@@ -134,7 +134,8 @@ export const splitSitemaps = [
   { path: "/sitemap-matches.xml" },
   { path: "/sitemap-cities.xml" },
   { path: "/sitemap-stadiums.xml" },
-  { path: "/sitemap-guides.xml" }
+  { path: "/sitemap-guides.xml" },
+  { path: "/sitemap-news.xml" }
 ] as const;
 
 function weeklyEntry(url: string, lastModified: Date, priority: number): SitemapEntry {
