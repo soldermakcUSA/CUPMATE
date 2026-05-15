@@ -20,9 +20,27 @@ export const fanZones = [
 ];
 
 export const news = [
-  { title: "USA Ready to Welcome the World", text: "All 16 host cities are preparing for the best World Cup in history.", meta: "2h ago · News", image: "https://images.unsplash.com/photo-1534270804882-6b5048b1c1fc?auto=format&fit=crop&w=500&q=80" },
-  { title: "Tickets Update: Third Phase Sales Begin", text: "Additional tickets for group stage matches are now available.", meta: "5h ago · Tickets", image: "https://images.unsplash.com/photo-1556056504-5c7696c4c28d?auto=format&fit=crop&w=500&q=80" },
-  { title: "Top 10 Players to Watch in 2026", text: "From young talents to global superstars.", meta: "1d ago · Analysis", image: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=500&q=80" }
+  {
+    title: "Dai Dai becomes the official World Cup 2026 song",
+    text: "Shakira and Burna Boy's official track adds a new music and fan-event layer to tournament planning.",
+    body: "FIFA's official World Cup 2026 song is now out, with Shakira and Burna Boy combining Latin pop and Afrobeats on Dai Dai. The release gives the tournament a clearer cultural identity less than a month before kickoff.\n\nFor fans, this is more than a playlist update. Official songs usually travel through stadium build-up, broadcast packages, social clips, sponsor content and host-city fan festivals. That can change how early people arrive, which fan events become crowded and how much time supporters should leave around ceremonies.\n\nCupMate will track the practical side: where music programming appears, which fan events require registration and whether entertainment windows affect match-day transport or post-match movement.",
+    meta: "May 15 · Music",
+    image: "/assets/news/dai-dai-world-cup-song-shakira-burna-boy.png"
+  },
+  {
+    title: "PIF becomes a World Cup 2026 tournament supporter",
+    text: "FIFA's new commercial deal brings Saudi investment, gaming and entertainment companies into the fan-engagement layer.",
+    body: "FIFA named Saudi Arabia's Public Investment Fund as an official tournament supporter for World Cup 2026 in North America and Asia. The agreement includes PIF companies such as Savvy Games Group and Qiddiya City, connecting the tournament to sports investment, entertainment and digital engagement.\n\nFor supporters, commercial partnerships matter when they appear in useful places: fan zones, free activations, gaming tie-ins, hospitality areas or city programming. They do not change the match schedule, but they can shape what surrounds a match day.\n\nCupMate will keep these updates separate from ticket access. A sponsor experience can be useful, but fans still need official tickets, confirmed transport and clear registration details before building plans around it.",
+    meta: "May 14 · Commerce",
+    image: "/assets/news/pif-world-cup-tournament-supporter.png"
+  },
+  {
+    title: "Boston Stadium access rules tighten for World Cup match days",
+    text: "Officials are warning fans without tickets not to come to the stadium area, while trains, buses and parking need advance planning.",
+    body: "Boston's World Cup logistics are now practical enough for fans to plan around. Local officials are telling people without match tickets not to come to the Foxborough stadium area, where parking, tailgating and fan experiences will be limited to ticket holders.\n\nThe official Boston travel guide points to a pre-booked match-day model. Stadium trains, official express buses and parking all require planning ahead, and several options require proof of a match-day ticket before boarding or entering. Road traffic around Route 1 is expected to be heavy for hours around each match.\n\nCupMate users should save a primary transport mode, keep ticket proof accessible and choose a post-match meeting point away from the densest queues. Fans without stadium tickets should plan around Boston Fan Festival or approved watch parties instead.",
+    meta: "May 13 · Transport",
+    image: "/assets/news/boston-stadium-ticket-access-rules.png"
+  }
 ];
 
 export const itinerary = [

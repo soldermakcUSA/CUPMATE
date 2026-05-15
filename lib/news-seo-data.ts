@@ -21,6 +21,105 @@ export type NewsSeoArticle = {
 
 export const newsSeoArticles: NewsSeoArticle[] = [
   {
+    slug: "dai-dai-world-cup-song-shakira-burna-boy",
+    title: "Dai Dai becomes the official World Cup 2026 song: what fans should plan around",
+    description: "Shakira and Burna Boy released Dai Dai, the official FIFA World Cup 2026 song, adding music, ceremony and fan-event context before kickoff.",
+    category: "Music",
+    publishedAt: "2026-05-15",
+    updatedAt: "2026-05-15",
+    image: "/assets/news/dai-dai-world-cup-song-shakira-burna-boy.png",
+    sourceUrl: "https://www.fifa.com/en/articles/shakira-and-burna-boy-dai-dai-the-official-song",
+    sourceLabel: "FIFA",
+    summary:
+      "FIFA's official World Cup 2026 song is now out, with Shakira and Burna Boy combining Latin pop and Afrobeats on Dai Dai. The release matters for fans because music is becoming part of the tournament schedule itself: the track connects to ceremony programming, city fan events, broadcast moments and the wider Global Citizen education campaign around the final.",
+    impact: ["Expect Dai Dai across fan zones and broadcasts", "Track ceremony timing before booking tight match-day plans", "Use music news as a signal for host-city event demand"],
+    sections: [
+      {
+        title: "What changed",
+        body: "The official song gives the 2026 World Cup a clearer cultural identity less than a month before kickoff. FIFA and AP both reported the release on May 15, 2026, with Shakira returning to World Cup music and Burna Boy adding a major Afrobeats presence to the tournament soundtrack."
+      },
+      {
+        title: "Why this is more than a playlist update",
+        body: "Tournament music shapes how fans experience the event outside the 90 minutes. A recognizable official song tends to appear in stadium build-up, host-city fan festivals, social clips, sponsor content and broadcast packages. For traveling supporters, that can make fan zones and ceremony windows feel more like fixed parts of the itinerary rather than optional extras.",
+        bullets: ["Watch for host-city stages using the track in countdown programming", "Expect heavier interest around music-led fan events", "Check official event calendars before locking dinner or transport windows"]
+      },
+      {
+        title: "Connection to the final",
+        body: "The song arrives alongside a larger entertainment push around the New York New Jersey final. AP reported that the first World Cup final halftime show will support the FIFA Global Citizen Education Fund, which has a stated fundraising goal for education and soccer access. That makes the final a match, a broadcast event and a fundraising platform at the same time."
+      },
+      {
+        title: "CupMate planning note",
+        body: "Fans should treat music announcements as event-planning signals. They do not change tickets by themselves, but they can change crowd behavior: earlier arrivals, busier fan festivals, longer lines at public viewing sites and more people staying after matches for programmed entertainment."
+      }
+    ]
+  },
+  {
+    slug: "pif-world-cup-tournament-supporter",
+    title: "PIF becomes a World Cup 2026 tournament supporter in North America and Asia",
+    description: "FIFA named Saudi Arabia's Public Investment Fund as an official tournament supporter for World Cup 2026 in North America and Asia.",
+    category: "Commerce",
+    publishedAt: "2026-05-14",
+    updatedAt: "2026-05-15",
+    image: "/assets/news/pif-world-cup-tournament-supporter.png",
+    sourceUrl: "https://inside.fifa.com/tournament-organisation/commercial/media-releases/pif-official-tournament-supporter-world-cup-2026",
+    sourceLabel: "FIFA Inside",
+    summary:
+      "FIFA has added Saudi Arabia's Public Investment Fund as an official tournament supporter for World Cup 2026 across North America and Asia. The agreement brings PIF companies, including Savvy Games Group and Qiddiya City, into the tournament's commercial and fan-engagement layer, while also extending Saudi football positioning before the country hosts the 2034 World Cup.",
+    impact: ["More partner activations may appear in host-city spaces", "Gaming and entertainment tie-ins could become part of fan engagement", "Commercial news can affect the event layer around matches, not the match schedule"],
+    sections: [
+      {
+        title: "The deal",
+        body: "FIFA announced PIF as an official tournament supporter on May 14, 2026. The partnership covers North America and Asia and follows PIF's earlier FIFA Club World Cup 2025 relationship. FIFA's release says the agreement includes Savvy Games Group and Qiddiya City, pointing to fan engagement, entertainment and youth participation rather than a simple logo placement."
+      },
+      {
+        title: "Why fans should pay attention",
+        body: "Commercial partnerships often show up in the places supporters actually use: fan zones, digital games, public activations, travel promotions, hospitality areas and social content. This does not alter kickoff times or ticket rights, but it may shape the experiences built around high-demand matches in the United States, Canada and Mexico.",
+        bullets: ["Look for partner activations near official fan festivals", "Separate sponsor experiences from official ticket access", "Expect more tournament content aimed at younger and mobile-first fans"]
+      },
+      {
+        title: "The wider football context",
+        body: "AP framed the deal as another sign of Saudi Arabia's continued investment in global football. PIF is tied to the country's broader sports strategy, and Saudi Arabia has already secured hosting rights for the 2034 World Cup. That makes the 2026 agreement part of a longer FIFA and Saudi football relationship, not a one-off sponsorship."
+      },
+      {
+        title: "CupMate planning note",
+        body: "For supporters, the useful takeaway is practical: commercial announcements can preview where fan experiences will become denser. CupMate should keep tracking which activations are free, which require registration, which sit inside ticketed areas and which are only marketing content with no match-day value."
+      }
+    ]
+  },
+  {
+    slug: "boston-stadium-ticket-access-rules",
+    title: "Boston Stadium access rules: no ticket, no stadium lot on World Cup match days",
+    description: "Boston and Foxborough officials are warning fans that World Cup match-day stadium access, parking, trains and buses will be tightly controlled.",
+    category: "Transport",
+    publishedAt: "2026-05-13",
+    updatedAt: "2026-05-15",
+    image: "/assets/news/boston-stadium-ticket-access-rules.png",
+    sourceUrl: "https://www.axios.com/local/boston/2026/05/13/boston-stadium-gillette-foxborough-world-cup-tickets",
+    sourceLabel: "Axios Boston",
+    summary:
+      "Boston's World Cup logistics are now concrete enough for fans to plan around. Axios Boston reported that officials are telling people without match tickets not to come to the stadium area, while the official Boston fan travel guide says stadium trains, buses and parking require advance planning and proof of a match-day ticket.",
+    impact: ["Do not travel to Foxborough without a match ticket", "Book rail, bus or parking before match day", "Use Boston Fan Festival or watch parties if you do not have stadium access"],
+    sections: [
+      {
+        title: "What officials are saying",
+        body: "The Foxborough venue is being rebranded as Boston Stadium for the tournament, and local officials are drawing a hard line around access. Axios reported that parking spots and stadium-area fan experiences, including tailgating, will be limited to ticket holders. The clearest message for non-ticketed fans is to use Boston's Fan Festival or community watch parties instead of going to the stadium."
+      },
+      {
+        title: "Transport choices are limited",
+        body: "The official Boston fan travel guide says the stadium is normally 60 to 90 minutes from downtown Boston by road and can take longer with match traffic. It lists advance-purchase Boston Stadium trains from South Station to Foxboro Station, an official express bus network, prepaid parking and restricted local road access. The guide also notes that train and bus boarding can require proof of a match-day ticket.",
+        bullets: ["Commuter rail and express bus tickets should be booked in advance", "Parking needs a prepaid pass and corresponding match ticket", "Private drop-off around the stadium is restricted"]
+      },
+      {
+        title: "Security and timing",
+        body: "Axios reported that fans may be asked to show tickets multiple times before reaching their seats. The stadium lots are expected to open four hours before kickoff, while fan experience areas have their own opening and closing windows. That makes Boston a poor match for last-minute arrivals, tight restaurant reservations or rideshare plans that assume normal stadium traffic."
+      },
+      {
+        title: "CupMate planning note",
+        body: "Boston should be treated as a pre-booked travel day. Save the match, confirm the transport mode, keep ticket proof accessible and choose a post-match meeting point away from the heaviest queues. Fans without tickets should plan around City Hall Plaza Fan Festival capacity and registration instead of trying to get close to the stadium."
+      }
+    ]
+  },
+  {
     slug: "france-names-world-cup-squad-risser",
     title: "France World Cup squad news: Risser call-up adds a new planning note",
     description: "France's World Cup 2026 squad update, rewritten for fans tracking team alerts, likely lineups and group-stage planning.",

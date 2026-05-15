@@ -7,6 +7,8 @@ export const NEWS_IMAGE_FALLBACK = "/assets/news/los-angeles-world-cup-surface-f
 
 const newsImagesBySlug: Record<string, string> = {
   "brazil-ancelotti-extends-2030-world-cup": "/assets/news/brazil-ancelotti-extends-2030-world-cup.png",
+  "boston-stadium-ticket-access-rules": "/assets/news/boston-stadium-ticket-access-rules.png",
+  "dai-dai-world-cup-song-shakira-burna-boy": "/assets/news/dai-dai-world-cup-song-shakira-burna-boy.png",
   "fanatics-fest-nyc-fifa-final-weekend": "/assets/news/fanatics-fest-nyc-fifa-final-weekend.webp",
   "fifa-disciplinary-rules-world-cup-2026": "/assets/news/fifa-disciplinary-rules-world-cup-2026.webp",
   "france-names-world-cup-squad-risser": "/assets/news/france-names-world-cup-squad-risser.png",
@@ -17,6 +19,7 @@ const newsImagesBySlug: Record<string, string> = {
   "metlife-world-cup-train-fare-drops": "/assets/news/metlife-world-cup-train-fare-drops.webp",
   "mexico-city-azteca-world-cup-guide": "/assets/news/mexico-city-azteca-world-cup-guide.png",
   "nora-fatehi-world-cup-opening-ceremony-toronto": "/assets/news/nora-fatehi-world-cup-opening-ceremony-toronto.webp",
+  "pif-world-cup-tournament-supporter": "/assets/news/pif-world-cup-tournament-supporter.png",
   "plan-los-angeles-world-cup-experience": "/assets/news/plan-los-angeles-world-cup-experience.webp",
   "record-fifa-payouts-world-cup-2026": "/assets/news/record-fifa-payouts-world-cup-2026.webp",
   "seattle-world-cup-transit-plan": "/assets/news/seattle-world-cup-transit-plan.png",
