@@ -40,13 +40,13 @@ export const metadata: Metadata = {
     siteName,
     title: "CupMate | World Cup 2026 Match Planner for Fans",
     description: "Matches, stadiums, tickets, fan zones, travel routes and match-day planning for the 2026 FIFA World Cup.",
-    images: [{ url: "/assets/cupmate-social-preview.png", width: 1200, height: 630, alt: "CupMate World Cup 2026 planner" }]
+    images: [{ url: "/assets/cupmate-social-preview-v2.png", width: 1200, height: 630, alt: "CupMate World Cup 2026 planner" }]
   },
   twitter: {
     card: "summary_large_image",
     title: "CupMate | World Cup 2026 Match Planner for Fans",
     description: "Plan World Cup 2026 matches, stadiums, tickets, travel and fan zones.",
-    images: ["/assets/cupmate-social-preview.png"]
+    images: ["/assets/cupmate-social-preview-v2.png"]
   },
   icons: {
     icon: [

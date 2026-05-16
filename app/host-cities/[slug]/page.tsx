@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: HostCityPageProps): Promise<M
     openGraph: {
       title: `${city.city} World Cup 2026 Travel Guide`,
       description: `Practical World Cup 2026 planning for ${city.city}: stadium access, fan zones, tickets and transport.`,
-      images: ["/assets/cupmate-social-preview.png"]
+      images: ["/assets/cupmate-social-preview-v2.png"]
     }
   };
 }
