@@ -1,6 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-  <rect width="128" height="128" rx="28" fill="#06142f"/>
-  <path d="M64 14c17 0 31 14 31 31 0 11-6 21-15 27l8 34H40l8-34a31 31 0 0 1 16-58Z" fill="#6d4aff"/>
-  <path d="M46 45c0-10 8-18 18-18s18 8 18 18-8 18-18 18-18-8-18-18Z" fill="#fff"/>
-  <path d="M64 30v30M49 45h30" stroke="#245bff" stroke-width="8" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="70" y1="54" x2="444" y2="468" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#071a3d"/>
+      <stop offset="0.52" stop-color="#0a2d63"/>
+      <stop offset="1" stop-color="#07101f"/>
+    </linearGradient>
+    <linearGradient id="cup" x1="159" y1="112" x2="357" y2="418" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffe7a1"/>
+      <stop offset="0.45" stop-color="#f5b943"/>
+      <stop offset="1" stop-color="#c97916"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <circle cx="256" cy="256" r="178" fill="none" stroke="#1dd4c2" stroke-width="24" stroke-dasharray="92 34" opacity="0.9"/>
+  <path d="M166 146h180v74c0 53-33 98-78 113v41h58c14 0 26 12 26 26v14H160v-14c0-14 12-26 26-26h58v-41c-45-15-78-60-78-113v-74Z" fill="url(#cup)"/>
+  <path d="M346 174h40c25 0 45 20 45 45 0 39-31 70-70 70h-25v-34h25c20 0 36-16 36-36 0-6-5-11-11-11h-40v-34ZM166 174h-40c-25 0-45 20-45 45 0 39 31 70 70 70h25v-34h-25c-20 0-36-16-36-36 0-6 5-11 11-11h40v-34Z" fill="#f1a72f"/>
+  <path d="M199 184h114v33H199zM211 238h90v28h-90z" fill="#fff7d6" opacity="0.86"/>
+  <path d="M256 128v232" stroke="#fff3c4" stroke-width="10" stroke-linecap="round" opacity="0.45"/>
+  <path d="M198 422h116" stroke="#ffe2a0" stroke-width="18" stroke-linecap="round"/>
 </svg>
