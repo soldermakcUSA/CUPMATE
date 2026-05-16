@@ -27,13 +27,13 @@ export async function generateMetadata({ params }: GuidePageProps): Promise<Meta
       type: "article",
       title: article.title,
       description: article.description,
-      images: ["/assets/hero-world-cup-banner.png"]
+      images: ["/assets/cupmate-social-preview.png"]
     },
     twitter: {
       card: "summary_large_image",
       title: article.title,
       description: article.description,
-      images: ["/assets/hero-world-cup-banner.png"]
+      images: ["/assets/cupmate-social-preview.png"]
     }
   };
 }

@@ -167,7 +167,7 @@ export function buildLocalSeoMetadata(kind: LocalSeoKind, slug: string): Metadat
     openGraph: {
       title,
       description,
-      images: ["/assets/hero-world-cup-banner.png"]
+      images: ["/assets/cupmate-social-preview.png"]
     }
   };
 }

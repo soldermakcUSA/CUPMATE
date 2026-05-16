@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: StadiumPageProps): Promise<Me
     openGraph: {
       title: `${stadium.name} World Cup 2026 Stadium Guide`,
       description: `Plan matches at ${stadium.name}: capacity, transit, tickets and match-day fan logistics.`,
-      images: ["/assets/hero-world-cup-banner.png"]
+      images: ["/assets/cupmate-social-preview.png"]
     }
   };
 }

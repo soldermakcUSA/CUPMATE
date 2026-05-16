@@ -44,13 +44,13 @@ export async function generateMetadata({ params }: MatchPageProps): Promise<Meta
       title,
       description,
       url: path,
-      images: [{ url: "/assets/hero-world-cup-banner.png", width: 1200, height: 630, alt: `${detail.home.name} vs ${detail.away.name} World Cup 2026` }]
+      images: [{ url: "/assets/cupmate-social-preview.png", width: 1200, height: 630, alt: `${detail.home.name} vs ${detail.away.name} World Cup 2026` }]
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: ["/assets/hero-world-cup-banner.png"]
+      images: ["/assets/cupmate-social-preview.png"]
     }
   };
 }
