@@ -21,6 +21,205 @@ export type NewsSeoArticle = {
 
 export const newsSeoArticles: NewsSeoArticle[] = [
   {
+    slug: "belgium-world-cup-squad-lukaku-core",
+    title: "Belgium names experienced World Cup squad with Lukaku in the core",
+    description: "Rudi Garcia has named Belgium's 26-player World Cup squad, leaning on Lukaku, De Bruyne, Courtois and other senior names for Group G.",
+    category: "Teams",
+    publishedAt: "2026-05-15",
+    updatedAt: "2026-05-17",
+    image: "/assets/news/belgium-world-cup-squad-lukaku-core.png",
+    sourceUrl: "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/belgium-squad-garcia-lukaku-named",
+    sourceLabel: "FIFA",
+    summary:
+      "Belgium's World Cup picture is clearer after Rudi Garcia named a 26-player squad built around the country's senior core. FIFA reported that Romelu Lukaku, Kevin De Bruyne, Thibaut Courtois, Thomas Meunier and Axel Witsel are included, with Belgium preparing for Group G matches against Egypt, IR Iran and New Zealand.",
+    impact: ["Belgium fans can now anchor travel plans around a largely familiar squad","Seattle, Los Angeles and Vancouver matches gain clearer player storylines","Lukaku's fitness and form will shape expectations before Group G begins"],
+    sections: [
+      {
+        title: "The squad signal",
+        body: "Garcia has chosen continuity rather than a sharp reset. The headline is not just that Belgium has named stars; it is that several long-serving players remain central to the plan even as the team tries to manage age, recent injuries and a changing competitive identity."
+      },
+      {
+        title: "Why Lukaku still matters",
+        body: "Lukaku's inclusion gives Belgium a clear focal point in attack. For traveling supporters, that affects more than prediction debates: it shapes which matches feel like must-see fixtures, how fan groups build pre-match energy and what neutral fans may expect from Belgium's group-stage style.",
+        bullets: ["Belgium open against Egypt at Seattle Stadium on June 15","They face IR Iran at Los Angeles Stadium on June 21","Their group stage closes against New Zealand at BC Place Vancouver on June 26"]
+      },
+      {
+        title: "Planning around Group G",
+        body: "The three-city route gives Belgian supporters a demanding West Coast itinerary. Fans following the team need to think beyond match tickets: Seattle-to-Los Angeles and Los Angeles-to-Vancouver movement, hotel buffers, border timing for Canada and recovery days all become part of the football plan."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users tracking Belgium should save the Group G route now and add flexible travel reminders around the Vancouver finale. A squad built around high-profile veterans can draw extra neutral demand, especially when Belgium play in host cities with strong international visitor traffic."
+      }
+    ]
+  },
+  {
+    slug: "tunisia-world-cup-squad-khedira-rebuild",
+    title: "Tunisia's World Cup squad points to a Lamouchi rebuild before Group F",
+    description: "Sabri Lamouchi has named a much-changed Tunisia squad for the World Cup, with Rani Khedira among the notable new pieces before Group F.",
+    category: "Teams",
+    publishedAt: "2026-05-15",
+    updatedAt: "2026-05-17",
+    image: "/assets/news/tunisia-world-cup-squad-khedira-rebuild.png",
+    sourceUrl: "https://www.fifa.com/en/articles/tunisia-squad-named-sabri-lamouchi",
+    sourceLabel: "FIFA",
+    summary:
+      "Tunisia's World Cup squad carries a clear reset message. FIFA reported that Sabri Lamouchi has selected a 26-player group that differs sharply from the 2025 Africa Cup of Nations roster, with Rani Khedira set for his first official competitive Tunisia appearance and Group F matches waiting against Sweden, Japan and the Netherlands.",
+    impact: ["Tunisia supporters should recheck player alerts and expected lineups","Monterrey becomes a two-match hub for Tunisia fans","The Kansas City match against the Netherlands could carry major travel demand"],
+    sections: [
+      {
+        title: "A changed squad",
+        body: "Lamouchi has not simply rolled forward the last tournament group. The inclusion of new profiles, including Khedira, shows Tunisia trying to refresh parts of the team before entering a group that requires different types of match plans."
+      },
+      {
+        title: "The Group F route",
+        body: "Tunisia's first two matches are both in Monterrey, against Sweden on June 14 and Japan on June 20. The third match sends fans to Kansas City for Tunisia against the Netherlands on June 25, a move that turns this campaign into both a football and travel-planning challenge.",
+        bullets: ["Back-to-back Monterrey matches can simplify hotel planning","Kansas City requires a separate transport and accommodation block","Fans should watch official team updates before locking watch-party plans"]
+      },
+      {
+        title: "What fans should watch",
+        body: "The practical question is how quickly Tunisia's newer pieces settle. Squad changes can alter formation, set-piece roles and captaincy dynamics, which affects how supporters interpret warm-up news and whether a group-stage lineup is stable or still being tested."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users following Tunisia should treat Monterrey as a base and Kansas City as a separate trip segment. Save both stadium routes, monitor official squad confirmation on June 2 and avoid assuming Africa Cup of Nations lineups still describe this team."
+      }
+    ]
+  },
+  {
+    slug: "philadelphia-fan-festival-parking-permits",
+    title: "Philadelphia adds parking permits around its World Cup Fan Festival",
+    description: "Axios reports that Philadelphia will require special permits near Lemon Hill as the city's World Cup Fan Festival prepares for daily crowds.",
+    category: "Transport",
+    publishedAt: "2026-05-13",
+    updatedAt: "2026-05-17",
+    image: "/assets/news/philadelphia-fan-festival-parking-permits.png",
+    sourceUrl: "https://www.axios.com/local/philadelphia/2026/05/13/world-cup-parking-restrictions-lemon-hill-fan-festival",
+    sourceLabel: "Axios Philadelphia",
+    summary:
+      "Philadelphia is moving from general Fan Festival planning to neighborhood-level traffic control. Axios Philadelphia reported that non-resident vehicles parking near Lemon Hill will need a special permit from June 11 through July 19, with the festival expected to draw roughly 15,000 to 20,000 people per day in Fairmount Park.",
+    impact: ["Fans should avoid driving directly to Lemon Hill unless they have a confirmed plan","Residents and local businesses need permit steps before June 11","Transit, rideshare and walking routes will matter for all 39 tournament days"],
+    sections: [
+      {
+        title: "The new restriction",
+        body: "The permit zone is designed to keep tournament traffic from overwhelming residential streets around Fairmount Park. Axios reported that the zone will cover parts of Fairmount and Brewerytown, with increased patrols and possible towing for violations."
+      },
+      {
+        title: "Why this matters for fans",
+        body: "Philadelphia's Fan Festival is one of the biggest no-ticket World Cup experiences in the United States because it runs for the full tournament. That makes parking pressure a daily issue, not a one-off match-day problem around Lincoln Financial Field.",
+        bullets: ["Plan around SEPTA, PHLASH, rideshare or walking connections","Do not assume side-street parking will be available near Lemon Hill","Leave extra time for security screening and festival entry"]
+      },
+      {
+        title: "Resident impact",
+        body: "The system also affects locals. Residents with regular parking permits still need special approval, and businesses can request visitor day passes. That means fans staying with friends or short-term rentals near the festival should confirm parking rules before arrival."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users should save the Fan Festival as a transit-first destination. If the plan includes a match at the South Philadelphia stadium and a Lemon Hill visit on the same day, treat them as separate mobility zones and avoid relying on a single parking strategy."
+      }
+    ]
+  },
+  {
+    slug: "los-angeles-fan-fest-neighborhood-zones",
+    title: "Los Angeles World Cup fan zones spread beyond the Coliseum",
+    description: "El Pais reports that Los Angeles will pair a paid Coliseum Fan Festival with neighborhood fan zones across the region during the World Cup.",
+    category: "Fan Experience",
+    publishedAt: "2026-05-15",
+    updatedAt: "2026-05-17",
+    image: "/assets/news/los-angeles-fan-fest-neighborhood-zones.png",
+    sourceUrl: "https://elpais.com/us/2026-05-15/los-angeles-enciende-la-fiebre-mundialista-con-zonas-fan-fest-ubicadas-en-la-playa-y-recintos-iconicos-de-la-ciudad.html",
+    sourceLabel: "El Pais US",
+    summary:
+      "Los Angeles is taking a hybrid approach to World Cup watching. El Pais US reported that the official FIFA Fan Festival at the Los Angeles Memorial Coliseum will run June 11-14 with paid entry, while a wider network of neighborhood fan zones will bring match broadcasts and cultural programming to sites such as Original Farmers Market, Union Station, Hansen Dam, Magic Johnson Park, Venice Beach and Fairplex.",
+    impact: ["Fans should choose between the paid Coliseum opener and free neighborhood events","Neighborhood dates differ, so not every zone works for every match","Beach, transit hub and park locations require different transport plans"],
+    sections: [
+      {
+        title: "The hybrid model",
+        body: "Los Angeles is not relying on one central public-viewing site for the full tournament. The opening stretch is built around the Coliseum, while later dates spread across the region. That gives fans more options but also makes planning more fragmented."
+      },
+      {
+        title: "What is confirmed",
+        body: "El Pais listed neighborhood sites including Original Farmers Market from June 18-21, Union Station from June 25-28, Hansen Dam Lake from July 2-5, Magic Johnson Park from July 4-5, Whittier Narrows from July 9-11, Venice Beach on July 11 and Fairplex across selected dates in mid-July.",
+        bullets: ["The Coliseum Fan Festival covers the opening window","Community zones extend the experience after the official opener","Fans should match each zone to its active dates before traveling"]
+      },
+      {
+        title: "Why it matters for visitors",
+        body: "Los Angeles distances can turn a casual watch-party choice into a major logistics decision. A beach event, a Union Station event and a Fairplex event are not interchangeable, especially for fans also planning SoFi Stadium match days in Inglewood."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users should save Los Angeles watch sites by date, not just by name. The best plan is to pair each fan zone with a transit route, a realistic rideshare pickup area and a backup venue in case capacity or security lines change the day."
+      }
+    ]
+  },
+  {
+    slug: "vancouver-fan-festival-express-bus-plan",
+    title: "Vancouver points fans to an express bus for the Hastings Park Fan Festival",
+    description: "Vancouver 2026 says the Fan Festival Express bus will link SkyTrain stations with Hastings Park during peak World Cup viewing periods.",
+    category: "Transport",
+    publishedAt: "2026-05-17",
+    updatedAt: "2026-05-17",
+    image: "/assets/news/vancouver-fan-festival-express-bus-plan.png",
+    sourceUrl: "https://www.vancouverfwc26.ca/know-before-you-go/getting-to-fifa-fan-festival",
+    sourceLabel: "Vancouver 2026",
+    summary:
+      "Vancouver's official Fan Festival guidance is now detailed enough for practical route planning. The host committee says the free-to-enter Hastings Park festival will be served by the 11 Fan Festival Express bus from 29th Avenue SkyTrain Station and Renfrew Station, running every five minutes during peak hours, with limited parking and early arrival recommended.",
+    impact: ["Fans should enter PNE, not a nonexistent Hastings Park SkyTrain stop, as the destination","The express bus makes SkyTrain-to-festival transfers central to the plan","Bag limits and arrival buffers matter for high-demand matches and concerts"],
+    sections: [
+      {
+        title: "The transit route",
+        body: "The key instruction is simple: use SkyTrain, then transfer to the dedicated express bus. Vancouver 2026 says service will run from 29th Avenue on the Expo Line and Renfrew on the Millennium Line to the PNE grounds at Hastings Park."
+      },
+      {
+        title: "Why early arrival matters",
+        body: "The guidance recommends arriving at least one hour before match broadcasts and live performances for free viewing areas. Fans with amphitheatre tickets are advised to arrive 30 to 60 minutes before kickoff. Those windows matter because security screening, capacity and transfer queues can all stack up.",
+        bullets: ["Use transit, walking, biking, taxi, ride-hailing or carpooling where possible","Expect limited parking at the festival site","Check bag dimensions and prohibited items before leaving"]
+      },
+      {
+        title: "Festival versus stadium days",
+        body: "Vancouver's match stadium and Fan Festival are not the same trip. BC Place sits near downtown SkyTrain access, while the PNE site requires a separate Hastings Park plan. Fans trying to do both in one day should treat the transfer as a real itinerary leg."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users should save the PNE as the Fan Festival destination, add the preferred SkyTrain station, and keep a backup arrival route for Canada matches or major concerts. The practical win is avoiding a last-minute search for parking near Hastings Park."
+      }
+    ]
+  },
+  {
+    slug: "dallas-world-cup-transport-mobility-maps",
+    title: "Dallas publishes World Cup mobility maps for stadium, Fan Festival and IBC trips",
+    description: "Dallas 2026 is pointing fans to GoPass, transit links, road closures and pedestrian-priority corridors across North Texas.",
+    category: "Transport",
+    publishedAt: "2026-05-17",
+    updatedAt: "2026-05-17",
+    image: "/assets/news/dallas-world-cup-transport-mobility-maps.png",
+    sourceUrl: "https://www.dallasfwc26.com/dallas-2026/transportation-mobility/",
+    sourceLabel: "Dallas 2026",
+    summary:
+      "Dallas 2026 has turned its regional mobility plan into a fan-facing planning page. The host committee highlights GoPass for transit ticketing and trip planning, maps connecting Dallas Stadium, Fair Park's FIFA Fan Festival, the International Broadcast Center, rail lines and walking routes, and notes downtown Dallas road closures tied to tournament operations.",
+    impact: ["Fans should separate Arlington stadium trips from Dallas Fan Festival trips","GoPass becomes the main digital planning tool for regional transit","Downtown road closures can affect hotels, media areas and rideshare timing"],
+    sections: [
+      {
+        title: "What Dallas is telling fans",
+        body: "The Dallas page frames mobility as a regional system rather than a single stadium route. Matches are in Arlington, the Fan Festival is at Fair Park in Dallas, the International Broadcast Center is downtown and team base camps sit in other North Texas locations."
+      },
+      {
+        title: "The GoPass role",
+        body: "GoPass is presented as the digital tool for tickets, route planning, live vehicle tracking and service alerts across agencies such as DART, Trinity Metro and DCTA. For visitors, that matters because a match-day plan may cross multiple transit systems.",
+        bullets: ["Install and test GoPass before the first match day","Check stadium, fan festival and hotel routes separately","Watch for downtown closures from late May through late July"]
+      },
+      {
+        title: "Road closures and priority corridors",
+        body: "Dallas 2026 says the maps show planned road closures, special transit services and pedestrian-priority corridors. One downtown note says FIFA plans to fully close Griffin Street between Canton Street and Ceremonial Drive from May 26 until July 23."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users should avoid saving one generic Dallas route for everything. The practical setup is three saved places: Dallas Stadium, Fair Park Fan Festival and the downtown IBC area, each with its own transit option, rideshare backup and walking segment."
+      }
+    ]
+  },
+
+  {
     slug: "world-cup-scam-warning-ticket-travel-apps",
     title: "World Cup scam warnings now include tickets, hotels and transport apps",
     description: "Kaspersky warnings reported by TechRadar show scammers targeting World Cup fans with fake tickets, accommodation offers, transport apps and business emails.",

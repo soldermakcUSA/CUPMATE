@@ -7,6 +7,12 @@ import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 export const NEWS_IMAGE_FALLBACK = "/assets/news/los-angeles-world-cup-surface-final-prep.webp";
 
 const newsImagesBySlug: Record<string, string> = {
+  "belgium-world-cup-squad-lukaku-core": "/assets/news/belgium-world-cup-squad-lukaku-core.png",
+  "tunisia-world-cup-squad-khedira-rebuild": "/assets/news/tunisia-world-cup-squad-khedira-rebuild.png",
+  "philadelphia-fan-festival-parking-permits": "/assets/news/philadelphia-fan-festival-parking-permits.png",
+  "los-angeles-fan-fest-neighborhood-zones": "/assets/news/los-angeles-fan-fest-neighborhood-zones.png",
+  "vancouver-fan-festival-express-bus-plan": "/assets/news/vancouver-fan-festival-express-bus-plan.png",
+  "dallas-world-cup-transport-mobility-maps": "/assets/news/dallas-world-cup-transport-mobility-maps.png",
   "brazil-ancelotti-extends-2030-world-cup": "/assets/news/brazil-ancelotti-extends-2030-world-cup.png",
   "boston-stadium-ticket-access-rules": "/assets/news/boston-stadium-ticket-access-rules.png",
   "california-fifa-ticketing-practices-letter": "/assets/news/california-fifa-ticketing-practices-letter-photo.png",
