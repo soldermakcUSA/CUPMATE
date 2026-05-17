@@ -27,7 +27,7 @@ export const newsSeoArticles: NewsSeoArticle[] = [
     category: "Travel",
     publishedAt: "2026-05-13",
     updatedAt: "2026-05-17",
-    image: "/assets/news/world-cup-visa-bond-waiver-ticket-holders.png",
+    image: "/assets/news/world-cup-visa-bond-waiver-ticket-holders-photo.png",
     sourceUrl: "https://apnews.com/article/trump-world-cup-visa-bonds-a3a165fb5c2d215c5cd237d7a2e783ad",
     sourceLabel: "AP News",
     summary:
@@ -60,7 +60,7 @@ export const newsSeoArticles: NewsSeoArticle[] = [
     category: "Tickets",
     publishedAt: "2026-05-14",
     updatedAt: "2026-05-17",
-    image: "/assets/news/california-fifa-ticketing-practices-letter.png",
+    image: "/assets/news/california-fifa-ticketing-practices-letter-photo.png",
     sourceUrl: "https://as.com/us/futbol/mundial/california-pide-respuestas-a-fifa-por-irregularidades-en-venta-de-boletos-al-mundial-f202605-n/",
     sourceLabel: "AS USA",
     summary:

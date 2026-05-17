@@ -9,7 +9,7 @@ export const NEWS_IMAGE_FALLBACK = "/assets/news/los-angeles-world-cup-surface-f
 const newsImagesBySlug: Record<string, string> = {
   "brazil-ancelotti-extends-2030-world-cup": "/assets/news/brazil-ancelotti-extends-2030-world-cup.png",
   "boston-stadium-ticket-access-rules": "/assets/news/boston-stadium-ticket-access-rules.png",
-  "california-fifa-ticketing-practices-letter": "/assets/news/california-fifa-ticketing-practices-letter.png",
+  "california-fifa-ticketing-practices-letter": "/assets/news/california-fifa-ticketing-practices-letter-photo.png",
   "dai-dai-world-cup-song-shakira-burna-boy": "/assets/news/dai-dai-world-cup-song-shakira-burna-boy.png",
   "fanatics-fest-nyc-fifa-final-weekend": "/assets/news/fanatics-fest-nyc-fifa-final-weekend.webp",
   "fifa-disciplinary-rules-world-cup-2026": "/assets/news/fifa-disciplinary-rules-world-cup-2026.webp",
@@ -29,7 +29,7 @@ const newsImagesBySlug: Record<string, string> = {
   "us-hotels-world-cup-demand-check": "/assets/news/us-hotels-world-cup-demand-check.webp",
   "visa-hdfc-world-cup-fan-access-promotion": "/assets/news/visa-hdfc-world-cup-fan-access-promotion.webp",
   "world-cup-final-halftime-show-lineup": "/assets/news/world-cup-final-halftime-show-lineup.png",
-  "world-cup-visa-bond-waiver-ticket-holders": "/assets/news/world-cup-visa-bond-waiver-ticket-holders.png",
+  "world-cup-visa-bond-waiver-ticket-holders": "/assets/news/world-cup-visa-bond-waiver-ticket-holders-photo.png",
   "world-cup-2026-referees-appointed": "/assets/news/world-cup-2026-referees-appointed.webp",
   "world-cup-2026-squad-size-26": "/assets/news/world-cup-2026-squad-size-26.webp"
 };
