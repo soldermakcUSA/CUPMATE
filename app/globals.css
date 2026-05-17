@@ -1316,6 +1316,14 @@ img {
   padding-bottom: 2px;
 }
 
+.section-footer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
 .match-card {
   min-height: 190px;
   padding: 18px;

@@ -433,7 +433,7 @@ function DesktopContent({
       <div className="content-grid">
         <section className="stack">
           <Hero t={t} setSection={setSection} />
-          <NextMatches t={t} setSection={setSection} matches={matches} />
+          <NextMatches t={t} matches={matches} />
           <NewsSection t={t} news={news} />
           <FanZonesSection t={t} places={places} />
         </section>
@@ -517,7 +517,7 @@ function MenuSection({
         <div className="content-grid">
           <section className="stack">
             <Hero t={t} setSection={() => undefined} />
-            <NextMatches t={t} setSection={() => undefined} matches={matches} />
+            <NextMatches t={t} matches={matches} />
           </section>
           <aside className="right-rail">
             <MapPanel t={t} activeChip={activeChip} setActiveChip={setActiveChip} places={places} />
@@ -576,12 +576,16 @@ function Hero({ t, setSection }: { t: typeof translations.en; setSection: (secti
   );
 }
 
-function NextMatches({ t, setSection, matches }: { t: typeof translations.en; setSection: (section: DesktopSection) => void; matches: MatchCardData[] }) {
+function NextMatches({ t, matches }: { t: typeof translations.en; matches: MatchCardData[] }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const visibleMatches = isExpanded ? matches : matches.slice(0, 4);
+  const canExpand = matches.length > 4;
+
   return (
     <section className="section-card">
-      <SectionHead title={t.nextMatches} action={t.viewFullSchedule} onAction={() => setSection("matches")} />
+      <SectionHead title={t.nextMatches} action={t.viewFullSchedule} actionHref="/world-cup-2026-schedule" />
       <div className="match-row">
-        {matches.map((match) => (
+        {visibleMatches.map((match) => (
           <article className="match-card" key={`${match.home}-${match.away}`}>
             <p className="small muted" style={{ textAlign: "center" }}>{match.group}</p>
             <div className="match-flags">
@@ -595,6 +599,14 @@ function NextMatches({ t, setSection, matches }: { t: typeof translations.en; se
           </article>
         ))}
       </div>
+      {canExpand && (
+        <div className="section-footer-actions">
+          <button className="link-button" type="button" onClick={() => setIsExpanded((current) => !current)}>
+            {isExpanded ? t.hideMatches : t.showAllMatches}
+          </button>
+          <Link className="link-button" href="/world-cup-2026-schedule">{t.viewFullSchedule}</Link>
+        </div>
+      )}
     </section>
   );
 }
@@ -604,7 +616,7 @@ function NewsSection({ t, news }: { t: typeof translations.en; news: NewsItemDat
 
   return (
     <section className="section-card">
-      <SectionHead title={t.newsUpdates} action={t.viewAllNews} />
+      <SectionHead title={t.newsUpdates} action={t.viewAllNews} actionHref="/news" />
       <div className="news-grid">
         {news.slice(0, 3).map((item) => (
           <button className="news-card news-card-button" key={item.id ?? item.title} type="button" onClick={() => setSelectedArticle(item)}>
@@ -649,11 +661,15 @@ function FanZoneCard({ zone }: { zone: PlaceCardData }) {
   );
 }
 
-function SectionHead({ title, action, onAction }: { title: string; action: string; onAction?: () => void }) {
+function SectionHead({ title, action, onAction, actionHref }: { title: string; action: string; onAction?: () => void; actionHref?: string }) {
   return (
     <div className="section-head">
       <h2>{title}</h2>
-      <button className="link-button" onClick={onAction}>{action}</button>
+      {actionHref ? (
+        <Link className="link-button" href={actionHref}>{action}</Link>
+      ) : (
+        <button className="link-button" onClick={onAction}>{action}</button>
+      )}
     </div>
   );
 }
