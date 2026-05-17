@@ -1,6 +1,7 @@
 import { pickLocalizedTranslation, localizedDateFormatterLocale } from "@/lib/content-localization";
 import type { Locale } from "@/lib/i18n";
 import { staticText } from "@/lib/localized-static-data";
+import { newsSeoArticles } from "@/lib/news-seo-data";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 
 export const NEWS_IMAGE_FALLBACK = "/assets/news/los-angeles-world-cup-surface-final-prep.webp";
@@ -80,10 +81,10 @@ export async function fetchNewsItems(limit = 8, locale: Locale = "en"): Promise<
     .limit(limit);
 
   if (error) {
-    throw error;
+    return getLocalNewsItems(limit, locale);
   }
 
-  return (data ?? []).map((item: any, index: number) => {
+  const supabaseItems = (data ?? []).map((item: any, index: number) => {
     const translations = item.article_translations ?? [];
     const translation = pickLocalizedTranslation<any>(translations, locale);
     const isRequestedLanguage = translation?.language_code === locale || locale === "en";
@@ -104,6 +105,8 @@ export async function fetchNewsItems(limit = 8, locale: Locale = "en"): Promise<
       sourceUrl: item.source_url
     };
   });
+
+  return mergeNewsItems(supabaseItems, getLocalNewsItems(limit, locale)).slice(0, limit);
 }
 
 export async function fetchPlaces(limit = 10, locale: Locale = "en"): Promise<PlaceCardData[]> {
@@ -154,6 +157,42 @@ function formatArticleMeta(category: string | null, publishedAt: string | null, 
     ? new Intl.DateTimeFormat(localizedDateFormatterLocale(locale), { month: "short", day: "numeric" }).format(new Date(publishedAt))
     : latestFallback(locale);
   return [date, localizeCategory(category, locale) ?? newsFallback(locale)].join(" · ");
+}
+
+function getLocalNewsItems(limit: number, locale: Locale): NewsItemData[] {
+  return newsSeoArticles.slice(0, limit).map((article) => {
+    const body = [
+      article.summary,
+      ...article.sections.map((section) =>
+        [section.body, ...(section.bullets ?? []).map((bullet) => `- ${bullet}`)].join("\n")
+      )
+    ].join("\n\n");
+
+    return {
+      id: `local-${article.slug}`,
+      slug: article.slug,
+      title: article.title,
+      text: article.description,
+      body: locale === "en" ? body : fullArticleBody(locale, localizeCategory(article.category, locale)),
+      meta: formatArticleMeta(article.category, `${article.publishedAt}T12:00:00+00:00`, locale),
+      image: article.image,
+      sourceUrl: article.sourceUrl
+    };
+  });
+}
+
+function mergeNewsItems(primary: NewsItemData[], fallback: NewsItemData[]) {
+  const seen = new Set<string>();
+  const merged: NewsItemData[] = [];
+
+  for (const item of [...fallback, ...primary]) {
+    const key = item.sourceUrl || item.slug || item.id || item.title;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    merged.push(item);
+  }
+
+  return merged;
 }
 
 const placeTypeLabels: Partial<Record<Locale, Record<string, string>>> = {
