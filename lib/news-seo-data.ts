@@ -21,6 +21,72 @@ export type NewsSeoArticle = {
 
 export const newsSeoArticles: NewsSeoArticle[] = [
   {
+    slug: "world-cup-scam-warning-ticket-travel-apps",
+    title: "World Cup scam warnings now include tickets, hotels and transport apps",
+    description: "Kaspersky warnings reported by TechRadar show scammers targeting World Cup fans with fake tickets, accommodation offers, transport apps and business emails.",
+    category: "Safety",
+    publishedAt: "2026-05-16",
+    updatedAt: "2026-05-17",
+    image: "/assets/news/world-cup-scam-warning-ticket-travel-apps.png",
+    sourceUrl: "https://www.techradar.com/pro/security/one-month-out-from-the-world-cup-and-scammers-are-already-targeting-fans-heres-what-to-look-out-for",
+    sourceLabel: "TechRadar",
+    summary:
+      "A new TechRadar report says Kaspersky is seeing World Cup 2026 scam activity aimed at fans heading to Mexico, the United States and Canada. The warning covers fake ticket offers, accommodation traps, bogus transport apps, dark-web travel deals and business partnership emails that use tournament urgency to extract money or credentials.",
+    impact: ["Use official ticket and resale channels before trusting discounts", "Verify hotel, transport and app links before entering payment data", "Treat unsolicited World Cup partnership emails as high-risk"],
+    sections: [
+      {
+        title: "What scammers are targeting",
+        body: "The latest warning is not limited to fake match tickets. TechRadar reported that Kaspersky has seen scams tied to accommodation searches, stadium transport and discounted travel packages, including offers that look cheaper than normal flights, hotels or match access. That mix matters because World Cup planning pushes fans to make several expensive decisions at once."
+      },
+      {
+        title: "Why fans are vulnerable close to kickoff",
+        body: "The tournament starts on June 11, 2026, so many supporters are now filling gaps in their itinerary under time pressure. Scammers use that urgency: a fake app can promise prizes, a fake listing can copy hotel language and a fake seller can claim that a cheaper ticket will disappear within minutes.",
+        bullets: ["Do not enter credentials after clicking a prize or discount prompt", "Check booking domains directly instead of through forwarded links", "Keep payment proof and official ticket records separate from screenshots"]
+      },
+      {
+        title: "Business scams are part of the same risk",
+        body: "Kaspersky also warned that criminals are approaching companies with fake World Cup partnership or supplier opportunities. That creates a second layer of risk for bars, hotels, vendors and local businesses that want to participate in the tournament economy but may not recognize a fabricated contractor or airline pitch."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users should treat safety checks as part of match-day planning, not as an afterthought. The safest workflow is to start from official ticketing, confirm every travel vendor independently, avoid social-media sellers and save a clean paper trail before adding a booking to the itinerary."
+      }
+    ]
+  },
+  {
+    slug: "dutch-fans-kansas-city-march-warning",
+    title: "Kansas City police warn Dutch fans not to march nine miles to Arrowhead",
+    description: "KCPD says Dutch supporters should not walk from the Kansas City Fan Fest to Arrowhead Stadium for the Netherlands-Tunisia World Cup match.",
+    category: "Transport",
+    publishedAt: "2026-05-15",
+    updatedAt: "2026-05-17",
+    image: "/assets/news/dutch-fans-kansas-city-march-warning.png",
+    sourceUrl: "https://www.axios.com/local/kansas-city/2026/05/15/dutch-fans-march-arrowhead-kcpd-world-cup",
+    sourceLabel: "Axios Kansas City",
+    summary:
+      "Axios Kansas City reported that local police are warning Dutch supporters not to try a traditional Oranje fan march from downtown Kansas City to Arrowhead Stadium. The Netherlands play Tunisia there on June 25, but the Fan Fest-to-stadium route is about nine miles and would likely push fans toward I-70 instead of a normal one-hour city walk.",
+    impact: ["Dutch fans should plan shuttle or organized transport, not a full walk", "Kansas City Stadium match days need realistic time buffers", "Fan traditions may be adapted to local road and safety conditions"],
+    sections: [
+      {
+        title: "The warning",
+        body: "Dutch supporters are famous for orange fan walks, but Kansas City's geography makes this one different. Axios reported that KCPD Chief Stacey Graves said the department is ready for large crowds but called a downtown-to-Arrowhead walk a bad idea for safety reasons."
+      },
+      {
+        title: "Why the route is different",
+        body: "A typical Dutch march can move from a city center to a stadium in roughly an hour. In Kansas City, Axios reported that the Fan Fest-to-stadium distance is about nine miles, with the easiest route running along I-70. Graves estimated that walking could take roughly three and a half hours.",
+        bullets: ["Do not assume European fan-walk timing applies in Kansas City", "Check official shuttle and stadium access guidance before match day", "Choose a downtown meeting point that still connects to transport"]
+      },
+      {
+        title: "The match-day context",
+        body: "The Netherlands play their first two group matches in Arlington and Houston before facing Tunisia in Kansas City on June 25. Axios also noted that Dutch fan culture could bring thousands of orange-clad supporters, which makes the transport plan a crowd-management issue as much as a convenience issue."
+      },
+      {
+        title: "CupMate planning note",
+        body: "Fans can still preserve the pre-match atmosphere without turning the route into a safety problem. The practical plan is to use Fan Fest for the gathering, follow official transport for the stadium leg and leave enough time for security, queues and post-match dispersal."
+      }
+    ]
+  },
+  {
     slug: "world-cup-visa-bond-waiver-ticket-holders",
     title: "World Cup ticket holders get a visa-bond waiver: what traveling fans should check",
     description: "The U.S. is waiving visa bonds for some World Cup ticket holders from qualified countries, easing one travel barrier before the 2026 tournament.",

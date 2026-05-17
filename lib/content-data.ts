@@ -11,6 +11,7 @@ const newsImagesBySlug: Record<string, string> = {
   "boston-stadium-ticket-access-rules": "/assets/news/boston-stadium-ticket-access-rules.png",
   "california-fifa-ticketing-practices-letter": "/assets/news/california-fifa-ticketing-practices-letter-photo.png",
   "dai-dai-world-cup-song-shakira-burna-boy": "/assets/news/dai-dai-world-cup-song-shakira-burna-boy.png",
+  "dutch-fans-kansas-city-march-warning": "/assets/news/dutch-fans-kansas-city-march-warning.png",
   "fanatics-fest-nyc-fifa-final-weekend": "/assets/news/fanatics-fest-nyc-fifa-final-weekend.webp",
   "fifa-disciplinary-rules-world-cup-2026": "/assets/news/fifa-disciplinary-rules-world-cup-2026.webp",
   "france-names-world-cup-squad-risser": "/assets/news/france-names-world-cup-squad-risser.png",
@@ -29,6 +30,7 @@ const newsImagesBySlug: Record<string, string> = {
   "us-hotels-world-cup-demand-check": "/assets/news/us-hotels-world-cup-demand-check.webp",
   "visa-hdfc-world-cup-fan-access-promotion": "/assets/news/visa-hdfc-world-cup-fan-access-promotion.webp",
   "world-cup-final-halftime-show-lineup": "/assets/news/world-cup-final-halftime-show-lineup.png",
+  "world-cup-scam-warning-ticket-travel-apps": "/assets/news/world-cup-scam-warning-ticket-travel-apps.png",
   "world-cup-visa-bond-waiver-ticket-holders": "/assets/news/world-cup-visa-bond-waiver-ticket-holders-photo.png",
   "world-cup-2026-referees-appointed": "/assets/news/world-cup-2026-referees-appointed.webp",
   "world-cup-2026-squad-size-26": "/assets/news/world-cup-2026-squad-size-26.webp"
@@ -266,6 +268,21 @@ function fullArticleBody(locale: Locale, categoryLabel: string | null) {
 
 function localizeCategory(category: string | null, locale: Locale) {
   if (!category) return null;
+  if (category === "Safety") {
+    const safetyLabels: Partial<Record<Locale, string>> = {
+      ru: "Безопасность",
+      es: "Seguridad",
+      fr: "Sécurité",
+      de: "Sicherheit",
+      pt: "Segurança",
+      it: "Sicurezza",
+      ar: "السلامة",
+      zh: "安全",
+      ja: "安全",
+      ko: "안전"
+    };
+    return safetyLabels[locale] ?? category;
+  }
   const labels: Partial<Record<Locale, Record<string, string>>> = {
     es: { Teams: "Equipos", Culture: "Cultura", Streaming: "Streaming", Travel: "Viajes", Commerce: "Comercio", "Fan Experience": "Experiencia de fans", Transport: "Transporte", Regulation: "Reglamento", Infrastructure: "Infraestructura", Music: "Música", Hospitality: "Hospitalidad", Tickets: "Entradas", Analysis: "Análisis", News: "Noticias", Stadiums: "Estadios" },
     fr: { Teams: "Équipes", Culture: "Culture", Streaming: "Streaming", Travel: "Voyage", Commerce: "Commerce", "Fan Experience": "Expérience fans", Transport: "Transport", Regulation: "Règlement", Infrastructure: "Infrastructure", Music: "Musique", Hospitality: "Hospitalité", Tickets: "Billets", Analysis: "Analyse", News: "Actualités", Stadiums: "Stades" },
