@@ -71,7 +71,7 @@ export default async function NewsArticlePage({ params }: NewsArticlePageProps) 
             alt=""
             decoding="async"
             loading="eager"
-            style={{ width: "100%", aspectRatio: "16 / 9", objectFit: "cover", borderRadius: 8, margin: "10px 0 22px" }}
+            className="seo-article-image"
           />
           <p className="seo-lede">{article.summary}</p>
 

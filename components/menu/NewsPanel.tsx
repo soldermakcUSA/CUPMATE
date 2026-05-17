@@ -1,4 +1,4 @@
-import { ArrowRight, Newspaper, Ticket, Trophy, X } from "lucide-react";
+import { Newspaper, Ticket, Trophy, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { translations, type Locale } from "@/lib/i18n";
 import { NEWS_IMAGE_FALLBACK, type NewsItemData } from "@/lib/content-data";
@@ -25,7 +25,6 @@ export function NewsPanel({ locale = "en", t, news }: NewsPanelProps) {
   const copy = panelText(locale, t);
   const [selectedArticle, setSelectedArticle] = useState<NewsItemData | null>(null);
   const lead = news[0];
-  const secondaryStories = news.slice(1);
 
   if (!lead) {
     return null;
@@ -41,44 +40,19 @@ export function NewsPanel({ locale = "en", t, news }: NewsPanelProps) {
         <button className="link-button">{copy.viewAllNews}</button>
       </div>
 
-      <button
-        type="button"
-        className="news-panel-lead"
-        onClick={() => setSelectedArticle(lead)}
-        style={{
-          display: "grid",
-          gridTemplateColumns: "minmax(220px, 0.95fr) minmax(0, 1fr)",
-          gap: 18,
-          alignItems: "stretch",
-          marginBottom: 16,
-          textAlign: "left"
-        }}
-      >
-        <img
-          src={lead.image}
-          alt=""
-          decoding="async"
-          fetchPriority="high"
-          loading="eager"
-          onError={handleNewsImageError}
-          style={{ width: "100%", height: 230, objectFit: "cover", borderRadius: 10 }}
-        />
-        <div style={{ display: "grid", alignContent: "center", gap: 10 }}>
-          <span className="tag" style={{ width: "fit-content" }}>{lead.meta}</span>
-          <h3 style={{ margin: 0, fontSize: 28, lineHeight: 1.1 }}>{lead.title}</h3>
-          <p className="muted" style={{ margin: 0, lineHeight: 1.55 }}>{lead.text}</p>
-          <span className="link-button" style={{ display: "inline-flex", gap: 6, alignItems: "center", width: "fit-content", padding: 0 }}>
-            {copy.seeDetails} <ArrowRight size={15} />
-          </span>
-        </div>
-      </button>
-
       <div className="news-grid news-panel-grid">
-        {secondaryStories.map((item, index) => {
-          const Icon = storyIcons[index + 1] ?? Newspaper;
+        {news.map((item, index) => {
+          const Icon = storyIcons[index] ?? Newspaper;
           return (
             <button className="news-card news-card-button" key={item.id ?? item.title} type="button" onClick={() => setSelectedArticle(item)}>
-              <img src={item.image} alt="" decoding="async" loading="lazy" onError={handleNewsImageError} />
+              <img
+                src={item.image}
+                alt=""
+                decoding="async"
+                loading={index === 0 ? "eager" : "lazy"}
+                fetchPriority={index === 0 ? "high" : undefined}
+                onError={handleNewsImageError}
+              />
               <div>
                 <p className="small muted" style={{ display: "flex", gap: 6, alignItems: "center", margin: "0 0 6px" }}>
                   <Icon size={14} /> {item.meta}

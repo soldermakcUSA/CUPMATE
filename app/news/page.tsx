@@ -32,7 +32,10 @@ export default async function NewsSeoPage() {
 
         <section className="seo-grid" aria-label="World Cup 2026 news articles">
           {articles.map((article) => (
-            <article className="seo-card" key={article.slug}>
+            <article className="seo-card seo-news-card" key={article.slug}>
+              <Link href={`/news/${article.slug}`} aria-label={article.title}>
+                <img src={article.image} alt="" decoding="async" loading="lazy" />
+              </Link>
               <SeoUpdated date={article.updatedAt} prefix={article.category} />
               <h2><Link href={`/news/${article.slug}`}>{article.title}</Link></h2>
               <p>{article.description}</p>
