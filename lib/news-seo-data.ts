@@ -21,6 +21,72 @@ export type NewsSeoArticle = {
 
 export const newsSeoArticles: NewsSeoArticle[] = [
   {
+    slug: "world-cup-visa-bond-waiver-ticket-holders",
+    title: "World Cup ticket holders get a visa-bond waiver: what traveling fans should check",
+    description: "The U.S. is waiving visa bonds for some World Cup ticket holders from qualified countries, easing one travel barrier before the 2026 tournament.",
+    category: "Travel",
+    publishedAt: "2026-05-13",
+    updatedAt: "2026-05-17",
+    image: "/assets/news/world-cup-visa-bond-waiver-ticket-holders.png",
+    sourceUrl: "https://apnews.com/article/trump-world-cup-visa-bonds-a3a165fb5c2d215c5cd237d7a2e783ad",
+    sourceLabel: "AP News",
+    summary:
+      "A U.S. visa-bond requirement will no longer apply to certain foreign fans who hold FIFA World Cup tickets and come from qualified countries affected by the bond program. AP reported that the exemption covers ticket buyers from Algeria, Cape Verde, Ivory Coast, Senegal and Tunisia, while team players, coaches and some staff were already covered by separate tournament visa processing measures.",
+    impact: ["Affected ticket holders should verify FIFA Pass and visa steps", "Travel rules can still differ by nationality and restriction category", "Fans should keep ticket proof and consular documents together"],
+    sections: [
+      {
+        title: "What changed",
+        body: "The State Department is suspending a bond requirement that could have forced some temporary-visa applicants to post thousands of dollars before entering the United States. The change applies to citizens of affected countries that have qualified for the World Cup, provided they have bought FIFA tickets and use the relevant FIFA Pass process for expedited visa appointments."
+      },
+      {
+        title: "Who this helps",
+        body: "AP identified Algeria, Cape Verde, Ivory Coast, Senegal and Tunisia as qualified World Cup countries that overlapped with the bond program. For fans from those countries, the waiver removes a major cash-flow obstacle, but it does not replace the normal visa process or guarantee entry. Travelers still need to follow consular instructions, appointment timing and any country-specific restrictions.",
+        bullets: ["Check the official visa appointment path before booking nonrefundable travel", "Keep FIFA ticket records accessible for consular and border checks", "Confirm whether the waiver applies to every traveler in the group"]
+      },
+      {
+        title: "Why it matters for host-city planning",
+        body: "The tournament starts June 11, so late changes to entry rules can affect hotel demand, flight bookings and whether supporters feel confident enough to travel. Even if the number of directly affected fans is limited, the decision is a signal that World Cup mobility rules are still changing close to kickoff."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate should treat visa and entry updates as live planning items, not background policy news. For international supporters, the safest itinerary pairs official ticket proof, visa appointment status, refundable travel where possible and a backup watch-party plan if documents are delayed."
+      }
+    ]
+  },
+  {
+    slug: "california-fifa-ticketing-practices-letter",
+    title: "California asks FIFA for answers on World Cup ticketing practices",
+    description: "California Attorney General Rob Bonta has asked FIFA for information after reports of potentially misleading World Cup ticketing practices.",
+    category: "Tickets",
+    publishedAt: "2026-05-14",
+    updatedAt: "2026-05-17",
+    image: "/assets/news/california-fifa-ticketing-practices-letter.png",
+    sourceUrl: "https://as.com/us/futbol/mundial/california-pide-respuestas-a-fifa-por-irregularidades-en-venta-de-boletos-al-mundial-f202605-n/",
+    sourceLabel: "AS USA",
+    summary:
+      "California Attorney General Rob Bonta has sent FIFA a request for information about World Cup ticketing practices after reports that some buyers may have received seats different from what they believed they were purchasing. The issue lands in a state with 14 tournament matches across Los Angeles and the San Francisco Bay Area, making ticket clarity a practical fan-planning concern.",
+    impact: ["Save all FIFA purchase records and seat-category details", "Avoid treating unofficial seat maps as final proof", "California matches may draw extra consumer-protection scrutiny"],
+    sections: [
+      {
+        title: "The request",
+        body: "AS USA reported that Bonta asked FIFA for information so California can assess whether ticketing practices may have violated state law. The request follows complaints and reporting about seat-category maps, assigned seats and buyer expectations during the World Cup sales process."
+      },
+      {
+        title: "What fans should document",
+        body: "Ticket disputes are easier to evaluate when buyers preserve the full purchase trail. Fans should keep order confirmations, seat-category language, screenshots from the purchase flow, payment receipts and any later assignment emails in one place. That record is useful whether the final answer comes from FIFA support, a payment provider or a consumer-protection office.",
+        bullets: ["Store confirmation emails outside the ticketing app", "Do not rely on resale screenshots without official transfer proof", "Compare final seat assignments against the original category language"]
+      },
+      {
+        title: "Why California matters",
+        body: "Los Angeles is scheduled to host eight World Cup matches at SoFi Stadium, while the Bay Area hosts six in Santa Clara. That gives California a large consumer base inside the tournament footprint, and any official inquiry there can influence how fans think about pricing, disclosure and post-purchase support."
+      },
+      {
+        title: "CupMate planning note",
+        body: "For CupMate users, the practical response is simple: separate ticket certainty from travel excitement. Lock hotels and transport only after confirming official ticket status, keep resale risk visible in planning notes and avoid building a group itinerary around seats that have not been assigned or transferred through official channels."
+      }
+    ]
+  },
+  {
     slug: "dai-dai-world-cup-song-shakira-burna-boy",
     title: "Dai Dai becomes the official World Cup 2026 song: what fans should plan around",
     description: "Shakira and Burna Boy released Dai Dai, the official FIFA World Cup 2026 song, adding music, ceremony and fan-event context before kickoff.",
