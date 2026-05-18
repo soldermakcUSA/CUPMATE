@@ -7,6 +7,12 @@ import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 export const NEWS_IMAGE_FALLBACK = "/assets/news/los-angeles-world-cup-surface-final-prep.webp";
 
 const newsImagesBySlug: Record<string, string> = {
+  "qatar-preliminary-world-cup-squad-group-b": "/assets/news/qatar-preliminary-world-cup-squad-group-b.png",
+  "iran-world-cup-squad-group-g-travel": "/assets/news/iran-world-cup-squad-group-g-travel.png",
+  "korea-republic-world-cup-squad-group-c-route": "/assets/news/korea-republic-world-cup-squad-group-c-route.png",
+  "japan-world-cup-squad-mitoma-fitness-watch": "/assets/news/japan-world-cup-squad-mitoma-fitness-watch.png",
+  "haiti-world-cup-squad-boston-return": "/assets/news/haiti-world-cup-squad-boston-return.png",
+  "cote-divoire-world-cup-squad-bay-area-philadelphia": "/assets/news/cote-divoire-world-cup-squad-bay-area-philadelphia.png",
   "belgium-world-cup-squad-lukaku-core": "/assets/news/belgium-world-cup-squad-lukaku-core.png",
   "tunisia-world-cup-squad-khedira-rebuild": "/assets/news/tunisia-world-cup-squad-khedira-rebuild.png",
   "philadelphia-fan-festival-parking-permits": "/assets/news/philadelphia-fan-festival-parking-permits.png",

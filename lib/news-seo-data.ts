@@ -21,6 +21,205 @@ export type NewsSeoArticle = {
 
 export const newsSeoArticles: NewsSeoArticle[] = [
   {
+    slug: "qatar-preliminary-world-cup-squad-group-b",
+    title: "Qatar's preliminary World Cup squad gives Group B fans early planning clues",
+    description: "Julen Lopetegui has named a 34-player preliminary Qatar squad, with Akram Afif, Almoez Ali and veteran Sebastian Soria among the names to watch.",
+    category: "Teams",
+    publishedAt: "2026-05-13",
+    updatedAt: "2026-05-18",
+    image: "/assets/news/qatar-preliminary-world-cup-squad-group-b.png",
+    sourceUrl: "https://www.fifa.com/en/articles/qatar-announce-preliminary-squad",
+    sourceLabel: "FIFA",
+    summary:
+      "Qatar's World Cup preparation has moved from qualification story to roster planning. FIFA reported that Julen Lopetegui named a 34-player preliminary squad, with Akram Afif, Almoez Ali and Sebastian Soria included before Qatar's Group B matches in the Bay Area, Vancouver and Seattle.",
+    impact: ["Qatar fans can start mapping a three-city West Coast route around likely squad leaders","The Canada match in Vancouver becomes the strongest travel-demand point for neutral and regional fans","Soria's potential record chase adds a storyline that may lift interest beyond Qatar supporters"],
+    sections: [
+      {
+        title: "The squad signal",
+        body: "The preliminary list keeps Qatar built around familiar tournament names while leaving room for a final cut before FIFA receives the 26-player squads on June 2. For supporters, the key is not treating the 34 names as final, but it is enough to begin setting player alerts and match expectations."
+      },
+      {
+        title: "Why Soria changes the story",
+        body: "Sebastian Soria's inclusion gives Qatar a rare age-record angle. If he appears in North America, he would move past Roger Milla as the oldest outfield player in men's World Cup history. That kind of storyline can turn a group match into a broader neutral-fan draw.",
+        bullets: ["Qatar open against Switzerland at San Francisco Bay Area Stadium on June 13","They face co-host Canada at BC Place Vancouver on June 18","Their group stage closes against Bosnia and Herzegovina at Seattle Stadium on June 24"]
+      },
+      {
+        title: "The travel route",
+        body: "Qatar supporters are looking at a compact but border-crossing West Coast campaign: Bay Area, Vancouver, then Seattle. The distances are manageable compared with some groups, but the Canada leg still means passport checks, hotel timing and flight or rail buffers matter."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users following Qatar should save all three Group B cities now, then update the squad card after the June 2 final list. The practical plan is to keep Vancouver flexible because a co-host match can bring extra ticket, hotel and fan-zone demand."
+      }
+    ]
+  },
+  {
+    slug: "iran-world-cup-squad-group-g-travel",
+    title: "Iran's World Cup squad update sharpens travel plans for Group G supporters",
+    description: "Amir Ghalenoei has named a 30-player preliminary Iran squad, with Mehdi Taremi included and Sardar Azmoun absent before two Los Angeles matches.",
+    category: "Teams",
+    publishedAt: "2026-05-16",
+    updatedAt: "2026-05-18",
+    image: "/assets/news/iran-world-cup-squad-group-g-travel.png",
+    sourceUrl: "https://www.fifa.com/en/tournaments/mens/worldcup/articles/ir-iran-squad-named",
+    sourceLabel: "FIFA",
+    summary:
+      "IR Iran's Group G picture is more concrete after FIFA reported that Amir Ghalenoei named a 30-player preliminary squad. Mehdi Taremi is included, while Sardar Azmoun is a notable omission, and the team is set for two Los Angeles matches before a Seattle finale.",
+    impact: ["Iran supporters can treat Los Angeles as the main base for the first two group matches","The Azmoun omission changes attacking expectations and watch-party storylines","The Seattle closing match against Egypt now needs a separate travel block after Los Angeles"],
+    sections: [
+      {
+        title: "The roster headline",
+        body: "The preliminary squad leans on experience but leaves out one of Iran's best-known forwards. FIFA reported that Taremi is in the extended group while Azmoun, Allahyar Sayyadmanesh and Mohammad Javad Hosseinnejad were not included."
+      },
+      {
+        title: "Why Los Angeles matters",
+        body: "Iran begin Group G with two matches at Los Angeles Stadium: New Zealand on June 15 and Belgium on June 21. That gives traveling supporters a chance to use one hotel base for the first week, but it also concentrates demand around the same stadium, transport routes and fan gathering areas.",
+        bullets: ["June 15: IR Iran v New Zealand at Los Angeles Stadium","June 21: Belgium v IR Iran at Los Angeles Stadium","June 26: Egypt v IR Iran at Seattle Stadium"]
+      },
+      {
+        title: "The Seattle leg",
+        body: "The group closer against Egypt moves the campaign north. Fans trying to attend all three Iran matches should separate the Los Angeles hotel block from the Seattle leg rather than treating it as a single city stay."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users should save Los Angeles Stadium twice, add a Seattle transfer reminder and keep the final squad deadline visible. Player omissions can change demand for specific fan events, especially when a team has a large diaspora following in U.S. host cities."
+      }
+    ]
+  },
+  {
+    slug: "korea-republic-world-cup-squad-group-c-route",
+    title: "Korea Republic squad news sets up a practical Group C route for fans",
+    description: "Hong Myungbo has named Korea Republic's 26-player World Cup squad, led by Son Heungmin, Kim Minjae and other experienced names.",
+    category: "Teams",
+    publishedAt: "2026-05-16",
+    updatedAt: "2026-05-18",
+    image: "/assets/news/korea-republic-world-cup-squad-group-c-route.png",
+    sourceUrl: "https://www.fifa.com/en/articles/korea-republic-world-cup-squad-hong-myungbo",
+    sourceLabel: "FIFA",
+    summary:
+      "Korea Republic's World Cup squad is now public. FIFA reported that Hong Myungbo selected a 26-player group led by Son Heungmin, Kim Minjae, Hwang Heechan, Lee Kangin and other familiar names before two matches in Guadalajara and a group closer in Monterrey.",
+    impact: ["Korea Republic fans can build the first two match days around one Guadalajara base","Son and Kim Minjae make Group C a strong neutral-fan draw in Mexico","The Monterrey finale against South Africa needs its own travel and hotel plan"],
+    sections: [
+      {
+        title: "The squad signal",
+        body: "Hong has chosen a group with a strong senior spine. Son remains the headline, but the practical value for fans is that the team identity is clearer before travel plans and watch-party schedules harden."
+      },
+      {
+        title: "The Mexico route",
+        body: "Korea Republic open against Czechia at Estadio Guadalajara on June 11 and return to the same stadium to face Mexico on June 18. The final group match sends supporters to Estadio Monterrey for South Africa on June 24.",
+        bullets: ["Two Guadalajara matches can simplify the first hotel block","Mexico v Korea Republic is likely to be the highest-pressure local-demand match","Monterrey should be treated as a separate trip segment"]
+      },
+      {
+        title: "Why the Mexico match stands out",
+        body: "A match against the co-host in Guadalajara will shape ticket demand, transport pressure and fan-zone atmosphere. Supporters should expect a bigger local crowd than a neutral-site match and plan arrival times accordingly."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users following Korea Republic should save Guadalajara as the base for the opening week, add a Monterrey transfer reminder and keep official squad updates pinned until final registration is confirmed."
+      }
+    ]
+  },
+  {
+    slug: "japan-world-cup-squad-mitoma-fitness-watch",
+    title: "Japan squad watch puts Mitoma's absence at the center of fan expectations",
+    description: "Hajime Moriyasu has named Japan's 26-player World Cup squad, with Kaoru Mitoma missing out and several recently injured players included.",
+    category: "Teams",
+    publishedAt: "2026-05-15",
+    updatedAt: "2026-05-18",
+    image: "/assets/news/japan-world-cup-squad-mitoma-fitness-watch.png",
+    sourceUrl: "https://www.fifa.com/en/articles/japan-squad-announcement",
+    sourceLabel: "FIFA",
+    summary:
+      "Japan's World Cup squad brings both clarity and a major talking point. FIFA reported that Hajime Moriyasu named his 26-player group, leaving out injured Kaoru Mitoma while including Wataru Endo, Ko Itakura and Takehiro Tomiyasu before Group F matches in Dallas and Monterrey.",
+    impact: ["Japan fans should reset lineup expectations without Mitoma in the squad","Dallas becomes the key base with Japan opening and closing the group there","Injury monitoring remains important because several included players are returning from issues"],
+    sections: [
+      {
+        title: "The headline omission",
+        body: "Mitoma missing out changes how many fans will imagine Japan attacking the tournament. The squad still carries serious experience, but one of the most recognizable wide threats will not be part of the group."
+      },
+      {
+        title: "Dallas anchors the route",
+        body: "Japan start against the Netherlands at Dallas Stadium on June 14, travel to Monterrey to face Tunisia on June 20, then return to Dallas to play Sweden on June 25. That makes Dallas the natural anchor city for many supporters.",
+        bullets: ["June 14: Netherlands v Japan at Dallas Stadium","June 20: Tunisia v Japan at Monterrey Stadium","June 25: Japan v Sweden at Dallas Stadium"]
+      },
+      {
+        title: "Why injury context matters",
+        body: "Moriyasu included several players who have recently dealt with injuries or returns to fitness. Supporters should expect final training updates and match-one selection talk to affect watch-party energy and neutral interest."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users should pair Japan match alerts with city alerts. The best fan plan is Dallas base, Monterrey transfer, Dallas return, with flexible hotel and transport decisions around the middle match."
+      }
+    ]
+  },
+  {
+    slug: "haiti-world-cup-squad-boston-return",
+    title: "Haiti's World Cup squad turns a 52-year return into a Boston fan-planning moment",
+    description: "Haiti have named their 26-player World Cup squad for a first finals appearance since 1974, with Johny Placide and Duckens Nazon among the leaders.",
+    category: "Teams",
+    publishedAt: "2026-05-15",
+    updatedAt: "2026-05-18",
+    image: "/assets/news/haiti-world-cup-squad-boston-return.png",
+    sourceUrl: "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/haiti-squad-announcement-sebastien-migne",
+    sourceLabel: "FIFA",
+    summary:
+      "Haiti's first World Cup in 52 years now has a named squad. FIFA reported that Sebastien Migne selected a 26-player group led by Johny Placide, Ricardo Ade, Carlens Arcus, Leverton Pierre, Danley Jean Jacques and Duckens Nazon for Group C matches against Scotland, Brazil and Morocco.",
+    impact: ["Haiti supporters should expect emotional demand around the opening match in Boston","The Brazil match in Los Angeles is likely to draw major neutral and diaspora interest","A three-city route means fans need separate travel blocks for Boston, Los Angeles and Atlanta"],
+    sections: [
+      {
+        title: "A return with weight",
+        body: "Haiti have not played at a World Cup since 1974, so this squad announcement is more than a roster note. It gives supporters, diaspora groups and neutral fans a concrete team list for one of the tournament's strongest comeback stories."
+      },
+      {
+        title: "The route is demanding",
+        body: "Haiti open against Scotland at Boston Stadium on June 13, then fly across the country to face Brazil at Los Angeles Stadium on June 19, before closing against Morocco at Atlanta Stadium on June 24.",
+        bullets: ["Boston is the emotional opener and should be planned early","Los Angeles against Brazil can bring high ticket and hotel pressure","Atlanta closes the group and needs its own travel buffer"]
+      },
+      {
+        title: "What fans should watch",
+        body: "The squad includes established leaders and attackers who shaped qualification, but the bigger planning issue is momentum. If Haiti take anything from the opener, the Los Angeles and Atlanta legs could see a late surge in fan interest."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users should save Haiti as a full multi-city itinerary, not just a single emotional opener. Add refundable travel where possible, watch official ticket channels only and keep group-meetup plans near transit rather than stadium road traffic."
+      }
+    ]
+  },
+  {
+    slug: "cote-divoire-world-cup-squad-bay-area-philadelphia",
+    title: "Côte d'Ivoire squad news gives Philadelphia and Toronto fans a clearer route",
+    description: "Emerse Fae has named Côte d'Ivoire's 26-player World Cup squad, with Ousmane Diomande, Franck Kessie and attacking depth leading the Elephants' return.",
+    category: "Teams",
+    publishedAt: "2026-05-15",
+    updatedAt: "2026-05-18",
+    image: "/assets/news/cote-divoire-world-cup-squad-bay-area-philadelphia.png",
+    sourceUrl: "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/cote-divoire-squad-announcement-emerse-fae",
+    sourceLabel: "FIFA",
+    summary:
+      "Côte d'Ivoire's return to the World Cup has a confirmed squad. FIFA reported that Emerse Fae named a 26-player group featuring Ousmane Diomande, Franck Kessie, Simon Adingra, Amad Diallo, Nicolas Pepe and other pieces before two Philadelphia matches around a Toronto test against Germany.",
+    impact: ["Côte d’Ivoire fans can treat Philadelphia as the main base for the opening and closing group matches","The Germany match in Toronto adds border and travel complexity to the middle of the route","The squad has enough attacking names to draw neutral interest in Group E"],
+    sections: [
+      {
+        title: "The squad signal",
+        body: "Fae has selected a team that arrives with the confidence of continental success and the pressure of a 12-year World Cup absence. The list includes defensive strength, midfield control and multiple attacking options for a group with Ecuador, Germany and Curaçao."
+      },
+      {
+        title: "Philadelphia as the base",
+        body: "Côte d'Ivoire open against Ecuador at Philadelphia Stadium on June 14 and return there to face Curaçao on June 25. In between, they travel to Toronto Stadium for Germany on June 20.",
+        bullets: ["Two Philadelphia matches make the city the logical fan base","Toronto adds an international travel leg","The Germany match is likely to carry the highest neutral demand"]
+      },
+      {
+        title: "What fans should watch",
+        body: "The squad announcement lets supporters move from general excitement to practical planning. Watch for final registration updates, but the route itself is now clear enough for hotel windows, train or flight decisions and watch-party organization."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users should save Philadelphia for both bookend matches and create a separate Toronto checklist with passport, lodging and return-trip reminders. The group route rewards early planning because one missed border or transport detail can affect two match days."
+      }
+    ]
+  },
+
+  {
     slug: "belgium-world-cup-squad-lukaku-core",
     title: "Belgium names experienced World Cup squad with Lukaku in the core",
     description: "Rudi Garcia has named Belgium's 26-player World Cup squad, leaning on Lukaku, De Bruyne, Courtois and other senior names for Group G.",
