@@ -7,6 +7,9 @@ import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 export const NEWS_IMAGE_FALLBACK = "/assets/news/los-angeles-world-cup-surface-final-prep.webp";
 
 const newsImagesBySlug: Record<string, string> = {
+  "brazil-world-cup-squad-east-coast-route": "/assets/news/brazil-world-cup-squad-east-coast-route.png",
+  "richmond-soccer-bar-world-cup-watch-parties": "/assets/news/richmond-soccer-bar-world-cup-watch-parties.png",
+  "nynj-world-cup-train-shuttle-fan-hub-guide": "/assets/news/nynj-world-cup-train-shuttle-fan-hub-guide.png",
   "qatar-preliminary-world-cup-squad-group-b": "/assets/news/qatar-preliminary-world-cup-squad-group-b.png",
   "iran-world-cup-squad-group-g-travel": "/assets/news/iran-world-cup-squad-group-g-travel.png",
   "korea-republic-world-cup-squad-group-c-route": "/assets/news/korea-republic-world-cup-squad-group-c-route.png",

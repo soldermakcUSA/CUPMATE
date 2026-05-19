@@ -21,6 +21,105 @@ export type NewsSeoArticle = {
 
 export const newsSeoArticles: NewsSeoArticle[] = [
   {
+    slug: "brazil-world-cup-squad-east-coast-route",
+    title: "Brazil name Neymar in World Cup squad as fans map a North American route",
+    description: "Carlo Ancelotti's Brazil squad gives supporters a clearer planning picture, with Neymar back in the World Cup story alongside Vinicius Junior and Brazil's attacking core.",
+    category: "Teams",
+    publishedAt: "2026-05-18",
+    updatedAt: "2026-05-19",
+    image: "/assets/news/brazil-world-cup-squad-east-coast-route.png",
+    sourceUrl: "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/brazil-squad-announcement-carlo-ancelotti",
+    sourceLabel: "FIFA",
+    summary:
+      "Brazil's World Cup picture is sharper after FIFA reported Carlo Ancelotti's squad announcement. Neymar's inclusion gives the Selecao a major storyline, while Vinicius Junior, Rodrygo, Raphinha and Brazil's wider attacking group keep the team among the tournament's biggest neutral draws.",
+    impact: ["Brazil fans can now connect squad expectations with match-city travel planning","Neymar's return raises neutral interest around Brazil group matches and watch parties","High-demand Brazil fixtures require earlier hotel, ticket and transport checks"],
+    sections: [
+      {
+        title: "The squad signal",
+        body: "Brazil squad news always changes the tournament conversation, but this one matters for practical planning too. A confirmed star-heavy group affects ticket searches, local watch-party demand, media attention and how early supporters should arrive around Brazil match days."
+      },
+      {
+        title: "Why Neymar changes demand",
+        body: "Neymar being part of the World Cup story gives Brazil a familiar focal point even as Ancelotti works with a deep attacking group. For fans, that means more casual interest around Brazil games, more crowded public viewing spaces and stronger demand for official team events.",
+        bullets: ["Use official ticketing and avoid social resale pressure around Brazil matches","Book watch-party tables early in cities with large Brazilian communities","Keep travel plans flexible until final team logistics and kickoff-day guidance settle"]
+      },
+      {
+        title: "Planning beyond one match",
+        body: "Brazil supporters rarely plan around only one fixture. The better approach is to treat the group stage as a multi-city itinerary with separate hotel blocks, transit plans and post-match meeting points rather than a single generic World Cup trip."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users following Brazil should save each Brazil match as a high-demand event, add team-news alerts and keep backup watch venues ready. Brazil matches can reshape local crowd patterns even for fans without stadium tickets."
+      }
+    ]
+  },
+  {
+    slug: "richmond-soccer-bar-world-cup-watch-parties",
+    title: "Richmond soccer bar races to open before World Cup watch parties",
+    description: "Axios Richmond reports that a soccer-focused bar is preparing to open in time for World Cup viewing, adding another local watch-party option for fans.",
+    category: "Fan Experience",
+    publishedAt: "2026-05-18",
+    updatedAt: "2026-05-19",
+    image: "/assets/news/richmond-soccer-bar-world-cup-watch-parties.png",
+    sourceUrl: "https://www.axios.com/local/richmond/2026/05/18/richmond-soccer-bar-world-cup-watch-parties",
+    sourceLabel: "Axios Richmond",
+    summary:
+      "Richmond's World Cup viewing map is getting another dedicated option. Axios Richmond reported that a soccer-focused bar is racing to open before tournament watch parties, turning the national World Cup surge into a local planning story for fans who will not be inside stadiums.",
+    impact: ["World Cup watch-party demand is spreading beyond host cities","Fans should verify opening dates, reservations and match schedules before relying on a new venue","Bars can become useful CupMate planning points when they publish clear viewing details"],
+    sections: [
+      {
+        title: "A local viewing signal",
+        body: "Not every World Cup plan starts with a stadium ticket. New soccer bars and watch venues matter because most fans will experience at least part of the tournament through public screenings, group reservations and neighborhood match-day routines."
+      },
+      {
+        title: "What fans should verify",
+        body: "A venue preparing to open before the tournament still needs practical checks. Fans should look for confirmed opening dates, match schedules, reservation rules, age policies, screen setup and whether major matches require tickets or minimum spends.",
+        bullets: ["Check the venue's own channels before making group plans","Have a backup watch site for opening week","Confirm early kickoff coverage, not only prime-time matches"]
+      },
+      {
+        title: "Why it matters for CupMate",
+        body: "The Richmond update is a reminder that World Cup planning is not only about the 16 host cities. Regional bars can become the default gathering point for supporters who are following a country, organizing workday watch parties or building a local fan community."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users should save promising watch venues as conditional plans until details are firm. Once a bar posts match calendars and reservation rules, it can become a reliable option in the where-to-watch layer."
+      }
+    ]
+  },
+  {
+    slug: "nynj-world-cup-train-shuttle-fan-hub-guide",
+    title: "NYNJ World Cup guide clarifies trains, shuttles and fan hub plans",
+    description: "News 12 New Jersey's World Cup guide points fans toward MetLife Stadium access rules, train and shuttle planning, and the regional Fan Hub.",
+    category: "Transport",
+    publishedAt: "2026-05-15",
+    updatedAt: "2026-05-19",
+    image: "/assets/news/nynj-world-cup-train-shuttle-fan-hub-guide.png",
+    sourceUrl: "https://newjersey.news12.com/2026/04/22/fifa-world-cup-2026-what-you-need-to-know-ahead-of-the-big-event/7G4JwWDNJUFDcVHMWPhFuS",
+    sourceLabel: "News 12 New Jersey",
+    summary:
+      "New Jersey fans now have another practical checklist for the New York New Jersey World Cup stretch. News 12 New Jersey's guide highlights MetLife Stadium match dates, ticket-holder access expectations, public transit, shuttle planning and the Jersey City Fan Hub.",
+    impact: ["Fans should treat MetLife as a ticket-holder-only stadium zone on match days","Rail, shuttle and rideshare choices need to be planned before leaving for the stadium","The Jersey City Fan Hub gives non-ticketed fans a separate World Cup destination"],
+    sections: [
+      {
+        title: "Stadium access is the first rule",
+        body: "The practical message for New York New Jersey is clear: fans without a match ticket should not treat the stadium area as a casual gathering place. Match-day plans need to separate stadium access from public viewing and city fan activity."
+      },
+      {
+        title: "Transit and shuttles matter",
+        body: "MetLife trips will depend on more than a normal event-day drive. Fans should expect rail links, shuttle details, road controls and security timing to shape the day. That means choosing a primary route before match morning and keeping a backup if queues build.",
+        bullets: ["Keep match tickets and transit confirmations easy to reach","Plan post-match pickup away from the densest exit points","Use the Fan Hub or approved watch sites if you do not have a stadium ticket"]
+      },
+      {
+        title: "The Fan Hub option",
+        body: "The Jersey City Fan Hub gives the region a planning outlet for supporters who want a public World Cup atmosphere without entering the stadium zone. That distinction matters for families, neutral fans and groups with mixed ticket access."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users should save MetLife Stadium and the Jersey City Fan Hub as separate destinations. A good NYNJ itinerary has one route for ticketed match days and another for no-ticket watch days."
+      }
+    ]
+  },
+  {
     slug: "qatar-preliminary-world-cup-squad-group-b",
     title: "Qatar's preliminary World Cup squad gives Group B fans early planning clues",
     description: "Julen Lopetegui has named a 34-player preliminary Qatar squad, with Akram Afif, Almoez Ali and veteran Sebastian Soria among the names to watch.",
