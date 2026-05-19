@@ -21,6 +21,105 @@ export type NewsSeoArticle = {
 
 export const newsSeoArticles: NewsSeoArticle[] = [
   {
+    slug: "scotland-world-cup-squad-tartan-army-route",
+    title: "Scotland squad gives Tartan Army a MetLife route to plan",
+    description: "Steve Clarke's Scotland squad announcement gives supporters a clearer World Cup picture before a Group C opener against Haiti at MetLife Stadium.",
+    category: "Teams",
+    publishedAt: "2026-05-19",
+    updatedAt: "2026-05-19",
+    image: "/assets/news/scotland-world-cup-squad-tartan-army-route.png",
+    sourceUrl: "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/scotland-squad-announced-steve-clarke",
+    sourceLabel: "FIFA",
+    summary:
+      "Scotland's World Cup planning is moving from anticipation to logistics after FIFA reported Steve Clarke's squad announcement. The Tartan Army now has a clearer team story before Scotland open Group C against Haiti at MetLife Stadium, with Brazil and Morocco also shaping the group narrative.",
+    impact: ["Scotland fans can now connect squad alerts with MetLife match-day planning","The Haiti opener should be treated as both a football and New York New Jersey logistics event","Group C interest will stay high because Brazil and Morocco are also in the section"],
+    sections: [
+      {
+        title: "The squad signal",
+        body: "A named squad changes how supporters plan the tournament. It turns abstract qualification excitement into player alerts, expected lineups, fan gatherings and the first real match-day checklist for Scotland's return to the World Cup stage."
+      },
+      {
+        title: "Why the opener matters",
+        body: "Scotland open against Haiti at MetLife Stadium on June 13. That match sits in one of the busiest tournament regions, so fans should treat it as a full New York New Jersey travel day rather than a quick stadium visit.",
+        bullets: ["Keep match tickets and transit plans together before leaving for the stadium","Use official stadium and transport guidance rather than informal parking tips","Save a post-match meeting point away from the densest exit queues"]
+      },
+      {
+        title: "Group C pressure",
+        body: "Brazil and Morocco give the group a high-profile edge, which can lift neutral interest around Scotland even beyond the opener. Supporters following the full route should expect crowd patterns to change depending on early results."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users following Scotland should save the Haiti match, add squad news notifications and keep New York New Jersey transit details separate from watch-party plans. A ticketed stadium trip and a no-ticket fan day need different routes."
+      }
+    ]
+  },
+  {
+    slug: "philadelphia-septa-world-cup-overnight-service",
+    title: "SEPTA adds overnight service plan for Philadelphia World Cup crowds",
+    description: "SEPTA's World Cup service plan adds late-night and overnight transit details for Philadelphia matches and the Lemon Hill Fan Festival.",
+    category: "Transport",
+    publishedAt: "2026-05-18",
+    updatedAt: "2026-05-19",
+    image: "/assets/news/philadelphia-septa-world-cup-overnight-service.png",
+    sourceUrl: "https://www.septa.org/news/service-plan-fifa-world-cup-2026/",
+    sourceLabel: "SEPTA",
+    summary:
+      "Philadelphia's World Cup mobility picture is getting more practical. SEPTA has published a tournament service plan covering match travel, Fan Festival access and late-night movement, giving fans a clearer way to connect stadium days with Lemon Hill viewing plans.",
+    impact: ["Fans should check SEPTA service by match date instead of assuming normal schedules","Late-night and overnight options can shape post-match plans and watch-party timing","The Fan Festival and stadium should be saved as separate transit destinations"],
+    sections: [
+      {
+        title: "The transit update",
+        body: "The SEPTA plan gives Philadelphia fans a more concrete public-transport baseline for the tournament. That matters because World Cup days can combine stadium trips, Fan Festival visits, hotel returns and late kickoffs into one long mobility problem."
+      },
+      {
+        title: "Separate the destinations",
+        body: "Lincoln Financial Field match days and the Lemon Hill Fan Festival are not the same trip. Fans should save both locations separately, then choose transit modes based on the event, kickoff time and expected end-of-night crowd.",
+        bullets: ["Check route changes close to each match day","Do not rely on normal late-night assumptions without verifying service","Keep a backup rideshare or walking plan for the last leg"]
+      },
+      {
+        title: "Why overnight service matters",
+        body: "World Cup viewing does not end at the final whistle. Added late-night planning can affect where supporters watch matches, how long groups stay out and whether families choose public transit over driving into congested areas."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users should attach SEPTA reminders to Philadelphia match days and Fan Festival plans. The safest setup is a primary transit route, a backup exit route and a clear meeting point before the crowd starts moving."
+      }
+    ]
+  },
+  {
+    slug: "world-cup-host-city-transit-parking-guide",
+    title: "World Cup host-city transit plans show every match trip will be different",
+    description: "Sports Business Journal's host-city transit and parking overview shows why World Cup fans need city-by-city travel plans instead of one generic stadium routine.",
+    category: "Transport",
+    publishedAt: "2026-05-18",
+    updatedAt: "2026-05-19",
+    image: "/assets/news/world-cup-host-city-transit-parking-guide.png",
+    sourceUrl: "https://www.sportsbusinessjournal.com/Articles/2026/05/18/fifa-world-cup-2026-transit-and-parking-in-all-16-host-cities/",
+    sourceLabel: "Sports Business Journal",
+    summary:
+      "The 2026 World Cup will not have one transportation playbook. Sports Business Journal's overview of transit and parking across all 16 host cities highlights how different the fan experience will be from city to city, with each stadium mixing rail, bus, shuttle, walking, rideshare and parking rules differently.",
+    impact: ["Fans following a team across cities need a separate mobility plan for every match","Parking availability and price can vary sharply by host city and stadium","Public transport, shuttle and rideshare details should be checked close to kickoff"],
+    sections: [
+      {
+        title: "No single playbook",
+        body: "A supporter who gets comfortable with one host city's route can still be surprised at the next stop. Stadium locations, transit links and parking controls vary widely across the United States, Mexico and Canada."
+      },
+      {
+        title: "What fans should compare",
+        body: "The useful planning question is not simply whether a stadium has transit. Fans need to compare last-mile shuttles, post-match exits, parking rules, rideshare zones, walking distance and whether a fan festival sits in a different part of the city.",
+        bullets: ["Save the stadium and fan festival as separate destinations","Check parking rules before buying or renting a car for match day","Build extra time for the first match in each new city"]
+      },
+      {
+        title: "Why multi-city fans feel it most",
+        body: "Fans following one national team may move from a downtown stadium to a suburban venue and then to a cross-border host city. That means each match needs its own route, payment method and exit plan."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users should avoid a one-size-fits-all travel checklist. Create a separate mobility card for each match city, then attach ticket proof, transit links, parking backup and a post-match meeting point."
+      }
+    ]
+  },
+  {
     slug: "brazil-world-cup-squad-east-coast-route",
     title: "Brazil name Neymar in World Cup squad as fans map a North American route",
     description: "Carlo Ancelotti's Brazil squad gives supporters a clearer planning picture, with Neymar back in the World Cup story alongside Vinicius Junior and Brazil's attacking core.",
