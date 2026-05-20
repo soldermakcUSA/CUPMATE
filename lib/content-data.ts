@@ -7,6 +7,12 @@ import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 export const NEWS_IMAGE_FALLBACK = "/assets/news/los-angeles-world-cup-surface-final-prep.webp";
 
 const newsImagesBySlug: Record<string, string> = {
+  "world-cup-mobile-ticket-app-phone-readiness": "/assets/news/world-cup-mobile-ticket-app-phone-readiness.png",
+  "new-york-hotel-labor-deal-world-cup-lodging": "/assets/news/new-york-hotel-labor-deal-world-cup-lodging.png",
+  "iran-training-camp-azmoun-group-g-fluid": "/assets/news/iran-training-camp-azmoun-group-g-fluid.png",
+  "portugal-world-cup-squad-ronaldo-route": "/assets/news/portugal-world-cup-squad-ronaldo-route.png",
+  "croatia-world-cup-squad-group-l-route": "/assets/news/croatia-world-cup-squad-group-l-route.png",
+  "austria-world-cup-squad-bay-area-kickoff": "/assets/news/austria-world-cup-squad-bay-area-kickoff.png",
   "scotland-world-cup-squad-tartan-army-route": "/assets/news/scotland-world-cup-squad-tartan-army-route.png",
   "philadelphia-septa-world-cup-overnight-service": "/assets/news/philadelphia-septa-world-cup-overnight-service.png",
   "world-cup-host-city-transit-parking-guide": "/assets/news/world-cup-host-city-transit-parking-guide.png",

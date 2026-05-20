@@ -21,6 +21,204 @@ export type NewsSeoArticle = {
 
 export const newsSeoArticles: NewsSeoArticle[] = [
   {
+    slug: "world-cup-mobile-ticket-app-phone-readiness",
+    title: "World Cup mobile ticket app makes phone readiness part of match-day planning",
+    description: "FIFA's ticketing support now points fans to dedicated World Cup 2026 apps, making phone setup, account access and battery planning part of stadium entry.",
+    category: "Tickets",
+    publishedAt: "2026-05-20",
+    updatedAt: "2026-05-20",
+    image: "/assets/news/world-cup-mobile-ticket-app-phone-readiness.png",
+    sourceUrl: "https://gpcustomersupportfwc2026.tickets.fifa.com/hc/en-gb/articles/36037048232733-1-What-apps-are-available-for-download-for-the-FIFA-World-Cup-2026",
+    sourceLabel: "FIFA Ticketing Support",
+    summary:
+      "FIFA's ticketing support has moved mobile access into the practical planning layer for World Cup 2026. The official support guidance points fans to tournament apps, which means match-day readiness is no longer only about reaching the stadium; it is also about account access, phone battery, connectivity and keeping tickets available at the gate.",
+    impact: ["Fans should install official ticketing apps before match day, not at the stadium gate","Phone battery, login access and backup connectivity now belong in every ticket checklist","Groups should confirm who controls each ticket before separating near security"],
+    sections: [
+      {
+        title: "The ticketing signal",
+        body: "Mobile ticketing changes the stress points of a World Cup day. A fan can have the right ticket and still create a delay if the app is not installed, the account cannot be accessed or the phone is almost dead before gates open."
+      },
+      {
+        title: "What to check early",
+        body: "The practical move is to treat app setup like passport or hotel confirmation. Install the official app, sign in, verify ticket visibility and understand transfer rules before leaving for the stadium.",
+        bullets: ["Charge phones fully and bring an approved power bank if allowed","Keep account recovery details accessible before traveling","Confirm ticket ownership inside a group before splitting up"]
+      },
+      {
+        title: "Why this matters for groups",
+        body: "World Cup groups often move in pieces: one person handles tickets, another books transit and others arrive from different hotels. Mobile tickets make coordination cleaner only if everyone knows who has access and when transfers must happen."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users should add a mobile-ticket readiness task to every match itinerary. The checklist should sit next to transit, bag policy and gate-time reminders."
+      }
+    ]
+  },
+  {
+    slug: "new-york-hotel-labor-deal-world-cup-lodging",
+    title: "New York hotel labor deal lowers one World Cup lodging risk",
+    description: "A New York hotel union deal reported by Reuters through The Guardian removes one uncertainty for fans planning stays around World Cup matches and the final.",
+    category: "Travel",
+    publishedAt: "2026-05-19",
+    updatedAt: "2026-05-20",
+    image: "/assets/news/new-york-hotel-labor-deal-world-cup-lodging.png",
+    sourceUrl: "https://www.theguardian.com/us-news/2026/may/19/new-york-hotel-workers-world-cup-union-deal",
+    sourceLabel: "Reuters via The Guardian",
+    summary:
+      "One lodging risk around the New York New Jersey World Cup window has eased. Reuters, carried by The Guardian, reported that New York City hotel workers reached a labor deal before the tournament, reducing uncertainty for travelers who need rooms around regional matches, fan events and the final.",
+    impact: ["Fans booking New York stays get more labor-stability clarity before peak tournament dates","Hotel prices and availability still need careful tracking around MetLife match days","Groups should keep refundable options where possible because lodging demand remains high"],
+    sections: [
+      {
+        title: "The lodging signal",
+        body: "A labor deal does not make New York hotels cheap or easy to book, but it removes one category of uncertainty. For World Cup visitors, that matters because lodging is often the largest non-ticket cost in a New York New Jersey itinerary."
+      },
+      {
+        title: "What fans should still watch",
+        body: "The deal lowers disruption risk, but demand around MetLife Stadium matches, the final, fan events and summer tourism can still push prices and minimum stays. Fans should compare refundable rates, transit access and late check-in policies.",
+        bullets: ["Check hotel access to transit, not only distance on a map","Keep group room responsibilities clear before payment deadlines","Avoid nonrefundable bookings if match tickets are not confirmed"]
+      },
+      {
+        title: "Why it matters beyond ticket holders",
+        body: "New York can draw fans who never enter the stadium: watch-party travelers, sponsor-event guests, media and neutral visitors. That broader demand can affect rooms across Manhattan, Queens, Brooklyn, Newark and Jersey City."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users should connect lodging choices to actual match-day transport. A stable hotel deal helps, but a room still needs a realistic route to MetLife, the Fan Hub or a watch venue."
+      }
+    ]
+  },
+  {
+    slug: "iran-training-camp-azmoun-group-g-fluid",
+    title: "Iran training camp and Azmoun absence keep Group G plans fluid",
+    description: "AP's Iran World Cup update highlights Sardar Azmoun's absence and team travel context, reinforcing why Group G fans should keep lineup and logistics alerts on.",
+    category: "Teams",
+    publishedAt: "2026-05-19",
+    updatedAt: "2026-05-20",
+    image: "/assets/news/iran-training-camp-azmoun-group-g-fluid.png",
+    sourceUrl: "https://apnews.com/article/9b9013c3e41993e80fb0802ed299ae30",
+    sourceLabel: "AP",
+    summary:
+      "Iran's Group G planning remains fluid after AP reported on the team's World Cup preparations, including the absence of Sardar Azmoun from the squad picture and the wider travel context around the team. For supporters, the update reinforces that lineup expectations, training news and match-day logistics should be watched together.",
+    impact: ["Iran fans should keep squad and training alerts active before Los Angeles and Seattle plans lock in","Azmoun's absence changes attacking expectations and watch-party storylines","Travel context around the team makes official updates more important than rumor-driven planning"],
+    sections: [
+      {
+        title: "The team-news signal",
+        body: "Iran's squad picture was already notable because Azmoun was missing from the preliminary list. AP's update keeps that storyline active and reminds fans that Group G expectations can shift as training, travel and final preparations continue."
+      },
+      {
+        title: "Why fans should stay flexible",
+        body: "Iran play in a group with Belgium, Egypt and New Zealand, and the first two matches are central to how supporters will plan gatherings and travel. If attacking roles change, watch-party narratives and neutral interest can change too.",
+        bullets: ["Track official federation and FIFA updates before assuming lineups","Keep Los Angeles and Seattle travel blocks separate","Avoid building plans around unverified social-media claims"]
+      },
+      {
+        title: "The logistics layer",
+        body: "World Cup preparation is not only a football story. Team movement, training base context and documentation issues can all affect how fans understand the days before kickoff."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users following Iran should pin Group G alerts, keep official ticket and travel proof together and treat the Seattle finale as a separate logistics block after the Los Angeles matches."
+      }
+    ]
+  },
+  {
+    slug: "portugal-world-cup-squad-ronaldo-route",
+    title: "Portugal squad gives Ronaldo fans a Group K route to plan",
+    description: "Roberto Martinez's Portugal squad announcement keeps Cristiano Ronaldo in the World Cup spotlight and gives fans a clearer Group K planning frame.",
+    category: "Teams",
+    publishedAt: "2026-05-19",
+    updatedAt: "2026-05-20",
+    image: "/assets/news/portugal-world-cup-squad-ronaldo-route.png",
+    sourceUrl: "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/cristiano-ronaldo-roberto-martinez-portugal-squad-announcement",
+    sourceLabel: "FIFA",
+    summary:
+      "Portugal's World Cup story is clearer after FIFA reported Roberto Martinez's squad announcement. Cristiano Ronaldo remains the global headline, but the practical fan-planning effect is broader: Portugal supporters can now connect player expectations with Group K travel, ticket checks and watch-party demand.",
+    impact: ["Portugal matches remain high-demand events for stadium and watch-party planning","Ronaldo's inclusion will lift neutral interest even outside Portugal fan groups","Group K followers should monitor final lineup news and official match-day guidance"],
+    sections: [
+      {
+        title: "The squad signal",
+        body: "Portugal squad news changes the tone of the tournament for both dedicated supporters and neutral fans. Once Ronaldo is part of the World Cup story, match interest, media attention and casual watch-party demand all move higher."
+      },
+      {
+        title: "Group K planning",
+        body: "Portugal share Group K with Congo DR, Uzbekistan and Colombia. That mix gives supporters a route with different crowd profiles, from Portugal-heavy gatherings to games where neutral fans may be drawn by star power.",
+        bullets: ["Use official ticketing and avoid resale pressure around Portugal matches","Book watch venues early in cities with large Portuguese communities","Keep travel buffers flexible until final kickoff-day logistics are published"]
+      },
+      {
+        title: "What fans should watch",
+        body: "The squad gives fans a baseline, but match-one selections and player fitness still matter. Portugal supporters should track official team updates rather than assuming every star will play the same role across the group."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users should mark Portugal matches as high-demand events, save backup watch spots and keep squad alerts on. A Portugal match can shift local crowd patterns even for fans without a stadium ticket."
+      }
+    ]
+  },
+  {
+    slug: "croatia-world-cup-squad-group-l-route",
+    title: "Croatia squad blends Modric-era experience with a Group L route",
+    description: "Croatia's World Cup squad announcement keeps Luka Modric's generation in focus while giving supporters a clearer Group L planning picture.",
+    category: "Teams",
+    publishedAt: "2026-05-18",
+    updatedAt: "2026-05-20",
+    image: "/assets/news/croatia-world-cup-squad-group-l-route.png",
+    sourceUrl: "https://www.fifa.com/en/articles/croatia-squad-named",
+    sourceLabel: "FIFA",
+    summary:
+      "Croatia's World Cup squad is now part of the planning picture after FIFA reported the team announcement. Luka Modric and Croatia's experienced core keep the 2018 finalist and 2022 semi-finalist story alive, while Group L gives fans a defined set of opponents: England, Ghana and Panama.",
+    impact: ["Croatia fans can now anchor Group L travel around a named squad","The England match is likely to draw especially heavy neutral and media interest","Modric-era storylines can lift demand for Croatian watch parties and fan meetups"],
+    sections: [
+      {
+        title: "The squad signal",
+        body: "Croatia's squad news carries a familiar question: how far can the experienced core push one more time? For fans, that turns the group stage into more than three fixtures; it becomes a chance to follow a generation with a defined tournament identity."
+      },
+      {
+        title: "Group L pressure",
+        body: "Croatia sit in Group L with England, Ghana and Panama. The England fixture should be treated as the highest-demand planning point, while Ghana and Panama each require different expectations for atmosphere, ticket searches and watch-party timing.",
+        bullets: ["Save Croatia's group matches as separate planning cards","Expect the England matchup to draw neutral interest beyond Croatia supporters","Keep travel and watch plans flexible until final match-day guidance lands"]
+      },
+      {
+        title: "Why experience matters",
+        body: "Experienced squads can be easier for fans to read because key roles are familiar, but they can also be managed carefully across the group. Supporters should follow training and lineup updates before locking assumptions about starters."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users following Croatia should combine squad alerts with city-by-city mobility plans. A Croatia route is likely to attract both diaspora gatherings and neutral fans who want to see the Modric-era story continue."
+      }
+    ]
+  },
+  {
+    slug: "austria-world-cup-squad-bay-area-kickoff",
+    title: "Austria squad turns a long World Cup wait into a Group J planning story",
+    description: "Ralf Rangnick's Austria squad announcement gives supporters a concrete Group J frame after a long wait for a World Cup return.",
+    category: "Teams",
+    publishedAt: "2026-05-18",
+    updatedAt: "2026-05-20",
+    image: "/assets/news/austria-world-cup-squad-bay-area-kickoff.png",
+    sourceUrl: "https://www.fifa.com/en/articles/austria-ralf-rangnick-world-cup-squad",
+    sourceLabel: "FIFA",
+    summary:
+      "Austria's World Cup return has a clearer shape after FIFA reported Ralf Rangnick's squad announcement. With Group J matches against Argentina, Algeria and Jordan ahead, Austrian supporters can now move from qualification celebration to real match-day planning.",
+    impact: ["Austria fans should treat the Argentina match as the highest-demand group-stage planning point","A long-awaited World Cup return can create strong diaspora watch-party interest","Group J requires separate planning for different crowd levels and opponent profiles"],
+    sections: [
+      {
+        title: "The squad signal",
+        body: "For Austria, a World Cup squad announcement carries extra weight because it turns a long absence into a practical itinerary. Fans can now connect team expectations with tickets, travel windows and where-to-watch planning."
+      },
+      {
+        title: "Group J context",
+        body: "Austria share Group J with Argentina, Algeria and Jordan. The Argentina match is the obvious global draw, but every match needs its own plan because crowd demand, arrival timing and fan-zone pressure can change sharply by opponent.",
+        bullets: ["Treat Argentina as a high-demand match regardless of venue","Save official transport links for each host city separately","Keep a backup watch-party option for opening week"]
+      },
+      {
+        title: "What fans should watch",
+        body: "Rangnick's team identity gives Austria a recognizable football story, but supporters should track final squad and fitness updates before assuming the same lineup or match rhythm across the group."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users following Austria should create a Group J checklist with match alerts, hotel buffers, official ticket checks and a separate watch venue plan for the Argentina fixture."
+      }
+    ]
+  },
+  {
     slug: "scotland-world-cup-squad-tartan-army-route",
     title: "Scotland squad gives Tartan Army a MetLife route to plan",
     description: "Steve Clarke's Scotland squad announcement gives supporters a clearer World Cup picture before a Group C opener against Haiti at MetLife Stadium.",
