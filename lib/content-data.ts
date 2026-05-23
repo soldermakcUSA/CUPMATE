@@ -7,6 +7,12 @@ import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 export const NEWS_IMAGE_FALLBACK = "/assets/news/los-angeles-world-cup-surface-final-prep.webp";
 
 const newsImagesBySlug: Record<string, string> = {
+  "england-world-cup-squad-tuchel-route": "/assets/news/england-world-cup-squad-tuchel-route.png",
+  "germany-world-cup-squad-neuer-return": "/assets/news/germany-world-cup-squad-neuer-return.png",
+  "turkiye-world-cup-squad-group-d-route": "/assets/news/turkiye-world-cup-squad-group-d-route.png",
+  "norway-world-cup-squad-haaland-odegaard": "/assets/news/norway-world-cup-squad-haaland-odegaard.png",
+  "new-zealand-world-cup-wood-fitness": "/assets/news/new-zealand-world-cup-wood-fitness.png",
+  "senegal-world-cup-squad-mane-core": "/assets/news/senegal-world-cup-squad-mane-core.png",
   "world-cup-mobile-ticket-app-phone-readiness": "/assets/news/world-cup-mobile-ticket-app-phone-readiness.png",
   "new-york-hotel-labor-deal-world-cup-lodging": "/assets/news/new-york-hotel-labor-deal-world-cup-lodging.png",
   "iran-training-camp-azmoun-group-g-fluid": "/assets/news/iran-training-camp-azmoun-group-g-fluid.png",

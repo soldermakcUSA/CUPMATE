@@ -21,6 +21,204 @@ export type NewsSeoArticle = {
 
 export const newsSeoArticles: NewsSeoArticle[] = [
   {
+    slug: "england-world-cup-squad-tuchel-route",
+    title: "England squad news turns Group L into a high-demand planning route",
+    description: "Thomas Tuchel's England squad update gives supporters a clearer Group L frame against Croatia, Ghana and Panama, with ticket and watch-party demand likely to climb.",
+    category: "Teams",
+    publishedAt: "2026-05-22",
+    updatedAt: "2026-05-22",
+    image: "/assets/news/england-world-cup-squad-tuchel-route.png",
+    sourceUrl: "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/england-squad-named-thomas-tuchel",
+    sourceLabel: "FIFA",
+    summary:
+      "England's World Cup planning picture sharpened after FIFA reported Thomas Tuchel's squad announcement. For fans, the value is practical as much as sporting: Group L now has a clearer England storyline around matches with Croatia, Ghana and Panama, which can affect ticket searches, hotel timing, arrival plans and pub or fan-zone demand.",
+    impact: ["England and Croatia should be treated as the highest-demand Group L planning point","Supporters should lock transport and watch-party options before final-week price pressure builds","Tuchel's squad choices give fans a stronger baseline for lineup alerts and match previews"],
+    sections: [
+      {
+        title: "The squad signal",
+        body: "England squad news matters beyond the team sheet because it changes how supporters plan the opening phase. A named Tuchel group gives fans a clearer idea of which storylines will travel with England and which fixtures are likely to pull in neutral attention."
+      },
+      {
+        title: "Group L planning",
+        body: "England share Group L with Croatia, Ghana and Panama. The Croatia match is the obvious demand marker, but Ghana and Panama bring different crowd patterns, diaspora gatherings and watch-party timings.",
+        bullets: ["Treat England v Croatia as a high-demand ticket and venue search","Save a backup watch venue before match week","Keep official team alerts on for lineup and training updates"]
+      },
+      {
+        title: "What fans should do now",
+        body: "Fans do not need to know the final starting eleven to plan intelligently. The safer move is to separate each Group L match into its own checklist: transport, gate timing, ticket status, meet-up point and post-match route."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users following England should pin Group L as a priority route and keep Croatia-specific plans separate from Ghana and Panama. Demand can shift quickly once lineup and injury news starts moving."
+      }
+    ]
+  },
+  {
+    slug: "germany-world-cup-squad-neuer-return",
+    title: "Neuer's Germany return adds a major storyline to Group E planning",
+    description: "A Reuters report on Germany's World Cup squad picture puts Manuel Neuer back at the center of fan expectations before Group E matches with Curacao, Cote d'Ivoire and Ecuador.",
+    category: "Teams",
+    publishedAt: "2026-05-21",
+    updatedAt: "2026-05-22",
+    image: "/assets/news/germany-world-cup-squad-neuer-return.png",
+    sourceUrl: "https://www.brecorder.com/news/40422209/neuer-named-first-choice-for-germanys-world-cup-squad-after-retirement-reversal",
+    sourceLabel: "Reuters via Business Recorder",
+    summary:
+      "Germany's World Cup squad conversation has a clear headline after Reuters reported that Manuel Neuer was named first choice following his international retirement reversal. For fans, that turns Group E into a sharper planning story: Germany enter matches with Curacao, Cote d'Ivoire and Ecuador with a familiar tournament figure back in focus.",
+    impact: ["Germany matches can draw extra neutral attention because Neuer's return is a global storyline","Group E supporters should track goalkeeper and defensive lineup updates before match day","The Cote d'Ivoire and Ecuador fixtures may carry heavier tactical and watch-party interest"],
+    sections: [
+      {
+        title: "The roster signal",
+        body: "A goalkeeper decision can change the tone around a contender. Neuer's return gives Germany fans a familiar anchor and gives neutral supporters another reason to circle Germany's Group E fixtures."
+      },
+      {
+        title: "Group E context",
+        body: "Germany are grouped with Curacao, Cote d'Ivoire and Ecuador. That mix gives fans one opener-style planning scenario, one physically demanding matchup and one closing game where standings pressure could matter.",
+        bullets: ["Follow official squad and training updates before assuming the starting back line","Expect Germany games to attract neutral fans in stadium cities","Plan watch venues early where Germany supporter groups are active"]
+      },
+      {
+        title: "Why it matters for travel",
+        body: "Star and legacy storylines can affect more than TV attention. They can push casual fans toward a match, raise bar demand and make last-minute ticket searches more competitive."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users should save Germany's Group E matches as high-interest events and keep alerts open for final squad confirmation, goalkeeper news and city-specific transport updates."
+      }
+    ]
+  },
+  {
+    slug: "turkiye-world-cup-squad-group-d-route",
+    title: "Turkiye preliminary squad gives Group D fans a real travel frame",
+    description: "FIFA's Turkiye preliminary squad update gives supporters a clearer planning base for a Group D route involving the United States, Paraguay and Australia.",
+    category: "Teams",
+    publishedAt: "2026-05-18",
+    updatedAt: "2026-05-22",
+    image: "/assets/news/turkiye-world-cup-squad-group-d-route.png",
+    sourceUrl: "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/turkiye-preliminary-world-cup-squad-announced",
+    sourceLabel: "FIFA",
+    summary:
+      "Turkiye's preliminary World Cup squad gives supporters a more concrete planning base. FIFA's update moves Group D from an abstract draw into a practical route: fans can start connecting player expectations with matches against the United States, Paraguay and Australia, plus the travel and watch-party pressure that comes with a co-host opponent.",
+    impact: ["Turkiye fans can now build Group D plans around a named preliminary squad","The United States fixture should be treated as a higher-pressure logistics and demand point","Supporters should watch final registration, injuries and call-up changes before locking assumptions"],
+    sections: [
+      {
+        title: "The preliminary signal",
+        body: "A preliminary squad is not the final tournament list, but it is useful for planning. It gives supporters a working picture of the players likely to shape the first week and the storylines that will drive fan interest."
+      },
+      {
+        title: "Group D planning",
+        body: "Turkiye's group includes the United States, Paraguay and Australia. The United States match is the obvious crowd-pressure point because co-host matches can reshape transport, fan-zone demand and secondary ticket searches.",
+        bullets: ["Keep final squad alerts on until registration is confirmed","Treat the United States fixture as the highest-demand Group D checkpoint","Use official ticketing only and avoid social-media resale pressure"]
+      },
+      {
+        title: "What fans should watch",
+        body: "The key for Turkiye supporters is flexibility. A preliminary list can change, so travel plans should be based on confirmed fixtures and official logistics while player expectations remain adjustable."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users should save Turkiye's Group D route as a multi-step plan with separate cards for tickets, transit, watch venues and final squad updates."
+      }
+    ]
+  },
+  {
+    slug: "norway-world-cup-squad-haaland-odegaard",
+    title: "Norway squad news puts Haaland and Odegaard at the center of Group I planning",
+    description: "FIFA's Norway squad update gives supporters a clearer Group I storyline around Erling Haaland, Martin Odegaard and matches with France, Senegal and Iraq.",
+    category: "Teams",
+    publishedAt: "2026-05-21",
+    updatedAt: "2026-05-22",
+    image: "/assets/news/norway-world-cup-squad-haaland-odegaard.png",
+    sourceUrl: "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/norway-squad-announcement-stale-solbakken",
+    sourceLabel: "FIFA",
+    summary:
+      "Norway's World Cup squad update gives Group I one of its clearest fan-planning hooks. FIFA reported Stale Solbakken's squad announcement, putting attention on a Norway route shaped by Erling Haaland, Martin Odegaard and matches against France, Senegal and Iraq.",
+    impact: ["Norway matches can attract neutral fans because of Haaland and Odegaard","The Senegal fixture has direct group-table and supporter-demand importance","Fans should pair lineup alerts with city-specific mobility plans"],
+    sections: [
+      {
+        title: "The squad signal",
+        body: "Norway arrive with star power that travels. Once the squad picture is clearer, fans can make better decisions about which matches deserve early ticket searches and which watch venues are likely to fill fastest."
+      },
+      {
+        title: "Group I context",
+        body: "Norway's group includes France, Senegal and Iraq. France brings contender demand, Senegal brings direct qualification pressure and Iraq can still shape the standings if the group tightens.",
+        bullets: ["Expect neutral demand around Norway because of star players","Track training and selection updates before assuming the front line","Separate watch-party plans by opponent rather than using one generic group plan"]
+      },
+      {
+        title: "Why this helps supporters",
+        body: "A named squad turns broad excitement into practical preparation. Fans can now build alerts around specific players, likely lineup debates and the matches most likely to influence the knockout path."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users following Norway should save Group I as a high-interest route and mark Senegal and France as matches where ticket, bar and transit demand can move quickly."
+      }
+    ]
+  },
+  {
+    slug: "new-zealand-world-cup-wood-fitness",
+    title: "Chris Wood fitness update gives New Zealand fans a Group G anchor",
+    description: "A Reuters update says New Zealand captain Chris Wood is fit and ready for the World Cup, giving Group G supporters a clearer planning storyline.",
+    category: "Teams",
+    publishedAt: "2026-05-22",
+    updatedAt: "2026-05-22",
+    image: "/assets/news/new-zealand-world-cup-wood-fitness.png",
+    sourceUrl: "https://www.brecorder.com/news/40422387/new-zealand-captain-wood-fit-and-fired-up-for-world-cup",
+    sourceLabel: "Reuters via Business Recorder",
+    summary:
+      "New Zealand supporters received a useful planning signal after Reuters reported that captain Chris Wood is fit and fired up for the World Cup. In a Group G with Belgium, Egypt and Iran, Wood's status gives fans a clearer team storyline to follow as they set ticket alerts, watch-party plans and travel reminders.",
+    impact: ["New Zealand fans can plan Group G with Wood as a central storyline again","The Belgium and Iran matches may draw more neutral interest if New Zealand look competitive","Supporters should still monitor training updates before finalizing lineup expectations"],
+    sections: [
+      {
+        title: "The fitness signal",
+        body: "For smaller traveling supporter groups, one captain's fitness can shape the entire tournament mood. Wood being available gives New Zealand fans a clearer reason to build match previews and watch events around a familiar leader."
+      },
+      {
+        title: "Group G planning",
+        body: "New Zealand face a demanding Group G with Belgium, Egypt and Iran. That makes the first match window important for momentum, and it makes official team news more valuable than rumor-driven lineup talk.",
+        bullets: ["Keep Group G alerts on for injuries and final lineup updates","Use official ticketing channels for any late match searches","Plan stadium and watch-party routes separately for each opponent"]
+      },
+      {
+        title: "Why it matters for fan travel",
+        body: "A clear captain story helps traveling fans organize meetups, flags, watch venues and content around the team. It also gives neutral fans a reason to follow New Zealand beyond the group draw."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users should connect New Zealand's team alerts with Los Angeles, Seattle and Vancouver planning blocks, because Group G movement and match timing are just as important as the lineup."
+      }
+    ]
+  },
+  {
+    slug: "senegal-world-cup-squad-mane-core",
+    title: "Senegal squad news keeps Mane and the veteran core in Group I focus",
+    description: "A Reuters report on Senegal's World Cup squad picture keeps Sadio Mane and a tried-and-tested core at the center of Group I planning.",
+    category: "Teams",
+    publishedAt: "2026-05-21",
+    updatedAt: "2026-05-22",
+    image: "/assets/news/senegal-world-cup-squad-mane-core.png",
+    sourceUrl: "https://www.brecorder.com/news/40422203/mane-headlines-tried-and-trusted-senegal-squad-for-world-cup",
+    sourceLabel: "Reuters via Business Recorder",
+    summary:
+      "Senegal's World Cup planning picture sharpened after Reuters reported on a squad built around Sadio Mane and a trusted veteran core. For fans, that makes Group I more concrete: Senegal's matches with France, Norway and Iraq now carry a clearer identity and stronger watch-party pull.",
+    impact: ["Senegal supporters can build Group I plans around a familiar veteran spine","The France and Norway fixtures should draw strong neutral and diaspora interest","Fans should keep final lineup and injury alerts active before match week"],
+    sections: [
+      {
+        title: "The squad signal",
+        body: "Senegal's squad story is about continuity. A tried-and-tested core gives supporters a familiar reference point and gives neutral fans recognizable names to follow across Group I."
+      },
+      {
+        title: "Group I pressure",
+        body: "Senegal share the group with France, Norway and Iraq. France carries global demand, Norway brings star-powered crossover interest and Iraq can shape the qualification math if results tighten.",
+        bullets: ["Treat France and Norway as the highest-demand Senegal planning points","Book watch venues early in cities with active Senegalese communities","Track official team updates before assuming the starting attack"]
+      },
+      {
+        title: "Why this matters now",
+        body: "Squad clarity helps supporters move from broad excitement to actual plans: where to watch, when to arrive, who handles tickets and which match deserves the biggest group meetup."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users should tag Senegal's Group I route for watch-party demand and keep a separate match-day checklist for France and Norway, where crowd levels and attention can move fastest."
+      }
+    ]
+  },
+  {
     slug: "world-cup-mobile-ticket-app-phone-readiness",
     title: "World Cup mobile ticket app makes phone readiness part of match-day planning",
     description: "FIFA's ticketing support now points fans to dedicated World Cup 2026 apps, making phone setup, account access and battery planning part of stadium entry.",
