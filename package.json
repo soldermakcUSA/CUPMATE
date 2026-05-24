@@ -7,6 +7,9 @@
     "auto-news": "node scripts/auto-news.mjs",
     "dev": "next dev",
     "build": "next build",
+    "render-bars-email:batch": "node scripts/render-bars-email-batch.mjs",
+    "render-bars-email": "node scripts/render-bars-email-template.mjs",
+    "send-bars-email:graph": "node scripts/send-bars-email-graph.mjs",
     "start": "next start",
     "lint": "next lint"
   },

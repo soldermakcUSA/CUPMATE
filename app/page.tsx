@@ -25,13 +25,16 @@ import {
   Languages,
   Map,
   MapPin,
+  Menu,
   MessageCircle,
+  Newspaper,
   Plane,
   Search,
   Send,
   Settings,
   ShieldCheck,
   Ticket,
+  Trophy,
   Users,
   Utensils,
   WalletCards
@@ -48,7 +51,7 @@ import {
 } from "@/lib/localized-static-data";
 import { fetchWorldCupMatches, MatchCardData } from "@/lib/world-cup-data";
 
-type Screen = "home" | "matches" | "map" | "route" | "stadium" | "watch" | "community" | "assistant";
+type Screen = "home" | "matches" | "map" | "route" | "stadium" | "watch" | "community" | "assistant" | "tickets" | "news" | "menu";
 type DesktopSection = SidebarSection;
 const desktopSections: DesktopSection[] = ["dashboard", "matches", "fanZones", "stadiums", "travel", "watch", "community", "tickets", "news", "assistant"];
 
@@ -325,7 +328,10 @@ export default function CupMatePage() {
       stadium: t.stadiumGuide,
       watch: t.watch,
       community: t.community,
-      assistant: t.assistant
+      assistant: t.assistant,
+      tickets: t.tickets,
+      news: t.news || "News",
+      menu: t.menu || "Menu"
     };
     return titles[mobileScreen];
   }, [mobileScreen, t]);
@@ -390,6 +396,19 @@ export default function CupMatePage() {
                 setAssistantText={setAssistantText}
                 submitAssistant={submitAssistant}
               />
+            )}
+            {mobileScreen === "tickets" && (
+              <div className="mobile-panel-wrap">
+                <TicketsPanel locale={locale} t={t} matches={worldCupMatches} />
+              </div>
+            )}
+            {mobileScreen === "news" && (
+              <div className="mobile-panel-wrap">
+                <NewsPanel locale={locale} t={t} news={contentNews} />
+              </div>
+            )}
+            {mobileScreen === "menu" && (
+              <MobileMenu t={t} setActive={setMobileScreen} locale={locale} setLocale={setLocale} />
             )}
           </div>
         </div>
@@ -1077,13 +1096,67 @@ function MobileAssistant({ t, assistantText, setAssistantText, submitAssistant }
   );
 }
 
+function MobileMenu({
+  t,
+  setActive,
+  locale,
+  setLocale
+}: {
+  t: typeof translations.en;
+  setActive: (screen: Screen) => void;
+  locale: Locale;
+  setLocale: (locale: Locale) => void;
+}) {
+  const menuItems: Array<{ screen: Screen; label: string; icon: any; color: string }> = [
+    { screen: "home", label: t.home, icon: Home, color: "var(--blue)" },
+    { screen: "matches", label: t.matches, icon: CalendarDays, color: "var(--purple)" },
+    { screen: "map", label: t.fanZones, icon: Map, color: "var(--green)" },
+    { screen: "stadium", label: t.stadiumGuide, icon: Trophy, color: "#f5a51c" },
+    { screen: "route", label: t.routeToStadium || "Travel", icon: Car, color: "#32d583" },
+    { screen: "watch", label: t.watch, icon: Utensils, color: "#ff4d4f" },
+    { screen: "community", label: t.community, icon: Users, color: "var(--purple-2)" },
+    { screen: "tickets", label: t.tickets, icon: Ticket, color: "#245bff" },
+    { screen: "news", label: t.news || "News", icon: Newspaper, color: "#667085" },
+    { screen: "assistant", label: t.assistant, icon: MessageCircle, color: "var(--blue)" }
+  ];
+
+  return (
+    <div className="mobile-menu-page">
+      <div className="mobile-menu-grid">
+        {menuItems.map((item) => {
+          const Icon = item.icon;
+          return (
+            <button
+              key={item.screen}
+              className="mobile-menu-tile"
+              onClick={() => setActive(item.screen)}
+              style={{ "--tile-accent": item.color } as React.CSSProperties}
+            >
+              <div className="tile-icon-wrap" style={{ color: item.color }}>
+                <Icon size={24} />
+              </div>
+              <strong>{item.label}</strong>
+            </button>
+          );
+        })}
+      </div>
+      <div className="mobile-menu-settings">
+        <div className="mobile-menu-settings-row">
+          <span>{t.lang || "Language"}</span>
+          <LanguagePicker locale={locale} setLocale={setLocale} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function MobileNav({ t, active, setActive }: { t: typeof translations.en; active: Screen; setActive: (screen: Screen) => void }) {
-  const tabs: Array<[Screen, string, typeof Home]> = [
+  const tabs: Array<[Screen, string, any]> = [
     ["home", t.home, Home],
     ["matches", t.matches, CalendarDays],
     ["map", t.map, Map],
-    ["community", t.community, Users],
-    ["assistant", t.assistant, MessageCircle]
+    ["assistant", t.assistant, MessageCircle],
+    ["menu", t.menu || "Menu", Menu]
   ];
 
   return (
