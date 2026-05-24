@@ -21,6 +21,204 @@ export type NewsSeoArticle = {
 
 export const newsSeoArticles: NewsSeoArticle[] = [
   {
+    slug: "group-e-world-cup-route-boston-dallas",
+    title: "Group E focus gives Germany, Ecuador and Côte d’Ivoire fans a clearer route",
+    description: "FIFA's Group E focus sharpens the planning picture for Germany, Ecuador, Côte d’Ivoire and Curaçao supporters before a route that runs through Boston, Toronto, Philadelphia and Dallas.",
+    category: "Guides",
+    publishedAt: "2026-05-24",
+    updatedAt: "2026-05-24",
+    image: "/assets/news/group-e-world-cup-route-boston-dallas.png",
+    sourceUrl: "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/group-e-focus-teams-fixtures-standings",
+    sourceLabel: "FIFA",
+    summary:
+      "FIFA's Group E focus gives supporters a cleaner way to plan one of the tournament's most varied routes. Germany, Ecuador, Côte d'Ivoire and Curaçao bring different fan bases and travel pressures, with matches stretching across Boston, Toronto, Philadelphia and Dallas.",
+    impact: ["Group E fans should plan for a four-city route rather than one simple base","Germany matches remain likely to draw heavy neutral demand","Côte d’Ivoire and Ecuador supporters need separate border, flight and hotel buffers"],
+    sections: [
+      {
+        title: "The group signal",
+        body: "Group E is a practical planning test because the teams and venues create very different fan-day patterns. Germany bring global demand, Ecuador and Côte d'Ivoire bring strong diaspora interest, and Curaçao add a first-time storyline that can change watch-party energy."
+      },
+      {
+        title: "The travel shape",
+        body: "The group route touches Boston, Toronto, Philadelphia and Dallas. That means supporters should avoid treating Group E as one hotel problem; it is a chain of separate mobility decisions.",
+        bullets: ["Check border and passport timing for Toronto trips","Keep Philadelphia and Dallas plans separate from East Coast hotel searches","Use official venue and city guidance before match week"]
+      },
+      {
+        title: "Why fans should act early",
+        body: "A group with Germany can pull neutral supporters into matches even when they do not support either team. That can affect stadium arrival windows, local bar demand and late ticket searches."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users following Group E should save each fixture as its own card with ticket status, transport, watch venue and border notes. The route rewards early planning more than last-minute improvisation."
+      }
+    ]
+  },
+  {
+    slug: "ecuador-world-cup-hope-safety-context",
+    title: "Ecuador fans look to the World Cup as safety context shapes travel planning",
+    description: "An AP report carried by NDTV says Ecuador supporters are pinning hopes on a World Cup run amid domestic violence concerns, adding a safety layer to fan planning.",
+    category: "Teams",
+    publishedAt: "2026-05-24",
+    updatedAt: "2026-05-24",
+    image: "/assets/news/ecuador-world-cup-hope-safety-context.png",
+    sourceUrl: "https://sports.ndtv.com/fifa-world-cup-2026/ecuador-fans-pin-hopes-on-a-world-cup-run-amid-surge-in-violence-11540601",
+    sourceLabel: "AP via NDTV Sports",
+    summary:
+      "Ecuador's World Cup story is carrying more than football expectation. AP, carried by NDTV Sports, reported that fans are looking to the tournament for hope while the country deals with a surge in violence. For CupMate, that makes Ecuador a team-planning story with a clear safety and coordination layer.",
+    impact: ["Ecuador supporters should combine team alerts with practical group-safety planning","Group E watch parties may carry strong emotional and diaspora energy","Fans should use verified meeting points, official ticketing and trusted transport options"],
+    sections: [
+      {
+        title: "The fan signal",
+        body: "World Cup support often becomes a way for fans to gather around something positive. For Ecuador, that emotional layer matters because team news, watch parties and travel plans can carry a stronger community meaning than usual."
+      },
+      {
+        title: "Planning with care",
+        body: "Safety planning does not mean avoiding the tournament. It means keeping group communication simple, using trusted routes, confirming tickets through official channels and choosing visible meeting points before and after matches.",
+        bullets: ["Set a group check-in plan before match day","Avoid unverified ticket and transport offers","Keep hotel, transit and emergency contacts available offline"]
+      },
+      {
+        title: "Group E context",
+        body: "Ecuador face a group with Germany, Côte d'Ivoire and Curaçao. If Ecuador start well, diaspora gatherings and neutral interest can grow quickly around later fixtures."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users following Ecuador should save both football alerts and practical travel notes. A strong World Cup story is easier to enjoy when the group has already agreed on safety basics."
+      }
+    ]
+  },
+  {
+    slug: "bay-area-world-cup-fan-zones-transit",
+    title: "Bay Area World Cup hosting run puts fan zones and transit back in focus",
+    description: "AP's Bay Area host-city report highlights the region's run of major sports events, giving World Cup fans another reminder to plan transit, fan zones and match-day buffers early.",
+    category: "Host Cities",
+    publishedAt: "2026-05-23",
+    updatedAt: "2026-05-24",
+    image: "/assets/news/bay-area-world-cup-fan-zones-transit.png",
+    sourceUrl: "https://apnews.com/article/world-cup-bay-area-big-sporting-events-197995d51f8c593ca687adf74e7521ee",
+    sourceLabel: "AP",
+    summary:
+      "The San Francisco Bay Area is moving from one major sports event to another, and AP's host-city report shows why World Cup supporters should think beyond the stadium. The fan experience will depend on transit choices, city-to-stadium timing, official gathering spaces and hotel geography across a wide region.",
+    impact: ["Bay Area visitors should plan by corridor, not only by stadium distance","Transit and shuttle details should be checked before locking hotel choices","Fan-zone and city-event demand can affect people who never enter the stadium"],
+    sections: [
+      {
+        title: "The host-city signal",
+        body: "The Bay Area is used to large sports weeks, but the World Cup brings a different rhythm: international visitors, scattered hotel bases, fan gatherings and multiple days of city movement around each match."
+      },
+      {
+        title: "Why geography matters",
+        body: "A map can make the Bay Area look simple until traffic, rail connections and airport choices are added. Fans should connect lodging to realistic match-day routes rather than choosing by straight-line distance.",
+        bullets: ["Check official shuttle and rail updates before match week","Leave wider buffers for airport-to-hotel and hotel-to-stadium moves","Pick fan meetups near reliable transit, not only near nightlife"]
+      },
+      {
+        title: "Fan-zone layer",
+        body: "Host-city events can pull crowds into downtown and waterfront areas even on non-match days. That makes the Bay Area a full-trip planning problem, not only a stadium arrival problem."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users visiting the Bay Area should build separate cards for airport arrival, match-day transit, fan-zone time and the return trip. A good plan will reduce both cost and stress."
+      }
+    ]
+  },
+  {
+    slug: "india-world-cup-broadcast-deal-viewing",
+    title: "India broadcast deal would make World Cup viewing plans easier for millions",
+    description: "NDTV Sports reports FIFA is set to strike an India broadcast deal for the 2026 World Cup, a major signal for fans planning late-night viewing and watch parties.",
+    category: "Broadcast",
+    publishedAt: "2026-05-23",
+    updatedAt: "2026-05-24",
+    image: "/assets/news/india-world-cup-broadcast-deal-viewing.png",
+    sourceUrl: "https://sports.ndtv.com/fifa-world-cup-2026/fifa-strikes-world-cup-2026-broadcasting-deal-with-india-worth-usd-30-35-million-sources-11536616",
+    sourceLabel: "NDTV Sports",
+    summary:
+      "World Cup viewing access in India is moving toward a clearer shape after NDTV Sports reported that FIFA is set to strike a broadcast deal for the 2026 tournament. For fans, the practical question is not only who holds rights, but how match times, streaming access and group viewing will work across a North American time-zone tournament.",
+    impact: ["Indian fans should wait for official platform details before paying for unofficial streams","Late-night and early-morning kickoffs will shape watch-party planning","Bars and fan groups can start preparing once broadcaster and streaming access are confirmed"],
+    sections: [
+      {
+        title: "The broadcast signal",
+        body: "Broadcast clarity matters because the 2026 World Cup will be played across North American time zones. For India-based fans, that means many matches will require late-night or early-morning planning."
+      },
+      {
+        title: "What fans should watch",
+        body: "The safest move is to wait for official confirmation of channels, apps and subscription terms. Once those details land, fans can decide whether to watch at home, join a bar event or organize group screenings.",
+        bullets: ["Avoid unofficial stream offers and social-media links","Check whether mobile and TV access are both included","Plan high-demand matches with sleep and transport in mind"]
+      },
+      {
+        title: "Why it matters for CupMate",
+        body: "CupMate planning is not only for traveling fans. Broadcast access drives where people gather, which matches become community events and how supporters follow teams across the group stage."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users in India should save viewing plans by team and kickoff window, then update them once official broadcaster and streaming details are announced."
+      }
+    ]
+  },
+  {
+    slug: "world-cup-expanded-format-fan-planning",
+    title: "Expanded 48-team World Cup makes fan planning bigger and more complicated",
+    description: "AP's analysis of FIFA's 48-team World Cup experiment shows why supporters need better planning for a 104-match tournament across three countries.",
+    category: "Tournament",
+    publishedAt: "2026-05-21",
+    updatedAt: "2026-05-24",
+    image: "/assets/news/world-cup-expanded-format-fan-planning.png",
+    sourceUrl: "https://abcnews.com/Sports/wireStory/fifas-big-experiment-made-world-cup-big-good-133177332",
+    sourceLabel: "AP via ABC News",
+    summary:
+      "The 2026 World Cup is larger than any previous edition, and AP's analysis of FIFA's 48-team experiment underlines the practical effect for supporters. More teams and 104 matches create more stories, but also more travel decisions, ticket choices, watch windows and fatigue risks.",
+    impact: ["Fans need route planning by group and host city, not only by favorite team","More matches increase both opportunity and decision fatigue","Three-country logistics make document, hotel and transport buffers more important"],
+    sections: [
+      {
+        title: "The format signal",
+        body: "A bigger World Cup gives more countries a stage and creates more reasons for neutral fans to watch. It also makes the tournament harder to understand without a clear plan."
+      },
+      {
+        title: "The fan-planning problem",
+        body: "With 104 matches across the United States, Canada and Mexico, fans can quickly lose track of time zones, travel days and knockout-path possibilities.",
+        bullets: ["Save matches by city and group, not only by date","Check passport and visa needs before cross-border legs","Build rest and travel buffers into multi-city plans"]
+      },
+      {
+        title: "Why SEO search will matter",
+        body: "Supporters will search for very specific routes: a team, a city, a stadium, a kickoff time and a watch option. The expanded format rewards clear, practical guides over generic tournament summaries."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users should turn the expanded format into a filtered plan: favorite teams, nearby cities, confirmed tickets, fallback watch venues and alerts for knockout scenarios."
+      }
+    ]
+  },
+  {
+    slug: "boston-world-cup-parking-security-rules",
+    title: "Boston World Cup rules put parking, bags and stadium entry on the checklist",
+    description: "Boston 25's report on Gillette Stadium World Cup rules highlights parking costs, security expectations and major match-day changes that fans should plan before arrival.",
+    category: "Host Cities",
+    publishedAt: "2026-05-14",
+    updatedAt: "2026-05-24",
+    image: "/assets/news/boston-world-cup-parking-security-rules.png",
+    sourceUrl: "https://www.boston25news.com/news/local/boston-world-cup-organizers-reveal-strict-fan-rules-parking-costs-major-changes-gillette/XHERRPJCDZGGFMYYWKTCBRZDUY/",
+    sourceLabel: "Boston 25 News",
+    summary:
+      "Boston World Cup planning now has a sharper stadium-day checklist after Boston 25 reported on rules, parking costs and operational changes around Gillette Stadium. For fans, the lesson is simple: stadium entry, parking and bag policy need to be handled before leaving for Foxborough.",
+    impact: ["Boston matchgoers should check parking and shuttle details before match day","Bag and security rules should be treated like ticket checks","Groups should agree on arrival windows and post-match pickup plans early"],
+    sections: [
+      {
+        title: "The stadium signal",
+        body: "World Cup stadium days are not regular NFL or concert days. Security, parking, perimeter rules and arrival windows can all change when FIFA tournament operations are layered onto a venue."
+      },
+      {
+        title: "What fans should check",
+        body: "The practical move is to build a Boston-specific checklist before traveling to Foxborough: ticket status, bag rules, parking or shuttle plan, meeting point and backup phone battery.",
+        bullets: ["Confirm parking or transit before leaving the hotel","Use clear-bag and prohibited-item guidance from official sources","Leave extra time for security and pedestrian routes"]
+      },
+      {
+        title: "Why groups need a plan",
+        body: "Gillette Stadium sits outside central Boston, so groups that split up before or after the match can lose time quickly. A pickup point and post-match plan should be agreed before kickoff."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users attending Boston matches should save rules and parking in the same itinerary as tickets and kickoff time. The best stadium plan starts before the group gets in the car or shuttle line."
+      }
+    ]
+  },
+  {
     slug: "england-world-cup-squad-tuchel-route",
     title: "England squad news turns Group L into a high-demand planning route",
     description: "Thomas Tuchel's England squad update gives supporters a clearer Group L frame against Croatia, Ghana and Panama, with ticket and watch-party demand likely to climb.",

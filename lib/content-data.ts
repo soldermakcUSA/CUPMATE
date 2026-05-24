@@ -7,6 +7,12 @@ import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 export const NEWS_IMAGE_FALLBACK = "/assets/news/los-angeles-world-cup-surface-final-prep.webp";
 
 const newsImagesBySlug: Record<string, string> = {
+  "group-e-world-cup-route-boston-dallas": "/assets/news/group-e-world-cup-route-boston-dallas.png",
+  "ecuador-world-cup-hope-safety-context": "/assets/news/ecuador-world-cup-hope-safety-context.png",
+  "bay-area-world-cup-fan-zones-transit": "/assets/news/bay-area-world-cup-fan-zones-transit.png",
+  "india-world-cup-broadcast-deal-viewing": "/assets/news/india-world-cup-broadcast-deal-viewing.png",
+  "world-cup-expanded-format-fan-planning": "/assets/news/world-cup-expanded-format-fan-planning.png",
+  "boston-world-cup-parking-security-rules": "/assets/news/boston-world-cup-parking-security-rules.png",
   "england-world-cup-squad-tuchel-route": "/assets/news/england-world-cup-squad-tuchel-route.png",
   "germany-world-cup-squad-neuer-return": "/assets/news/germany-world-cup-squad-neuer-return.png",
   "turkiye-world-cup-squad-group-d-route": "/assets/news/turkiye-world-cup-squad-group-d-route.png",
