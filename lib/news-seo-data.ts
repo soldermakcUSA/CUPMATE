@@ -21,6 +21,204 @@ export type NewsSeoArticle = {
 
 export const newsSeoArticles: NewsSeoArticle[] = [
   {
+    slug: "world-cup-transit-sticker-shock-host-cities",
+    title: "World Cup transit costs add a new budget warning for U.S. host-city fans",
+    description: "AP's report on high transit costs in some U.S. World Cup host cities makes local transport, shuttles and parking part of every fan budget.",
+    category: "Travel",
+    publishedAt: "2026-05-26",
+    updatedAt: "2026-05-27",
+    image: "/assets/news/world-cup-transit-sticker-shock-host-cities.png",
+    sourceUrl: "https://apnews.com/article/f66d51bf1ed1de1bf568ac4fd319b8f8",
+    sourceLabel: "AP",
+    summary:
+      "World Cup travel budgets need another line item after AP reported that some fans are being surprised by high transit costs in U.S. host cities. For supporters, the practical lesson is clear: getting to the stadium can be a meaningful expense, especially when match-day shuttle, parking, rideshare and rail options vary by city.",
+    impact: ["Fans should price transport before choosing hotels or resale tickets","Groups need a shared plan for parking, shuttles, trains and post-match pickup","Higher local travel costs can change whether a cheaper hotel is actually cheaper"],
+    sections: [
+      {
+        title: "The cost signal",
+        body: "A World Cup ticket is only one part of the match-day budget. If local transit, parking or rideshare prices are higher than expected, a fan can save on lodging and still lose the savings on stadium access."
+      },
+      {
+        title: "What to compare",
+        body: "The right comparison is door-to-gate cost, not hotel price alone. Fans should check the expected cost and timing for trains, shuttles, parking, rideshare zones and late-night return options.",
+        bullets: ["Calculate transport cost per person and per group","Check official host-city shuttle guidance before match week","Keep a backup route for post-match crowds"]
+      },
+      {
+        title: "Why groups feel it first",
+        body: "Groups can make transit cheaper if they share rides or parking, but they can also make delays worse if one person controls the plan. Everyone should know the return route before entering the stadium."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users should add a transport-cost field to every match itinerary. A realistic match-day budget includes the way back to the hotel, not only the way in."
+      }
+    ]
+  },
+  {
+    slug: "monterrey-world-cup-heat-stadium-food-guide",
+    title: "Monterrey World Cup guide puts heat, stadium timing and local food in focus",
+    description: "AP's Monterrey host-city report highlights grilled food, football passion and summer heat, giving fans a practical planning checklist for Mexico matches.",
+    category: "Host Cities",
+    publishedAt: "2026-05-26",
+    updatedAt: "2026-05-27",
+    image: "/assets/news/monterrey-world-cup-heat-stadium-food-guide.png",
+    sourceUrl: "https://apnews.com/article/dceb0d8e99088e1b4a925265f2f6877d",
+    sourceLabel: "AP",
+    summary:
+      "Monterrey's World Cup identity is coming into focus after AP described a host city built around grilled food, intense football culture and summer heat. For fans, that means match-day planning should include hydration, shade, arrival timing and realistic expectations for moving around the stadium district.",
+    impact: ["Fans should plan Monterrey match days around heat as much as kickoff time","Food and city atmosphere can be a highlight if travel buffers are protected","Hydration, sunscreen and shaded meetup points belong in the itinerary"],
+    sections: [
+      {
+        title: "The host-city signal",
+        body: "Monterrey can give visitors one of the tournament's strongest local atmospheres, but the city also requires practical heat planning. A good itinerary will treat food, transport and shade as connected parts of the day."
+      },
+      {
+        title: "Heat-aware planning",
+        body: "Fans should avoid building a schedule that leaves them standing outside for long periods before gates open. The safer plan is to choose shaded meeting points, hydrate early and confirm stadium-entry rules before leaving the hotel.",
+        bullets: ["Carry water where permitted and check official bag rules","Use sunscreen and breathable clothing for afternoon plans","Schedule food stops with enough time before stadium arrival"]
+      },
+      {
+        title: "Why food matters",
+        body: "Local food is part of the host-city experience, but a crowded match day can make spontaneous meals harder. Fans should save a shortlist of realistic spots rather than relying on one famous stop."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users visiting Monterrey should create a heat-aware checklist: route, hydration, food window, gate time and post-match return plan."
+      }
+    ]
+  },
+  {
+    slug: "usa-world-cup-squad-pulisic-mckennie-route",
+    title: "USA squad announcement gives home fans a sharper Group D planning route",
+    description: "FIFA's USA squad update under Mauricio Pochettino gives supporters a clearer home-tournament frame before Group D matches against Türkiye, Paraguay and Australia.",
+    category: "Teams",
+    publishedAt: "2026-05-26",
+    updatedAt: "2026-05-27",
+    image: "/assets/news/usa-world-cup-squad-pulisic-mckennie-route.png",
+    sourceUrl: "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/usa-squad-announcement-mauricio-pochettino",
+    sourceLabel: "FIFA",
+    summary:
+      "The United States' home World Cup picture is clearer after FIFA reported Mauricio Pochettino's squad announcement. For fans, the update turns Group D into a more concrete planning route, with player storylines, ticket demand and watch-party interest now easier to connect to matches with Türkiye, Paraguay and Australia.",
+    impact: ["USA matches should be treated as high-demand local and national events","Group D fans should track lineup alerts before locking watch-party expectations","Home-team attention can raise demand even for neutral supporters in host cities"],
+    sections: [
+      {
+        title: "The squad signal",
+        body: "A host-nation squad announcement changes the planning environment. It gives supporters a real team frame and gives casual fans a reason to choose which USA match, city or watch event to prioritize."
+      },
+      {
+        title: "Group D pressure",
+        body: "The USA share Group D with Türkiye, Paraguay and Australia. Each match has a different fan profile, but all three can draw extra attention because the hosts are involved.",
+        bullets: ["Use official ticketing and avoid urgency-driven resale claims","Book watch venues early for USA kickoff windows","Keep squad and injury alerts active before match week"]
+      },
+      {
+        title: "Why home-team demand spreads",
+        body: "The USA can affect crowd patterns beyond the stadium. Local bars, fan zones and public viewing areas may see higher demand whenever the host nation plays."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users should save USA matches as priority events with separate ticket, transit and watch-party plans for each Group D opponent."
+      }
+    ]
+  },
+  {
+    slug: "world-cup-team-base-camps-finalised-fan-travel",
+    title: "Final World Cup team base camps give fans another travel-planning layer",
+    description: "FIFA says team base camps are finalised for the 2026 World Cup, adding useful context for supporters tracking training locations, host communities and team movement.",
+    category: "Travel",
+    publishedAt: "2026-05-25",
+    updatedAt: "2026-05-27",
+    image: "/assets/news/world-cup-team-base-camps-finalised-fan-travel.png",
+    sourceUrl: "https://www.fifa.com/en/tournaments/mens/worldcup/articles/team-base-camps-finalised",
+    sourceLabel: "FIFA",
+    summary:
+      "World Cup team base camps are now part of the final planning picture after FIFA said the 2026 locations have been finalised. The news is not only operational; it gives fans and host communities a clearer sense of where teams will prepare, move and build daily tournament routines.",
+    impact: ["Base-camp locations can shape local fan interest away from match cities","Supporters should avoid assuming training access unless official events are announced","Team movement adds context to travel, media and fan-community planning"],
+    sections: [
+      {
+        title: "The base-camp signal",
+        body: "Base camps are where teams live between match days, train and manage recovery. For fans, they create a second map of the tournament beyond the 16 host cities."
+      },
+      {
+        title: "What fans should not assume",
+        body: "A team training nearby does not automatically mean public access. Supporters should wait for official open-training, federation or city announcements before planning around a training site.",
+        bullets: ["Use official team and local-host updates for access rules","Do not chase private training locations or team hotels","Treat base camps as context, not guaranteed fan events"]
+      },
+      {
+        title: "Why communities care",
+        body: "Base camps can bring media, visitors and local pride to communities that may not host matches. That can create smaller fan gatherings and hospitality demand around team identities."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users should add base-camp context to saved teams, while keeping actual match travel and official fan events as the core itinerary."
+      }
+    ]
+  },
+  {
+    slug: "world-cup-fantasy-launch-fan-engagement",
+    title: "World Cup fantasy launch gives fans a new reason to track squads and minutes",
+    description: "FIFA's World Cup fantasy game launch turns squad news, injuries and expected minutes into part of the daily fan-planning routine.",
+    category: "Fan Experience",
+    publishedAt: "2026-05-26",
+    updatedAt: "2026-05-27",
+    image: "/assets/news/world-cup-fantasy-launch-fan-engagement.png",
+    sourceUrl: "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/world-cup-fantasy-game-launched",
+    sourceLabel: "FIFA",
+    summary:
+      "FIFA's World Cup fantasy game launch gives fans another layer of tournament engagement. It also changes how supporters follow the news: squad announcements, injuries, likely starters and rotation risk become part of the daily planning routine, not just pre-match reading.",
+    impact: ["Fantasy players should monitor official squad and injury updates closely","Lineup timing can shape watch-party and second-screen habits","Fans should use official game links and avoid fake fantasy or prize scams"],
+    sections: [
+      {
+        title: "The engagement signal",
+        body: "Fantasy games make neutral matches more relevant. A fan who is not traveling to a stadium may still follow a team closely because a goalkeeper, midfielder or captain choice matters."
+      },
+      {
+        title: "What to track",
+        body: "The useful inputs are official squad lists, injury reports, likely minutes, match difficulty and rotation risk. Rumor-driven picks can be costly, especially once group-stage pressure changes.",
+        bullets: ["Use official fantasy and tournament links only","Check squad news before each matchday deadline","Avoid social posts promising guaranteed prizes or paid lineup tips"]
+      },
+      {
+        title: "Why it helps watch parties",
+        body: "Fantasy can make mixed-nationality watch parties more active because everyone has a reason to care about multiple games, not only their own team."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users should connect fantasy reminders to match alerts, lineup windows and safe official links. It is a fan-experience tool, but it still needs scam awareness."
+      }
+    ]
+  },
+  {
+    slug: "spain-world-cup-squad-yamal-rodri-route",
+    title: "Spain squad news gives La Roja fans a sharper Group H route",
+    description: "FIFA's Spain squad announcement gives supporters a clearer planning frame around Group H matches with Cape Verde, Saudi Arabia and Uruguay.",
+    category: "Teams",
+    publishedAt: "2026-05-25",
+    updatedAt: "2026-05-27",
+    image: "/assets/news/spain-world-cup-squad-yamal-rodri-route.png",
+    sourceUrl: "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/spain-squad-announcement-luis-de-la-fuente",
+    sourceLabel: "FIFA",
+    summary:
+      "Spain's World Cup route has a clearer team shape after FIFA reported Luis de la Fuente's squad announcement. For supporters, the update turns Group H into a more practical planning board, with Spain's matches against Cape Verde, Saudi Arabia and Uruguay now easier to connect to ticket demand, watch parties and lineup alerts.",
+    impact: ["Spain matches should draw strong neutral interest because of the team's star mix","The Uruguay fixture is likely to be the highest-demand Group H planning point","Fans should track final training and lineup updates before assuming rotations"],
+    sections: [
+      {
+        title: "The squad signal",
+        body: "Spain arrive with a blend of young attacking attention and established midfield expectations. That makes the squad announcement important for both dedicated supporters and neutral fans deciding which Group H matches to circle."
+      },
+      {
+        title: "Group H planning",
+        body: "Spain face Cape Verde, Saudi Arabia and Uruguay. The Uruguay match should be treated as the most obvious high-demand fixture, while the other games can still create strong diaspora and neutral watch-party interest.",
+        bullets: ["Save Spain matches as separate itinerary cards","Treat Uruguay as the highest-demand Group H checkpoint","Follow official squad alerts before setting watch-party storylines"]
+      },
+      {
+        title: "Why lineup news matters",
+        body: "Spain's group-stage minutes can shape fan expectations. Supporters should avoid assuming every star starts every match, especially if standings and rotation pressure change."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users following Spain should combine squad alerts with city-by-city transport and watch plans. Group H can shift quickly if the opening match changes the table."
+      }
+    ]
+  },
+  {
     slug: "group-e-world-cup-route-boston-dallas",
     title: "Group E focus gives Germany, Ecuador and Côte d’Ivoire fans a clearer route",
     description: "FIFA's Group E focus sharpens the planning picture for Germany, Ecuador, Côte d’Ivoire and Curaçao supporters before a route that runs through Boston, Toronto, Philadelphia and Dallas.",
