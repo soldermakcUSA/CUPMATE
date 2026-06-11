@@ -53,6 +53,12 @@ export const primarySeoPages = [
       "Discover sports bars, restaurants, fan zones and local viewing options for World Cup 2026 matches in North America host cities."
   },
   {
+    path: "/live",
+    title: "Live Stream | CupMate",
+    description:
+      "Watch authorized CupMate live HLS coverage when an independent live stream is available."
+  },
+  {
     path: "/news",
     title: "World Cup 2026 News and Fan Planning Updates | CupMate",
     description:

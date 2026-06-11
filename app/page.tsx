@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { AppSidebar, type SidebarSection } from "@/components/AppSidebar";
+import { LiveStreamCard } from "@/components/LiveStreamCard";
 import { TeamFlag, TeamLabel } from "@/components/TeamFlag";
 import { AssistantMenuPanel } from "@/components/menu/AssistantPanel";
 import { CommunityPanel } from "@/components/menu/CommunityPanel";
@@ -1040,6 +1041,7 @@ function MobileWatch({ t, places }: { t: typeof translations.en; places: PlaceCa
     <>
       <p className="small"><MapPin size={14} /> {t.miamiUsa}</p>
       <div className="chip-row">{[t.all, t.sportsBars, t.restaurants, t.fanZones].map((chip, index) => <button className={`chip ${index === 0 ? "active" : ""}`} key={chip}>{chip}</button>)}</div>
+      <LiveStreamCard t={t} compact />
       <div className="mobile-list">
         {places.map((place) => (
           <article className="place-row" key={place.name}>

@@ -1,4 +1,5 @@
 import { MapPin, Star, Utensils } from "lucide-react";
+import { LiveStreamCard } from "@/components/LiveStreamCard";
 import { translations } from "../../lib/i18n";
 import type { PlaceCardData } from "@/lib/content-data";
 
@@ -27,6 +28,8 @@ export function WatchPanel({ t = translations.en, places }: WatchPanelProps) {
           <button className={`chip ${index === 0 ? "active" : ""}`} key={chip}>{chip}</button>
         ))}
       </div>
+
+      <LiveStreamCard t={t} />
 
       <article className="featured-card" style={{ marginTop: 0, display: "grid", gridTemplateColumns: "minmax(280px, 0.95fr) 1fr" }}>
         <img src={featuredPlace.image} alt={featuredPlace.name} style={{ height: "100%", minHeight: 230 }} />
