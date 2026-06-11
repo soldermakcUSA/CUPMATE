@@ -21,6 +21,72 @@ export type NewsSeoArticle = {
 
 export const newsSeoArticles: NewsSeoArticle[] = [
   {
+    slug: "mexico-opener-south-africa-2-0-group-a",
+    title: "Mexico opens the World Cup with a 2-0 win over South Africa",
+    description: "Mexico beat South Africa 2-0 in the 2026 World Cup opener at Estadio Azteca, moving first in Group A after goals from Julian Quinones and Raul Jimenez.",
+    category: "Teams",
+    publishedAt: "2026-06-11",
+    updatedAt: "2026-06-11",
+    image: "/assets/news/mexico-city-azteca-world-cup-guide.png",
+    sourceUrl: "https://www.espn.com/soccer/report/_/gameId/760415",
+    sourceLabel: "ESPN",
+    summary:
+      "Mexico gave the 2026 World Cup its first result with a 2-0 win over South Africa at Estadio Azteca. Julian Quinones struck early, Raul Jimenez added the second after halftime, and El Tri turned the opening night into an immediate Group A advantage.",
+    impact: ["Mexico now control the first Group A planning lane with three points and a plus-two goal difference","South Africa supporters need to watch suspension and lineup news before the next match","Fans tracking tickets and watch parties should expect Mexico demand to rise for the second group game"],
+    sections: [
+      {
+        title: "The result signal",
+        body: "Opening matches can be nervous, but Mexico turned home pressure into a clean scoreboard. The early goal changed the rhythm, and the second goal gave the co-hosts a cushion before the final stretch became defined by discipline."
+      },
+      {
+        title: "Why Group A changes immediately",
+        body: "Three points and a plus-two goal difference give Mexico a practical advantage before South Korea and Czechia complete the first Group A round. South Africa now have less room for a slow start in their remaining two group matches.",
+        bullets: ["Mexico fans can treat the next match as a chance to push toward qualification","South Africa need a response and cleaner discipline in match two","South Korea and Czechia now start with a clear target in the table"]
+      },
+      {
+        title: "Fan planning impact",
+        body: "A winning opener usually lifts demand around the host team. Mexico supporters planning the next fixture should expect stronger watch-party interest, busier fan zones and more urgency around verified ticket listings."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users following Mexico should save the next Group A match with separate cards for tickets, route timing, watch venues and lineup alerts. South Africa fans should add suspension tracking before making assumptions about the next XI."
+      }
+    ]
+  },
+  {
+    slug: "mexico-south-africa-red-cards-discipline",
+    title: "Three red cards in the opener make discipline a Group A storyline",
+    description: "Mexico's 2-0 win over South Africa included three red cards, turning suspensions and lineup changes into immediate Group A planning factors.",
+    category: "Analysis",
+    publishedAt: "2026-06-11",
+    updatedAt: "2026-06-11",
+    image: "/assets/news/fifa-disciplinary-rules-world-cup-2026.png",
+    sourceUrl: "https://www.espn.com/soccer/story/_/id/49031240/mexico-south-africa-live-world-cup-2026-latest-updates-commentary-score-result-opening-ceremony",
+    sourceLabel: "ESPN",
+    summary:
+      "The first match of the 2026 World Cup did not only set the Group A table. Mexico's 2-0 win over South Africa also produced three red cards, putting discipline, suspensions and lineup management into the tournament conversation from day one.",
+    impact: ["South Africa's next lineup could change after two red cards in the opener","Mexico also have a late red-card issue to monitor before match two","Fantasy players, bettors and traveling fans should check official disciplinary updates before assuming starters"],
+    sections: [
+      {
+        title: "The discipline signal",
+        body: "South Africa finished with nine players, while Mexico also saw a late red card. That matters beyond the final whistle because group-stage squads have short recovery windows and limited room to replace suspended players."
+      },
+      {
+        title: "What fans should track",
+        body: "The next useful update is not only the Group A table. Fans should watch official disciplinary decisions, confirmed suspensions, training notes and coach comments before reading too much into projected lineups.",
+        bullets: ["Check official match reports before assuming availability","Treat early lineup predictions as provisional after red cards","Watch whether coaches change shape to cover suspended players"]
+      },
+      {
+        title: "Why it affects planning",
+        body: "Discipline can change how attractive a match looks for neutral fans and fantasy players. If key starters miss match two, watch-party storylines, player props and tactical expectations can all shift quickly."
+      },
+      {
+        title: "CupMate planning note",
+        body: "CupMate users should pair live scores with lineup alerts. For Group A, the next planning step is to track which players are officially unavailable before setting expectations for Mexico, South Africa, South Korea and Czechia."
+      }
+    ]
+  },
+  {
     slug: "world-cup-transit-sticker-shock-host-cities",
     title: "World Cup transit costs add a new budget warning for U.S. host-city fans",
     description: "AP's report on high transit costs in some U.S. World Cup host cities makes local transport, shuttles and parking part of every fan budget.",

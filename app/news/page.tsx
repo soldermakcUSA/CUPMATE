@@ -7,6 +7,9 @@ import { primarySeoPages } from "@/lib/seo";
 
 const page = primarySeoPages.find((item) => item.path === "/news")!;
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: { absolute: page.title },
   description: page.description,

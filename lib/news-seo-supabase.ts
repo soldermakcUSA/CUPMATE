@@ -20,6 +20,25 @@ type SupabaseNewsRow = {
   }>;
 };
 
+type SupabaseTranslationRow = {
+  article_id: string;
+  language_code: string;
+  slug: string;
+  title: string;
+  excerpt: string | null;
+  body: string | null;
+  seo_title: string | null;
+  seo_description: string | null;
+  articles: {
+    id: string;
+    category: string | null;
+    image_url: string | null;
+    source_url: string | null;
+    published_at: string | null;
+    updated_at?: string | null;
+  } | null;
+};
+
 type SupabaseLike = ReturnType<typeof createBrowserSupabaseClient> & {
   from: (relation: string) => any;
 };
@@ -40,6 +59,11 @@ export async function getNewsSeoArticles(limit = 50): Promise<NewsSeoArticle[]> 
 
 export async function getNewsSeoArticleBySlug(slug: string): Promise<NewsSeoArticle | null> {
   try {
+    const direct = await fetchSupabaseNewsTranslationBySlug(slug);
+    if (direct) {
+      return mapSupabaseTranslationArticle(direct);
+    }
+
     const rows = await fetchSupabaseNewsRows(120);
     for (let index = 0; index < rows.length; index += 1) {
       const article = mapSupabaseNewsArticle(rows[index], slug, index);
@@ -82,6 +106,36 @@ async function fetchSupabaseNewsRows(limit: number): Promise<SupabaseNewsRow[]> 
 
   if (error) throw error;
   return (data ?? []) as unknown as SupabaseNewsRow[];
+}
+
+async function fetchSupabaseNewsTranslationBySlug(slug: string): Promise<SupabaseTranslationRow | null> {
+  const supabase = createBrowserSupabaseClient() as SupabaseLike;
+  const { data, error } = await supabase
+    .from("article_translations")
+    .select("article_id,language_code,slug,title,excerpt,body,seo_title,seo_description,articles!inner(id,category,image_url,source_url,published_at,updated_at,status,type)")
+    .eq("slug", slug)
+    .eq("articles.status", "published")
+    .eq("articles.type", "news")
+    .maybeSingle();
+
+  if (error) throw error;
+  return (data ?? null) as unknown as SupabaseTranslationRow | null;
+}
+
+function mapSupabaseTranslationArticle(row: SupabaseTranslationRow): NewsSeoArticle | null {
+  if (!row.articles) return null;
+  return mapSupabaseNewsArticle(
+    {
+      id: row.article_id,
+      category: row.articles.category,
+      image_url: row.articles.image_url,
+      source_url: row.articles.source_url,
+      published_at: row.articles.published_at,
+      updated_at: row.articles.updated_at,
+      article_translations: [row]
+    },
+    row.slug
+  );
 }
 
 function mapSupabaseNewsArticle(row: SupabaseNewsRow, requestedSlug?: string, index = 0): NewsSeoArticle | null {
