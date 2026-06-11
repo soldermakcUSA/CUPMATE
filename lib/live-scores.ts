@@ -66,7 +66,7 @@ export async function fetchLiveScores(): Promise<LiveMatchScore[]> {
 }
 
 export async function fetchLiveScoreDetails(eventId: string): Promise<LiveMatchScore | null> {
-  const response = await fetch(`/api/scores?eventId=${encodeURIComponent(eventId)}`, { cache: "no-store" });
+  const response = await fetch(`/api/scores/${encodeURIComponent(eventId)}`, { cache: "no-store" });
   if (!response.ok) {
     throw new Error(`Unable to load live score details: ${response.status}`);
   }
