@@ -11,7 +11,8 @@
     "render-bars-email": "node scripts/render-bars-email-template.mjs",
     "send-bars-email:graph": "node scripts/send-bars-email-graph.mjs",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "update-squads": "node scripts/generate-squad-data.mjs"
   },
   "keywords": [],
   "author": "",

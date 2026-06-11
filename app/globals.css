@@ -2986,7 +2986,7 @@ img {
   grid-template-columns: 44px minmax(0, 1fr);
   gap: 10px;
   align-items: center;
-  min-height: 58px;
+  min-height: 68px;
   padding: 7px;
   border: 1px solid rgba(230, 232, 240, 0.9);
   border-radius: 12px;
@@ -3015,7 +3015,8 @@ img {
 }
 
 .squad-player-card strong,
-.squad-player-card span {
+.squad-player-card span,
+.squad-player-card small {
   display: block;
   min-width: 0;
 }
@@ -3035,6 +3036,16 @@ img {
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: 12px;
+}
+
+.squad-player-card small {
+  overflow: hidden;
+  margin-top: 1px;
+  color: #8a93a8;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 700;
 }
 
 .squad-source-link {

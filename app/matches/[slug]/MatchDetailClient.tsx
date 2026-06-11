@@ -53,19 +53,20 @@ const squadCopy: Record<Locale, {
   players: string;
   source: string;
   finalNote: string;
+  age: string;
   positions: Record<SquadPlayer["position"], string>;
 }> = {
-  en: { title: "Squads", pendingTitle: "Squad pending", pendingText: "No reliable published list is available yet.", players: "players", source: "Source", finalNote: "Final World Cup squads are expected after FIFA confirmation on June 2, 2026.", positions: { GK: "GK", DF: "DF", MF: "MF", FW: "FW" } },
-  es: { title: "Plantillas", pendingTitle: "Plantilla pendiente", pendingText: "Aún no hay una lista publicada fiable.", players: "jugadores", source: "Fuente", finalNote: "Las listas finales se esperan tras la confirmación de FIFA el 2 de junio de 2026.", positions: { GK: "POR", DF: "DEF", MF: "MED", FW: "DEL" } },
-  fr: { title: "Effectifs", pendingTitle: "Effectif en attente", pendingText: "Aucune liste fiable publiée pour l'instant.", players: "joueurs", source: "Source", finalNote: "Les listes finales sont attendues après la confirmation FIFA du 2 juin 2026.", positions: { GK: "GB", DF: "DEF", MF: "MIL", FW: "ATT" } },
-  de: { title: "Kader", pendingTitle: "Kader ausstehend", pendingText: "Noch keine verlässliche veröffentlichte Liste verfügbar.", players: "Spieler", source: "Quelle", finalNote: "Finale WM-Kader werden nach der FIFA-Bestätigung am 2. Juni 2026 erwartet.", positions: { GK: "TW", DF: "ABW", MF: "MF", FW: "ST" } },
-  pt: { title: "Elencos", pendingTitle: "Elenco pendente", pendingText: "Ainda não há lista publicada confiável.", players: "jogadores", source: "Fonte", finalNote: "As listas finais são esperadas após confirmação da FIFA em 2 de junho de 2026.", positions: { GK: "GOL", DF: "DEF", MF: "MEI", FW: "ATA" } },
-  it: { title: "Rose", pendingTitle: "Rosa in attesa", pendingText: "Non c'è ancora una lista pubblicata affidabile.", players: "giocatori", source: "Fonte", finalNote: "Le rose finali sono attese dopo la conferma FIFA del 2 giugno 2026.", positions: { GK: "POR", DF: "DIF", MF: "CEN", FW: "ATT" } },
-  ar: { title: "القوائم", pendingTitle: "القائمة قيد الانتظار", pendingText: "لا توجد قائمة موثوقة منشورة بعد.", players: "لاعبا", source: "المصدر", finalNote: "القوائم النهائية متوقعة بعد تأكيد FIFA في 2 يونيو 2026.", positions: { GK: "حارس", DF: "دفاع", MF: "وسط", FW: "هجوم" } },
-  zh: { title: "阵容", pendingTitle: "阵容待定", pendingText: "目前还没有可靠的公开名单。", players: "名球员", source: "来源", finalNote: "最终世界杯名单预计将在 FIFA 于 2026 年 6 月 2 日确认后公布。", positions: { GK: "门将", DF: "后卫", MF: "中场", FW: "前锋" } },
-  ja: { title: "メンバー", pendingTitle: "メンバー未定", pendingText: "信頼できる公開リストはまだありません。", players: "選手", source: "出典", finalNote: "最終メンバーは2026年6月2日のFIFA確認後に公表予定です。", positions: { GK: "GK", DF: "DF", MF: "MF", FW: "FW" } },
-  ko: { title: "선수 명단", pendingTitle: "명단 대기 중", pendingText: "아직 신뢰할 수 있는 공개 명단이 없습니다.", players: "명", source: "출처", finalNote: "최종 월드컵 명단은 2026년 6월 2일 FIFA 확인 후 예상됩니다.", positions: { GK: "GK", DF: "DF", MF: "MF", FW: "FW" } },
-  ru: { title: "Составы", pendingTitle: "Состав ожидается", pendingText: "Пока нет надежно опубликованного списка.", players: "игроков", source: "Источник", finalNote: "Финальные составы ожидаются после подтверждения FIFA 2 июня 2026.", positions: { GK: "ВРТ", DF: "ЗАЩ", MF: "ПЗ", FW: "НАП" } }
+  en: { title: "Squads", pendingTitle: "Squad pending", pendingText: "No reliable published list is available yet.", players: "players", source: "Source", finalNote: "Squad data comes from ESPN's 2026 FIFA World Cup roster feed and may change after provider or federation updates.", age: "Age", positions: { GK: "GK", DF: "DF", MF: "MF", FW: "FW" } },
+  es: { title: "Plantillas", pendingTitle: "Plantilla pendiente", pendingText: "Aún no hay una lista publicada fiable.", players: "jugadores", source: "Fuente", finalNote: "Los datos de plantillas vienen del feed de ESPN para el Mundial 2026 y pueden cambiar con actualizaciones del proveedor o las federaciones.", age: "Edad", positions: { GK: "POR", DF: "DEF", MF: "MED", FW: "DEL" } },
+  fr: { title: "Effectifs", pendingTitle: "Effectif en attente", pendingText: "Aucune liste fiable publiée pour l'instant.", players: "joueurs", source: "Source", finalNote: "Les données d'effectif proviennent du flux ESPN Coupe du Monde 2026 et peuvent changer après les mises à jour du fournisseur ou des fédérations.", age: "Âge", positions: { GK: "GB", DF: "DEF", MF: "MIL", FW: "ATT" } },
+  de: { title: "Kader", pendingTitle: "Kader ausstehend", pendingText: "Noch keine verlässliche veröffentlichte Liste verfügbar.", players: "Spieler", source: "Quelle", finalNote: "Die Kaderdaten stammen aus dem ESPN-Feed zur WM 2026 und können sich nach Anbieter- oder Verbandsupdates ändern.", age: "Alter", positions: { GK: "TW", DF: "ABW", MF: "MF", FW: "ST" } },
+  pt: { title: "Elencos", pendingTitle: "Elenco pendente", pendingText: "Ainda não há lista publicada confiável.", players: "jogadores", source: "Fonte", finalNote: "Os dados dos elencos vêm do feed da ESPN para a Copa de 2026 e podem mudar após atualizações do provedor ou das federações.", age: "Idade", positions: { GK: "GOL", DF: "DEF", MF: "MEI", FW: "ATA" } },
+  it: { title: "Rose", pendingTitle: "Rosa in attesa", pendingText: "Non c'è ancora una lista pubblicata affidabile.", players: "giocatori", source: "Fonte", finalNote: "I dati delle rose arrivano dal feed ESPN per il Mondiale 2026 e possono cambiare dopo aggiornamenti del provider o delle federazioni.", age: "Età", positions: { GK: "POR", DF: "DIF", MF: "CEN", FW: "ATT" } },
+  ar: { title: "القوائم", pendingTitle: "القائمة قيد الانتظار", pendingText: "لا توجد قائمة موثوقة منشورة بعد.", players: "لاعبا", source: "المصدر", finalNote: "تأتي بيانات القوائم من موجز ESPN لكأس العالم 2026 وقد تتغير بعد تحديثات المزود أو الاتحادات.", age: "العمر", positions: { GK: "حارس", DF: "دفاع", MF: "وسط", FW: "هجوم" } },
+  zh: { title: "阵容", pendingTitle: "阵容待定", pendingText: "目前还没有可靠的公开名单。", players: "名球员", source: "来源", finalNote: "阵容数据来自 ESPN 的 2026 世界杯名单源，并可能随数据方或协会更新而变化。", age: "年龄", positions: { GK: "门将", DF: "后卫", MF: "中场", FW: "前锋" } },
+  ja: { title: "メンバー", pendingTitle: "メンバー未定", pendingText: "信頼できる公開リストはまだありません。", players: "選手", source: "出典", finalNote: "メンバー情報はESPNの2026ワールドカップ登録フィードに基づき、提供元や協会の更新で変わる可能性があります。", age: "年齢", positions: { GK: "GK", DF: "DF", MF: "MF", FW: "FW" } },
+  ko: { title: "선수 명단", pendingTitle: "명단 대기 중", pendingText: "아직 신뢰할 수 있는 공개 명단이 없습니다.", players: "명", source: "출처", finalNote: "선수 명단 데이터는 ESPN 2026 월드컵 로스터 피드에서 가져오며 제공사 또는 협회 업데이트에 따라 바뀔 수 있습니다.", age: "나이", positions: { GK: "GK", DF: "DF", MF: "MF", FW: "FW" } },
+  ru: { title: "Составы", pendingTitle: "Состав ожидается", pendingText: "Пока нет надежно опубликованного списка.", players: "игроков", source: "Источник", finalNote: "Данные составов берутся из roster-ленты ESPN по ЧМ-2026 и могут измениться после обновлений провайдера или федераций.", age: "Возраст", positions: { GK: "ВРТ", DF: "ЗАЩ", MF: "ПЗ", FW: "НАП" } }
 };
 
 function useLocale() {
@@ -611,15 +612,21 @@ function SquadColumn({
         </div>
       </div>
       <div className="squad-player-list">
-        {squad.players.map((player) => (
-          <div className="squad-player-card" key={`${squad.teamCode}-${player.name}`}>
-            <PlayerPhoto player={player} />
-            <div>
-              <strong>{player.name}</strong>
-              <span>{copy.positions[player.position]} · {player.club}</span>
+        {squad.players.map((player) => {
+          const primaryMeta = [player.jersey ? `#${player.jersey}` : null, copy.positions[player.position], player.club].filter(Boolean).join(" · ");
+          const secondaryMeta = [player.age ? `${copy.age} ${player.age}` : null, player.height, player.weight].filter(Boolean).join(" · ");
+
+          return (
+            <div className="squad-player-card" key={`${squad.teamCode}-${player.id ?? player.name}`}>
+              <PlayerPhoto player={player} />
+              <div>
+                <strong>{player.name}</strong>
+                {primaryMeta && <span>{primaryMeta}</span>}
+                {secondaryMeta && <small>{secondaryMeta}</small>}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
       <a className="squad-source-link" href={squad.sourceUrl} target="_blank" rel="noreferrer">
         {copy.source}: {squad.sourceLabel} <ExternalLink size={13} />

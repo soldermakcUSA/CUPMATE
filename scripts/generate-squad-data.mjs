@@ -1,5 +1,7 @@
 import fs from "node:fs/promises";
 
+const ESPN_TEAMS_URL = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/teams";
+const ESPN_TEAM_URL = "https://www.espn.com/soccer/team/squad/_/id";
 const SOURCE_URL = "https://www.fourfourtwo.com/competition/world-cup-2026-squads";
 const FIFA_NOTE_URL = "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/squad-lists-number-date";
 const EXTRA_SOURCES = [
@@ -90,23 +92,33 @@ const manualPhotos = {
   "Aubrey Modiba": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Aubrey_Modiba_%28cropped%29.jpg/330px-Aubrey_Modiba_%28cropped%29.jpg"
 };
 
-const squads = {};
+const fallbackSquads = {};
 
-parsePage(await fetchLines(SOURCE_URL), SOURCE_URL);
+parsePage(await fetchLines(SOURCE_URL), SOURCE_URL, fallbackSquads);
 for (const source of EXTRA_SOURCES) {
-  parseFixedSource(await fetchLines(source.url), source);
+  parseFixedSource(await fetchLines(source.url), source, fallbackSquads);
 }
+
+const squads = await fetchEspnSquads(fallbackSquads);
 await enrichWithWikipediaPhotos(squads);
 
 const generated = `export type SquadPlayer = {
+  id?: string;
   name: string;
   position: "GK" | "DF" | "MF" | "FW";
-  club: string;
+  club?: string;
+  jersey?: string;
+  age?: number;
+  dateOfBirth?: string;
+  height?: string;
+  weight?: string;
+  profileUrl?: string;
   photo?: string;
 };
 
 export type TeamSquad = {
   teamCode: string;
+  teamName: string;
   status: string;
   note: string;
   sourceLabel: string;
@@ -116,7 +128,8 @@ export type TeamSquad = {
 
 export const squadCoverage = {
   generatedAt: ${JSON.stringify(new Date().toISOString())},
-  sourceUrl: ${JSON.stringify(SOURCE_URL)},
+  sourceUrl: ${JSON.stringify(ESPN_TEAMS_URL)},
+  fallbackSourceUrl: ${JSON.stringify(SOURCE_URL)},
   fifaNoteUrl: ${JSON.stringify(FIFA_NOTE_URL)},
   teamCount: ${Object.keys(squads).length},
   playerCount: ${Object.values(squads).reduce((sum, squad) => sum + squad.players.length, 0)}
@@ -136,6 +149,116 @@ export function allTeamSquads() {
 await fs.writeFile("lib/squad-data.ts", generated);
 console.log(`Generated ${Object.keys(squads).length} squads and ${squadCoverageCount(squads)} players.`);
 
+async function fetchEspnSquads(fallbacks) {
+  const payload = await fetchJson(ESPN_TEAMS_URL);
+  const teams = payload.sports?.[0]?.leagues?.[0]?.teams?.map((entry) => entry.team) ?? [];
+  const squadsByCode = {};
+  const defaultTeamCache = new Map();
+
+  for (const team of teams) {
+    const code = team.abbreviation;
+    const fallback = fallbacks[code];
+    const fallbackByName = new Map((fallback?.players ?? []).map((player) => [nameKey(player.name), player]));
+    const roster = await fetchJson(`${ESPN_TEAMS_URL}/${team.id}/roster`);
+    const seen = new Set();
+    const players = [];
+
+    for (const athlete of roster.athletes ?? []) {
+      const player = await mapEspnAthlete(athlete, {
+        fallback: fallbackByName.get(nameKey(athlete.displayName ?? athlete.fullName)),
+        nationalCode: code,
+        nationalName: team.displayName,
+        defaultTeamCache
+      });
+      const key = player.id ?? nameKey(player.name);
+      if (seen.has(key)) continue;
+      seen.add(key);
+      players.push(player);
+    }
+
+    squadsByCode[code] = {
+      teamCode: code,
+      teamName: normalizeTeamName(team.displayName),
+      status: players.length === 26 ? "Tournament roster" : "ESPN roster",
+      note: "Roster data comes from ESPN's 2026 FIFA World Cup team feed and may change if the provider or federation updates registrations.",
+      sourceLabel: "ESPN 2026 FIFA World Cup roster",
+      sourceUrl: `${ESPN_TEAM_URL}/${team.id}/${slugify(team.displayName)}`,
+      players: players.sort(comparePlayers)
+    };
+  }
+
+  return squadsByCode;
+}
+
+async function mapEspnAthlete(athlete, { fallback, nationalCode, nationalName, defaultTeamCache }) {
+  const name = normalizePlayerName(athlete.displayName ?? athlete.fullName);
+  const club = fallback?.club ?? await resolveClubName(athlete.defaultTeam?.$ref, {
+    nationalCode,
+    nationalName,
+    cache: defaultTeamCache
+  });
+  const profileUrl = athlete.links?.find((link) => link.rel?.includes("playercard") && link.rel?.includes("desktop"))?.href;
+  const photo = athlete.headshot?.href ?? fallback?.photo ?? manualPhotos[name];
+
+  return {
+    ...(athlete.id ? { id: String(athlete.id) } : {}),
+    name,
+    position: mapEspnPosition(athlete.position),
+    ...(club ? { club } : {}),
+    ...(athlete.jersey ? { jersey: String(athlete.jersey) } : {}),
+    ...(Number.isFinite(athlete.age) ? { age: athlete.age } : {}),
+    ...(athlete.dateOfBirth ? { dateOfBirth: athlete.dateOfBirth } : {}),
+    ...(athlete.displayHeight ? { height: athlete.displayHeight } : {}),
+    ...(athlete.displayWeight ? { weight: athlete.displayWeight } : {}),
+    ...(profileUrl ? { profileUrl } : {}),
+    ...(photo ? { photo } : {})
+  };
+}
+
+async function resolveClubName(ref, { nationalCode, nationalName, cache }) {
+  if (!ref) return null;
+  const url = ref.replace("http://sports.core.api.espn.pvt", "https://sports.core.api.espn.com");
+  if (!cache.has(url)) {
+    cache.set(url, fetchJson(url).catch(() => null));
+  }
+
+  const team = await cache.get(url);
+  if (!team?.displayName) return null;
+  if (team.abbreviation === nationalCode) return null;
+  if (nameKey(team.displayName) === nameKey(nationalName)) return null;
+  return team.displayName;
+}
+
+function mapEspnPosition(position) {
+  const value = `${position?.abbreviation ?? ""} ${position?.displayName ?? ""} ${position?.name ?? ""}`.toLowerCase();
+  if (value.includes("goalkeeper") || /\bg\b/.test(value)) return "GK";
+  if (value.includes("defender") || /\bd\b/.test(value)) return "DF";
+  if (value.includes("forward") || /\bf\b/.test(value)) return "FW";
+  return "MF";
+}
+
+function comparePlayers(a, b) {
+  const positionOrder = { GK: 0, DF: 1, MF: 2, FW: 3 };
+  const byPosition = positionOrder[a.position] - positionOrder[b.position];
+  if (byPosition !== 0) return byPosition;
+
+  const aNumber = Number(a.jersey);
+  const bNumber = Number(b.jersey);
+  if (Number.isFinite(aNumber) && Number.isFinite(bNumber) && aNumber !== bNumber) {
+    return aNumber - bNumber;
+  }
+
+  return a.name.localeCompare(b.name);
+}
+
+async function fetchJson(url) {
+  const response = await fetch(url, { headers: { "User-Agent": "CupMate/1.0" } });
+  if (!response.ok) {
+    throw new Error(`Request failed: ${response.status} ${url}`);
+  }
+  return response.json();
+}
+
 async function fetchLines(url) {
   const html = await fetch(url, { headers: { "User-Agent": "CupMate/1.0" } }).then((response) => response.text());
   return decode(html)
@@ -149,16 +272,17 @@ async function fetchLines(url) {
   .filter(Boolean);
 }
 
-function parsePage(lines, sourceUrl) {
+function parsePage(lines, sourceUrl, target) {
   let currentTeam = null;
   for (const line of lines) {
     const heading = line.match(/^([A-Za-z .'-]+) World Cup 2026 squad\b/);
     if (heading) {
       currentTeam = normalizeTeamName(heading[1]);
       const code = teamCodes[currentTeam];
-      if (code && (!squads[code] || sourceUrl !== SOURCE_URL)) {
-        squads[code] = {
+      if (code && (!target[code] || sourceUrl !== SOURCE_URL)) {
+        target[code] = {
           teamCode: code,
+          teamName: currentTeam,
           status: line.toLowerCase().includes("final") ? "Final selection" : "Latest published selection",
           note: "Final 26-player World Cup squad is still pending.",
           sourceLabel: sourceUrl === SOURCE_URL ? "FourFourTwo World Cup 2026 squads" : `FourFourTwo ${currentTeam} squad`,
@@ -173,7 +297,7 @@ function parsePage(lines, sourceUrl) {
     if (currentTeam && playerMatch && teamCodes[currentTeam]) {
       const [, position, rawName, club] = playerMatch;
       const name = normalizePlayerName(rawName);
-      squads[teamCodes[currentTeam]].players.push({
+      target[teamCodes[currentTeam]].players.push({
         name,
         position,
         club,
@@ -183,9 +307,10 @@ function parsePage(lines, sourceUrl) {
   }
 }
 
-function parseFixedSource(lines, source) {
-  squads[source.code] = {
+function parseFixedSource(lines, source, target) {
+  target[source.code] = {
     teamCode: source.code,
+    teamName: source.teamName,
     status: lines.some((line) => line.toLowerCase().includes("final selection")) ? "Final selection" : "Latest published selection",
     note: "Final 26-player World Cup squad is still pending.",
     sourceLabel: `FourFourTwo ${source.teamName} squad`,
@@ -198,7 +323,7 @@ function parseFixedSource(lines, source) {
     if (!playerMatch) continue;
     const [, position, rawName, club] = playerMatch;
     const name = normalizePlayerName(rawName);
-    squads[source.code].players.push({
+    target[source.code].players.push({
       name,
       position,
       club,
@@ -256,6 +381,20 @@ function normalizePlayerName(name) {
     .replace(/\s+/g, " ")
     .replace(/[’]/g, "'")
     .trim();
+}
+
+function nameKey(value) {
+  return String(value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[’']/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+function slugify(value) {
+  return nameKey(value).replace(/\s+/g, "-");
 }
 
 function decode(value) {
