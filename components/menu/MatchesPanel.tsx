@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CalendarDays, Clock, MapPin, Plus, Trophy } from "lucide-react";
+import { MatchScoreBadge } from "@/components/MatchScoreBadge";
 import { TeamLabel } from "@/components/TeamFlag";
 import { translations } from "@/lib/i18n";
 import type { MatchCardData } from "@/lib/world-cup-data";
@@ -28,6 +29,7 @@ export function MatchesPanel({ t, matches }: MatchesPanelProps) {
         <div>
           <span className="tag">{featuredMatch.group}</span>
           <h3>{featuredMatch.home} {t.versus} {featuredMatch.away}</h3>
+          <MatchScoreBadge match={featuredMatch} variant="hero" />
           <p className="small muted">
             <CalendarDays size={14} aria-hidden="true" /> {featuredMatch.date}
             <span aria-hidden="true"> · </span>
@@ -52,6 +54,7 @@ export function MatchesPanel({ t, matches }: MatchesPanelProps) {
               <span className="small">{t.versus}</span>
               <span><TeamLabel value={match.away} /></span>
             </div>
+            <MatchScoreBadge match={match} />
             <p className="small muted">{match.date} · {match.time}</p>
             <p className="small muted">{match.venue}</p>
             <Link className="link-button matches-panel-action" href={`/matches/${match.slug}`}>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { AppSidebar, type SidebarSection } from "@/components/AppSidebar";
 import { LiveStreamCard } from "@/components/LiveStreamCard";
+import { MatchScoreBadge } from "@/components/MatchScoreBadge";
 import { TeamFlag, TeamLabel } from "@/components/TeamFlag";
 import { AssistantMenuPanel } from "@/components/menu/AssistantPanel";
 import { CommunityPanel } from "@/components/menu/CommunityPanel";
@@ -42,6 +43,8 @@ import {
 } from "lucide-react";
 import { fetchNewsItems, fetchPlaces, NEWS_IMAGE_FALLBACK, NewsItemData, PlaceCardData } from "@/lib/content-data";
 import { getLanguage, languages, Locale, translations } from "@/lib/i18n";
+import { fetchLiveScores, mergeLiveScores } from "@/lib/live-scores";
+import type { LiveMatchScore } from "@/lib/live-scores";
 import {
   localizedFallbackFans,
   localizedFallbackItinerary,
@@ -253,8 +256,10 @@ export default function CupMatePage() {
   const [assistantText, setAssistantText] = useState("");
   const [assistantReply, setAssistantReply] = useState(t.metlifeTransitTip);
   const [worldCupMatches, setWorldCupMatches] = useState<MatchCardData[]>(() => localizedFallbackMatches("en"));
+  const [liveScores, setLiveScores] = useState<LiveMatchScore[]>(() => []);
   const [contentNews, setContentNews] = useState<NewsItemData[]>(() => localizedFallbackNews("en"));
   const [contentPlaces, setContentPlaces] = useState<PlaceCardData[]>(() => localizedFallbackPlaces("en"));
+  const matchesWithScores = useMemo(() => mergeLiveScores(worldCupMatches, liveScores), [worldCupMatches, liveScores]);
 
   useEffect(() => {
     const section = new URLSearchParams(window.location.search).get("section") as DesktopSection | null;
@@ -320,6 +325,30 @@ export default function CupMatePage() {
     };
   }, [locale]);
 
+  useEffect(() => {
+    let isMounted = true;
+
+    const refreshLiveScores = () => {
+      fetchLiveScores()
+        .then((scores) => {
+          if (isMounted) {
+            setLiveScores(scores);
+          }
+        })
+        .catch((error) => {
+          console.warn("Unable to load World Cup live scores.", error);
+        });
+    };
+
+    refreshLiveScores();
+    const intervalId = window.setInterval(refreshLiveScores, 20_000);
+
+    return () => {
+      isMounted = false;
+      window.clearInterval(intervalId);
+    };
+  }, []);
+
   const mobileTitle = useMemo(() => {
     const titles: Record<Screen, string> = {
       home: t.home,
@@ -360,7 +389,7 @@ export default function CupMatePage() {
             submitAssistant={submitAssistant}
             assistantReply={assistantReply}
             locale={locale}
-            matches={worldCupMatches}
+            matches={matchesWithScores}
             news={contentNews}
             places={contentPlaces}
           />
@@ -383,8 +412,8 @@ export default function CupMatePage() {
                 <LanguagePicker locale={locale} setLocale={setLocale} compact />
               </div>
             )}
-            {mobileScreen === "home" && <MobileHome t={t} setMobileScreen={setMobileScreen} matches={worldCupMatches} />}
-            {mobileScreen === "matches" && <MobileMatches t={t} matches={worldCupMatches} />}
+            {mobileScreen === "home" && <MobileHome t={t} setMobileScreen={setMobileScreen} matches={matchesWithScores} />}
+            {mobileScreen === "matches" && <MobileMatches t={t} matches={matchesWithScores} />}
             {mobileScreen === "map" && <MobileMap t={t} setMobileScreen={setMobileScreen} places={contentPlaces} />}
             {mobileScreen === "route" && <MobileRoute t={t} />}
             {mobileScreen === "stadium" && <MobileStadium t={t} />}
@@ -400,7 +429,7 @@ export default function CupMatePage() {
             )}
             {mobileScreen === "tickets" && (
               <div className="mobile-panel-wrap">
-                <TicketsPanel locale={locale} t={t} matches={worldCupMatches} />
+                <TicketsPanel locale={locale} t={t} matches={matchesWithScores} />
               </div>
             )}
             {mobileScreen === "news" && (
@@ -613,6 +642,7 @@ function NextMatches({ t, matches }: { t: typeof translations.en; matches: Match
               <span className="small">{t.versus}</span>
               <span><TeamLabel value={match.away} /></span>
             </div>
+            <MatchScoreBadge match={match} />
             <p className="small muted" style={{ textAlign: "center" }}>{match.date} · {match.time}</p>
             <p className="small muted" style={{ textAlign: "center" }}>{match.venue}</p>
             <Link className="link-button match-details-link" href={`/matches/${match.slug}`}>{t.seeDetails}</Link>
@@ -901,6 +931,7 @@ function MobileHome({ t, setMobileScreen, matches }: { t: typeof translations.en
       <div className="gradient-card">
         <p>{t.nextMatch}</p>
         <h3>{featuredMatch.home} {t.versus} {featuredMatch.away}</h3>
+        <MatchScoreBadge match={featuredMatch} variant="hero" />
         <p className="small">{featuredMatch.venue}</p>
       </div>
       <SectionHead title={t.matchesToday} action={t.viewAll} />
@@ -908,7 +939,7 @@ function MobileHome({ t, setMobileScreen, matches }: { t: typeof translations.en
         {matches.slice(0, 3).map((match) => (
           <button className="mobile-match" key={`${match.home}-${match.away}`} onClick={() => setMobileScreen("matches")}>
             <span>{match.home}</span>
-            <span>{match.time}</span>
+            <span>{match.score ? `${match.score.statusText} ${match.score.home}-${match.score.away}` : match.time}</span>
             <span className="small muted">{match.group}</span>
             <span>{match.away}</span>
           </button>
@@ -930,7 +961,7 @@ function MobileMatches({ t, matches }: { t: typeof translations.en; matches: Mat
         {matches.map((match) => (
           <Link className="mobile-match mobile-match-link" key={`${match.home}-${match.away}`} href={`/matches/${match.slug}`}>
             <strong>{match.home}</strong>
-            <span>{match.time}</span>
+            <span>{match.score ? `${match.score.statusText} ${match.score.home}-${match.score.away}` : match.time}</span>
             <strong>{match.away}</strong>
             <span className="small muted">{match.group}</span>
             <p className="small muted" style={{ gridColumn: "1 / -1" }}>{match.venue}</p>

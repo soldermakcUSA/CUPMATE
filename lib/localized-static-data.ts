@@ -173,6 +173,8 @@ export function localizedFallbackMatches(locale: Locale): MatchCardData[] {
     return {
       slug: match.slug,
       group: localizeGroup(match.group, locale),
+      homeCode: localizedMatch.home.code,
+      awayCode: localizedMatch.away.code,
       home: `${localizedMatch.home.flag} ${localizedMatch.home.code}`,
       away: `${localizedMatch.away.flag} ${localizedMatch.away.code}`,
       date: formatDate(datePart.replace(", 2026", ""), locale),

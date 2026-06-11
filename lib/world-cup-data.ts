@@ -7,11 +7,22 @@ import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 export type MatchCardData = {
   slug: string;
   group: string;
+  homeCode?: string;
+  awayCode?: string;
   home: string;
   away: string;
   date: string;
   time: string;
   venue: string;
+  score?: {
+    home: number;
+    away: number;
+    status: "live" | "halftime" | "finished" | "postponed" | "unknown";
+    statusText: string;
+    clock?: string;
+    source: "api-football" | "espn";
+    updatedAt: string;
+  };
 };
 
 type TeamRelation = {
@@ -99,6 +110,8 @@ function toMatchCardData(match: MatchRow, locale: Locale): MatchCardData {
   return {
     slug: matchSlugFromCodes(match.home_team?.fifa_code, match.away_team?.fifa_code) ?? "world-cup-match",
     group: localizeGroup(match.group_name, locale) ?? formatStage(match.stage, locale),
+    homeCode: match.home_team?.fifa_code ?? undefined,
+    awayCode: match.away_team?.fifa_code ?? undefined,
     home: formatTeam(match.home_team, title, "home", locale),
     away: formatTeam(match.away_team, title, "away", locale),
     date: dateFormatter.format(kickoff),
