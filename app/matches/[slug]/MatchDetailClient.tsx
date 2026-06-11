@@ -6,7 +6,7 @@ import { ArrowLeft, BarChart3, CalendarDays, ExternalLink, History, MapPin, Radi
 import { AppSidebar } from "@/components/AppSidebar";
 import { getSeatGeekTicketForMatchSlug } from "@/components/menu/StadiumsPanel";
 import { TeamFlag, TeamLabel } from "@/components/TeamFlag";
-import { fetchLiveScoreDetails, fetchLiveScores, findLiveScoreByCodes, type LiveMatchEvent, type LiveMatchScore, type LiveTeamStat } from "@/lib/live-scores";
+import { fetchLiveScoreDetails, fetchLiveScores, findScoreByCodes, type LiveMatchEvent, type LiveMatchScore, type LiveTeamStat } from "@/lib/live-scores";
 import { findMatchDetail, formatAmericanOdds, impliedProbability, localizeMatchDetail, type MatchDetail } from "@/lib/match-details";
 import { getLanguage, type Locale, translations } from "@/lib/i18n";
 import { getTeamSquad, type SquadPlayer, type TeamSquad } from "@/lib/squad-data";
@@ -158,7 +158,7 @@ export function MatchDetailClient({ slug }: { slug: string }) {
     const refreshLiveScore = () => {
       fetchLiveScores()
         .then((scores) => {
-          const baseScore = findLiveScoreByCodes(scores, detail.home.code, detail.away.code);
+          const baseScore = findScoreByCodes(scores, detail.home.code, detail.away.code);
           if (!baseScore) {
             if (isMounted) setLiveScore(null);
             return null;

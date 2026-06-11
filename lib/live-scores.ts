@@ -104,12 +104,16 @@ export function mergeLiveScores(matches: MatchCardData[], scores: LiveMatchScore
 }
 
 export function findLiveScoreByCodes(scores: LiveMatchScore[], homeCode: string, awayCode: string): VisibleLiveMatchScore | null {
-  const score = scores.find((item) => scoreKey(item.homeCode, item.awayCode) === scoreKey(homeCode, awayCode));
+  const score = findScoreByCodes(scores, homeCode, awayCode);
   if (!score || !isVisibleLiveScore(score)) {
     return null;
   }
 
   return score;
+}
+
+export function findScoreByCodes(scores: LiveMatchScore[], homeCode: string, awayCode: string): LiveMatchScore | null {
+  return scores.find((item) => scoreKey(item.homeCode, item.awayCode) === scoreKey(homeCode, awayCode)) ?? null;
 }
 
 function isVisibleLiveScore(score: LiveMatchScore): score is VisibleLiveMatchScore {
