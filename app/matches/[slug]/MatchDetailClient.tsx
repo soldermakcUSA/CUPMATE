@@ -6,7 +6,7 @@ import { ArrowLeft, BarChart3, CalendarDays, ExternalLink, History, MapPin, Radi
 import { AppSidebar } from "@/components/AppSidebar";
 import { getSeatGeekTicketForMatchSlug } from "@/components/menu/StadiumsPanel";
 import { TeamFlag, TeamLabel } from "@/components/TeamFlag";
-import { fetchLiveScores, findLiveScoreByCodes, type LiveMatchScore } from "@/lib/live-scores";
+import { fetchLiveScoreDetails, fetchLiveScores, findLiveScoreByCodes, type LiveMatchEvent, type LiveMatchScore, type LiveTeamStat } from "@/lib/live-scores";
 import { findMatchDetail, formatAmericanOdds, impliedProbability, localizeMatchDetail, type MatchDetail } from "@/lib/match-details";
 import { getLanguage, type Locale, translations } from "@/lib/i18n";
 import { getTeamSquad, type SquadPlayer, type TeamSquad } from "@/lib/squad-data";
@@ -106,12 +106,41 @@ function matchTicketCopy(locale: Locale) {
   };
 }
 
+function matchLiveCopy(locale: Locale) {
+  if (locale === "ru") {
+    return {
+      title: "Онлайн-центр матча",
+      subtitle: "Статистика, карточки и ключевые события обновляются автоматически из live-источника.",
+      teamStats: "Статистика команд",
+      discipline: "Карточки и дисциплина",
+      timeline: "Ключевые события",
+      commentary: "Последние события",
+      noData: "Подробная live-статистика появится, когда источник начнет отдавать данные матча.",
+      yellowCards: "Желтые карточки",
+      redCards: "Красные карточки"
+    };
+  }
+
+  return {
+    title: "Live match center",
+    subtitle: "Stats, cards and key events update automatically from the live source.",
+    teamStats: "Team stats",
+    discipline: "Cards and discipline",
+    timeline: "Key events",
+    commentary: "Latest play-by-play",
+    noData: "Detailed live stats will appear when the source starts publishing match data.",
+    yellowCards: "Yellow cards",
+    redCards: "Red cards"
+  };
+}
+
 export function MatchDetailClient({ slug }: { slug: string }) {
   const locale = useLocale();
   const t = translations[locale];
   const c = copy[locale] ?? copy.en;
   const squadsText = squadCopy[locale] ?? squadCopy.en;
   const ticketCopy = matchTicketCopy(locale);
+  const liveCopy = matchLiveCopy(locale);
   const [liveScore, setLiveScore] = useState<LiveMatchScore | null>(null);
   const detail = useMemo(() => {
     const found = findMatchDetail(slug);
@@ -129,8 +158,19 @@ export function MatchDetailClient({ slug }: { slug: string }) {
     const refreshLiveScore = () => {
       fetchLiveScores()
         .then((scores) => {
-          if (isMounted) {
-            setLiveScore(findLiveScoreByCodes(scores, detail.home.code, detail.away.code));
+          const baseScore = findLiveScoreByCodes(scores, detail.home.code, detail.away.code);
+          if (!baseScore) {
+            if (isMounted) setLiveScore(null);
+            return null;
+          }
+
+          return fetchLiveScoreDetails(baseScore.id)
+            .then((detailedScore) => detailedScore ?? baseScore)
+            .catch(() => baseScore);
+        })
+        .then((score) => {
+          if (isMounted && score) {
+            setLiveScore(score);
           }
         })
         .catch((error) => {
@@ -193,6 +233,8 @@ export function MatchDetailClient({ slug }: { slug: string }) {
             </div>
           </div>
         </section>
+
+        <MatchLiveCenter detail={detail} score={liveScore} copy={liveCopy} />
 
         <div className="match-detail-grid">
           <section className="section-card match-detail-main-card">
@@ -343,6 +385,167 @@ export function MatchDetailClient({ slug }: { slug: string }) {
         </section>
       </main>
     </div>
+  );
+}
+
+function MatchLiveCenter({
+  detail,
+  score,
+  copy
+}: {
+  detail: MatchDetail;
+  score: LiveMatchScore | null;
+  copy: ReturnType<typeof matchLiveCopy>;
+}) {
+  const statRows = score?.statistics ? buildMatchStatRows(score.statistics.home, score.statistics.away) : [];
+  const disciplineEvents = (score?.events ?? []).filter((event) => event.kind === "yellow-card" || event.kind === "red-card");
+  const timelineEvents = (score?.events ?? []).filter((event) => event.kind !== "commentary").slice(0, 28);
+  const commentary = score?.commentary ?? [];
+  const yellowCards = countEventsByKind(disciplineEvents, "yellow-card", detail.home.code, detail.away.code);
+  const redCards = countEventsByKind(disciplineEvents, "red-card", detail.home.code, detail.away.code);
+  const hasLiveData = statRows.length > 0 || timelineEvents.length > 0 || commentary.length > 0;
+
+  return (
+    <section className="section-card match-live-center" aria-labelledby="match-live-center-title">
+      <div className="match-detail-section-head">
+        <Radio size={20} />
+        <div>
+          <h2 id="match-live-center-title">{copy.title}</h2>
+          <p className="small muted">{copy.subtitle}</p>
+        </div>
+      </div>
+
+      {!hasLiveData ? (
+        <p className="small muted">{copy.noData}</p>
+      ) : (
+        <div className="match-live-grid">
+          <section className="match-live-panel match-stat-panel">
+            <h3>{copy.teamStats}</h3>
+            <div className="match-stat-teams">
+              <strong>{detail.home.code}</strong>
+              <span />
+              <strong>{detail.away.code}</strong>
+            </div>
+            <div className="match-stat-list">
+              {statRows.map((row) => (
+                <div className="match-stat-row" key={row.name}>
+                  <strong>{row.home}</strong>
+                  <span>{row.label}</span>
+                  <strong>{row.away}</strong>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="match-live-panel">
+            <h3>{copy.discipline}</h3>
+            <div className="discipline-summary">
+              <DisciplineMetric label={copy.yellowCards} home={yellowCards.home} away={yellowCards.away} color="yellow" />
+              <DisciplineMetric label={copy.redCards} home={redCards.home} away={redCards.away} color="red" />
+            </div>
+            <div className="match-event-list compact">
+              {disciplineEvents.map((event) => <MatchEventRow event={event} key={event.id} />)}
+            </div>
+          </section>
+
+          <section className="match-live-panel">
+            <h3>{copy.timeline}</h3>
+            <div className="match-event-list">
+              {timelineEvents.map((event) => <MatchEventRow event={event} key={event.id} />)}
+            </div>
+          </section>
+
+          <section className="match-live-panel">
+            <h3>{copy.commentary}</h3>
+            <div className="match-event-list">
+              {commentary.map((event) => <MatchEventRow event={event} key={event.id} />)}
+            </div>
+          </section>
+        </div>
+      )}
+    </section>
+  );
+}
+
+function DisciplineMetric({ label, home, away, color }: { label: string; home: number; away: number; color: "yellow" | "red" }) {
+  return (
+    <div className="discipline-metric">
+      <span className={`card-swatch ${color}`} aria-hidden="true" />
+      <span>{label}</span>
+      <strong>{home} - {away}</strong>
+    </div>
+  );
+}
+
+function MatchEventRow({ event }: { event: LiveMatchEvent }) {
+  return (
+    <article className={`match-event-row ${event.kind}`}>
+      <span className="match-event-minute">{event.minute || "·"}</span>
+      <span className="match-event-kind" aria-hidden="true" />
+      <div>
+        <strong>{[event.teamCode, event.type].filter(Boolean).join(" · ")}</strong>
+        <p>{event.text}</p>
+        {event.athletes.length > 0 && <small>{event.athletes.join(" / ")}</small>}
+      </div>
+    </article>
+  );
+}
+
+function buildMatchStatRows(homeStats: LiveTeamStat[], awayStats: LiveTeamStat[]) {
+  const statOrder = [
+    "possessionPct",
+    "totalShots",
+    "shotsOnTarget",
+    "wonCorners",
+    "foulsCommitted",
+    "yellowCards",
+    "redCards",
+    "offsides",
+    "saves",
+    "accuratePasses",
+    "totalPasses",
+    "passPct",
+    "totalTackles",
+    "interceptions",
+    "blockedShots",
+    "totalClearance"
+  ];
+  const homeByName = new Map(homeStats.map((stat) => [stat.name, stat]));
+  const awayByName = new Map(awayStats.map((stat) => [stat.name, stat]));
+
+  return statOrder
+    .map((name) => {
+      const home = homeByName.get(name);
+      const away = awayByName.get(name);
+      if (!home && !away) return null;
+
+      return {
+        name,
+        label: home?.label ?? away?.label ?? name,
+        home: formatStatDisplay(home),
+        away: formatStatDisplay(away)
+      };
+    })
+    .filter((row): row is { name: string; label: string; home: string; away: string } => Boolean(row));
+}
+
+function formatStatDisplay(stat: LiveTeamStat | undefined) {
+  if (!stat) return "-";
+  if (["possessionPct", "passPct"].includes(stat.name) && typeof stat.value === "number") {
+    return `${Math.round(stat.value * (stat.value <= 1 ? 100 : 1))}%`;
+  }
+  return stat.displayValue;
+}
+
+function countEventsByKind(events: LiveMatchEvent[], kind: "yellow-card" | "red-card", homeCode: string, awayCode: string) {
+  return events.reduce(
+    (counts, event) => {
+      if (event.kind !== kind) return counts;
+      if (event.teamCode === homeCode) counts.home += 1;
+      else if (event.teamCode === awayCode) counts.away += 1;
+      return counts;
+    },
+    { home: 0, away: 0 }
   );
 }
 

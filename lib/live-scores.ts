@@ -16,6 +16,31 @@ export type LiveMatchScore = {
   kickoffAt?: string;
   source: "api-football" | "espn";
   updatedAt: string;
+  statistics?: {
+    home: LiveTeamStat[];
+    away: LiveTeamStat[];
+  };
+  events?: LiveMatchEvent[];
+  commentary?: LiveMatchEvent[];
+};
+
+export type LiveTeamStat = {
+  name: string;
+  label: string;
+  abbreviation?: string;
+  displayValue: string;
+  value?: number | null;
+};
+
+export type LiveMatchEvent = {
+  id: string;
+  minute: string;
+  type: string;
+  kind: "goal" | "yellow-card" | "red-card" | "substitution" | "period" | "delay" | "commentary" | "other";
+  text: string;
+  teamCode?: string;
+  teamName?: string;
+  athletes: string[];
 };
 
 export type VisibleLiveMatchScore = LiveMatchScore & {
@@ -38,6 +63,16 @@ export async function fetchLiveScores(): Promise<LiveMatchScore[]> {
 
   const payload = (await response.json()) as LiveScoresResponse;
   return payload.scores;
+}
+
+export async function fetchLiveScoreDetails(eventId: string): Promise<LiveMatchScore | null> {
+  const response = await fetch(`/api/scores?eventId=${encodeURIComponent(eventId)}`, { cache: "no-store" });
+  if (!response.ok) {
+    throw new Error(`Unable to load live score details: ${response.status}`);
+  }
+
+  const payload = (await response.json()) as LiveScoresResponse;
+  return payload.scores[0] ?? null;
 }
 
 export function mergeLiveScores(matches: MatchCardData[], scores: LiveMatchScore[]): MatchCardData[] {
