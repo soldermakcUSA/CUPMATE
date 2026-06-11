@@ -1369,6 +1369,39 @@ img {
   object-fit: contain;
 }
 
+.live-quality-control {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 4;
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  gap: 8px;
+  padding: 0 8px 0 11px;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 8px;
+  background: rgba(5, 8, 22, 0.72);
+  backdrop-filter: blur(12px);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.live-quality-control select {
+  min-height: 26px;
+  color: white;
+  border: 0;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.14);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.live-quality-control option {
+  color: #07122f;
+}
+
 .live-player-overlay {
   position: absolute;
   inset: 0;
