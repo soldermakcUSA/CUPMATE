@@ -63,109 +63,109 @@ const liveStandings = [
   {
     group: "Group A",
     teams: [
-      { rank: 1, flag: "🇲🇽", name: "Mexico" },
-      { rank: 2, flag: "🇿🇦", name: "South Africa" },
-      { rank: 3, flag: "🇰🇷", name: "South Korea" },
-      { rank: 4, flag: "🇨🇿", name: "Czechia" }
+      { rank: 1, code: "MEX", flag: "🇲🇽", name: "Mexico" },
+      { rank: 2, code: "RSA", flag: "🇿🇦", name: "South Africa" },
+      { rank: 3, code: "KOR", flag: "🇰🇷", name: "South Korea" },
+      { rank: 4, code: "CZE", flag: "🇨🇿", name: "Czechia" }
     ]
   },
   {
     group: "Group B",
     teams: [
-      { rank: 1, flag: "🇨🇦", name: "Canada" },
-      { rank: 2, flag: "🇧🇦", name: "Bosnia and Herzegovina" },
-      { rank: 3, flag: "🇶🇦", name: "Qatar" },
-      { rank: 4, flag: "🇨🇭", name: "Switzerland" }
+      { rank: 1, code: "CAN", flag: "🇨🇦", name: "Canada" },
+      { rank: 2, code: "BIH", flag: "🇧🇦", name: "Bosnia and Herzegovina" },
+      { rank: 3, code: "QAT", flag: "🇶🇦", name: "Qatar" },
+      { rank: 4, code: "SUI", flag: "🇨🇭", name: "Switzerland" }
     ]
   },
   {
     group: "Group C",
     teams: [
-      { rank: 1, flag: "🇧🇷", name: "Brazil" },
-      { rank: 2, flag: "🇲🇦", name: "Morocco" },
-      { rank: 3, flag: "🇭🇹", name: "Haiti" },
-      { rank: 4, flag: "🏴", name: "Scotland" }
+      { rank: 1, code: "BRA", flag: "🇧🇷", name: "Brazil" },
+      { rank: 2, code: "MAR", flag: "🇲🇦", name: "Morocco" },
+      { rank: 3, code: "HAI", flag: "🇭🇹", name: "Haiti" },
+      { rank: 4, code: "SCO", flag: "🏴", name: "Scotland" }
     ]
   },
   {
     group: "Group D",
     teams: [
-      { rank: 1, flag: "🇺🇸", name: "United States" },
-      { rank: 2, flag: "🇵🇾", name: "Paraguay" },
-      { rank: 3, flag: "🇦🇺", name: "Australia" },
-      { rank: 4, flag: "🇹🇷", name: "Türkiye" }
+      { rank: 1, code: "USA", flag: "🇺🇸", name: "United States" },
+      { rank: 2, code: "PAR", flag: "🇵🇾", name: "Paraguay" },
+      { rank: 3, code: "AUS", flag: "🇦🇺", name: "Australia" },
+      { rank: 4, code: "TUR", flag: "🇹🇷", name: "Türkiye" }
     ]
   },
   {
     group: "Group E",
     teams: [
-      { rank: 1, flag: "🇩🇪", name: "Germany" },
-      { rank: 2, flag: "🇨🇼", name: "Curacao" },
-      { rank: 3, flag: "🇨🇮", name: "Ivory Coast" },
-      { rank: 4, flag: "🇪🇨", name: "Ecuador" }
+      { rank: 1, code: "GER", flag: "🇩🇪", name: "Germany" },
+      { rank: 2, code: "CUW", flag: "🇨🇼", name: "Curacao" },
+      { rank: 3, code: "CIV", flag: "🇨🇮", name: "Ivory Coast" },
+      { rank: 4, code: "ECU", flag: "🇪🇨", name: "Ecuador" }
     ]
   },
   {
     group: "Group F",
     teams: [
-      { rank: 1, flag: "🇳🇱", name: "Netherlands" },
-      { rank: 2, flag: "🇯🇵", name: "Japan" },
-      { rank: 3, flag: "🇸🇪", name: "Sweden" },
-      { rank: 4, flag: "🇹🇳", name: "Tunisia" }
+      { rank: 1, code: "NED", flag: "🇳🇱", name: "Netherlands" },
+      { rank: 2, code: "JPN", flag: "🇯🇵", name: "Japan" },
+      { rank: 3, code: "SWE", flag: "🇸🇪", name: "Sweden" },
+      { rank: 4, code: "TUN", flag: "🇹🇳", name: "Tunisia" }
     ]
   },
   {
     group: "Group G",
     teams: [
-      { rank: 1, flag: "🇧🇪", name: "Belgium" },
-      { rank: 2, flag: "🇪🇬", name: "Egypt" },
-      { rank: 3, flag: "🇮🇷", name: "Iran" },
-      { rank: 4, flag: "🇳🇿", name: "New Zealand" }
+      { rank: 1, code: "BEL", flag: "🇧🇪", name: "Belgium" },
+      { rank: 2, code: "EGY", flag: "🇪🇬", name: "Egypt" },
+      { rank: 3, code: "IRN", flag: "🇮🇷", name: "Iran" },
+      { rank: 4, code: "NZL", flag: "🇳🇿", name: "New Zealand" }
     ]
   },
   {
     group: "Group H",
     teams: [
-      { rank: 1, flag: "🇪🇸", name: "Spain" },
-      { rank: 2, flag: "🇨🇻", name: "Cape Verde" },
-      { rank: 3, flag: "🇸🇦", name: "Saudi Arabia" },
-      { rank: 4, flag: "🇺🇾", name: "Uruguay" }
+      { rank: 1, code: "ESP", flag: "🇪🇸", name: "Spain" },
+      { rank: 2, code: "CPV", flag: "🇨🇻", name: "Cape Verde" },
+      { rank: 3, code: "KSA", flag: "🇸🇦", name: "Saudi Arabia" },
+      { rank: 4, code: "URU", flag: "🇺🇾", name: "Uruguay" }
     ]
   },
   {
     group: "Group I",
     teams: [
-      { rank: 1, flag: "🇫🇷", name: "France" },
-      { rank: 2, flag: "🇸🇳", name: "Senegal" },
-      { rank: 3, flag: "🇮🇶", name: "Iraq" },
-      { rank: 4, flag: "🇳🇴", name: "Norway" }
+      { rank: 1, code: "FRA", flag: "🇫🇷", name: "France" },
+      { rank: 2, code: "SEN", flag: "🇸🇳", name: "Senegal" },
+      { rank: 3, code: "IRQ", flag: "🇮🇶", name: "Iraq" },
+      { rank: 4, code: "NOR", flag: "🇳🇴", name: "Norway" }
     ]
   },
   {
     group: "Group J",
     teams: [
-      { rank: 1, flag: "🇦🇷", name: "Argentina" },
-      { rank: 2, flag: "🇩🇿", name: "Algeria" },
-      { rank: 3, flag: "🇦🇹", name: "Austria" },
-      { rank: 4, flag: "🇯🇴", name: "Jordan" }
+      { rank: 1, code: "ARG", flag: "🇦🇷", name: "Argentina" },
+      { rank: 2, code: "ALG", flag: "🇩🇿", name: "Algeria" },
+      { rank: 3, code: "AUT", flag: "🇦🇹", name: "Austria" },
+      { rank: 4, code: "JOR", flag: "🇯🇴", name: "Jordan" }
     ]
   },
   {
     group: "Group K",
     teams: [
-      { rank: 1, flag: "🇵🇹", name: "Portugal" },
-      { rank: 2, flag: "🇨🇩", name: "Congo DR" },
-      { rank: 3, flag: "🇺🇿", name: "Uzbekistan" },
-      { rank: 4, flag: "🇨🇴", name: "Colombia" }
+      { rank: 1, code: "POR", flag: "🇵🇹", name: "Portugal" },
+      { rank: 2, code: "COD", flag: "🇨🇩", name: "Congo DR" },
+      { rank: 3, code: "UZB", flag: "🇺🇿", name: "Uzbekistan" },
+      { rank: 4, code: "COL", flag: "🇨🇴", name: "Colombia" }
     ]
   },
   {
     group: "Group L",
     teams: [
-      { rank: 1, flag: "🏴", name: "England" },
-      { rank: 2, flag: "🇭🇷", name: "Croatia" },
-      { rank: 3, flag: "🇬🇭", name: "Ghana" },
-      { rank: 4, flag: "🇵🇦", name: "Panama" }
+      { rank: 1, code: "ENG", flag: "🏴", name: "England" },
+      { rank: 2, code: "CRO", flag: "🇭🇷", name: "Croatia" },
+      { rank: 3, code: "GHA", flag: "🇬🇭", name: "Ghana" },
+      { rank: 4, code: "PAN", flag: "🇵🇦", name: "Panama" }
     ]
   }
 ];
@@ -390,6 +390,7 @@ export default function CupMatePage() {
             assistantReply={assistantReply}
             locale={locale}
             matches={matchesWithScores}
+            liveScores={liveScores}
             news={contentNews}
             places={contentPlaces}
           />
@@ -460,6 +461,7 @@ function DesktopContent({
   assistantReply,
   locale,
   matches,
+  liveScores,
   news,
   places
 }: {
@@ -474,6 +476,7 @@ function DesktopContent({
   assistantReply: string;
   locale: Locale;
   matches: MatchCardData[];
+  liveScores: LiveMatchScore[];
   news: NewsItemData[];
   places: PlaceCardData[];
 }) {
@@ -489,7 +492,7 @@ function DesktopContent({
         <aside className="right-rail">
           <MapPanel t={t} activeChip={activeChip} setActiveChip={setActiveChip} places={places} />
           <ItineraryPanel t={t} locale={locale} />
-          <LiveStandingsPanel t={t} locale={locale} />
+          <LiveStandingsPanel t={t} locale={locale} liveScores={liveScores} />
         </aside>
       </div>
     );
@@ -832,7 +835,82 @@ function ItineraryPanel({ t, locale }: { t: typeof translations.en; locale: Loca
   );
 }
 
-function LiveStandingsPanel({ t, locale }: { t: typeof translations.en; locale: Locale }) {
+type StandingsTeamSeed = (typeof liveStandings)[number]["teams"][number];
+
+type CalculatedStandingTeam = StandingsTeamSeed & {
+  played: number;
+  wins: number;
+  draws: number;
+  losses: number;
+  goalsFor: number;
+  goalsAgainst: number;
+  goalDifference: number;
+  points: number;
+  isLive: boolean;
+};
+
+function buildLiveStandings(scores: LiveMatchScore[]) {
+  return liveStandings.map((group) => {
+    const rows = group.teams.map<CalculatedStandingTeam>((team) => ({
+      ...team,
+      played: 0,
+      wins: 0,
+      draws: 0,
+      losses: 0,
+      goalsFor: 0,
+      goalsAgainst: 0,
+      goalDifference: 0,
+      points: 0,
+      isLive: false
+    }));
+    const rowsByCode = new globalThis.Map(rows.map((team) => [team.code, team]));
+
+    for (const score of scores) {
+      if (score.homeScore === null || score.awayScore === null || score.status === "scheduled") continue;
+
+      const home = rowsByCode.get(score.homeCode);
+      const away = rowsByCode.get(score.awayCode);
+      if (!home || !away) continue;
+
+      const isLive = score.status === "live" || score.status === "halftime";
+      applyStandingResult(home, score.homeScore, score.awayScore, isLive);
+      applyStandingResult(away, score.awayScore, score.homeScore, isLive);
+    }
+
+    const rankedRows = rows
+      .sort((a, b) =>
+        b.points - a.points ||
+        b.goalDifference - a.goalDifference ||
+        b.goalsFor - a.goalsFor ||
+        a.rank - b.rank
+      )
+      .map((team, index) => ({ ...team, rank: index + 1 }));
+
+    return { ...group, teams: rankedRows };
+  });
+}
+
+function applyStandingResult(team: CalculatedStandingTeam, goalsFor: number, goalsAgainst: number, isLive: boolean) {
+  team.played += 1;
+  team.goalsFor += goalsFor;
+  team.goalsAgainst += goalsAgainst;
+  team.goalDifference = team.goalsFor - team.goalsAgainst;
+  team.isLive = team.isLive || isLive;
+
+  if (goalsFor > goalsAgainst) {
+    team.wins += 1;
+    team.points += 3;
+  } else if (goalsFor === goalsAgainst) {
+    team.draws += 1;
+    team.points += 1;
+  } else {
+    team.losses += 1;
+  }
+}
+
+function LiveStandingsPanel({ t, locale, liveScores }: { t: typeof translations.en; locale: Locale; liveScores: LiveMatchScore[] }) {
+  const standingsGroups = useMemo(() => buildLiveStandings(liveScores), [liveScores]);
+
   return (
     <section className="standings-card" aria-labelledby="live-standings-title">
       <div className="standings-intro">
@@ -845,7 +923,7 @@ function LiveStandingsPanel({ t, locale }: { t: typeof translations.en; locale: 
       </div>
 
       <div className="standings-groups">
-        {liveStandings.map((group) => (
+        {standingsGroups.map((group) => (
           <div className="standings-group" key={group.group}>
             <div className="standings-header">
               <strong>{group.group}</strong>
@@ -857,7 +935,7 @@ function LiveStandingsPanel({ t, locale }: { t: typeof translations.en; locale: 
               <span>{t.pointsShort}</span>
             </div>
             {group.teams.map((team) => (
-              <div className={`standings-row ${team.rank === 3 ? "qualification-line" : ""}`} key={team.name}>
+              <div className={`standings-row ${team.rank === 3 ? "qualification-line" : ""} ${team.isLive ? "is-live" : ""}`} key={team.name}>
                 <span className="standings-rank">{team.rank}</span>
                 <span className="standings-team">
                   <span className="standings-flag">
@@ -865,12 +943,12 @@ function LiveStandingsPanel({ t, locale }: { t: typeof translations.en; locale: 
                   </span>
                   <strong>{localizeTeamName(team.name, locale)}</strong>
                 </span>
-                <span>0</span>
-                <span>0-0-0</span>
-                <span>0</span>
-                <span>0</span>
-                <span>0</span>
-                <span>0</span>
+                <span>{team.played}</span>
+                <span>{team.wins}-{team.draws}-{team.losses}</span>
+                <span>{team.goalsFor}</span>
+                <span>{team.goalsAgainst}</span>
+                <span>{team.goalDifference}</span>
+                <span>{team.points}</span>
               </div>
             ))}
           </div>

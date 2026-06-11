@@ -18,6 +18,12 @@ export type LiveMatchScore = {
   updatedAt: string;
 };
 
+export type VisibleLiveMatchScore = LiveMatchScore & {
+  homeScore: number;
+  awayScore: number;
+  status: Exclude<LiveScoreStatus, "scheduled">;
+};
+
 export type LiveScoresResponse = {
   updatedAt: string;
   source: "api-football" | "espn";
@@ -37,15 +43,13 @@ export async function fetchLiveScores(): Promise<LiveMatchScore[]> {
 export function mergeLiveScores(matches: MatchCardData[], scores: LiveMatchScore[]): MatchCardData[] {
   if (scores.length === 0) return matches;
 
-  const scoresByMatch = new Map(scores.map((score) => [scoreKey(score.homeCode, score.awayCode), score]));
-
   return matches.map((match) => {
     const homeCode = match.homeCode ?? extractTeamCode(match.home);
     const awayCode = match.awayCode ?? extractTeamCode(match.away);
     if (!homeCode || !awayCode) return match;
 
-    const score = scoresByMatch.get(scoreKey(homeCode, awayCode));
-    if (!score || score.homeScore === null || score.awayScore === null || score.status === "scheduled") {
+    const score = findLiveScoreByCodes(scores, homeCode, awayCode);
+    if (!score) {
       return { ...match, score: undefined };
     }
 
@@ -62,6 +66,19 @@ export function mergeLiveScores(matches: MatchCardData[], scores: LiveMatchScore
       }
     };
   });
+}
+
+export function findLiveScoreByCodes(scores: LiveMatchScore[], homeCode: string, awayCode: string): VisibleLiveMatchScore | null {
+  const score = scores.find((item) => scoreKey(item.homeCode, item.awayCode) === scoreKey(homeCode, awayCode));
+  if (!score || !isVisibleLiveScore(score)) {
+    return null;
+  }
+
+  return score;
+}
+
+function isVisibleLiveScore(score: LiveMatchScore): score is VisibleLiveMatchScore {
+  return score.homeScore !== null && score.awayScore !== null && score.status !== "scheduled";
 }
 
 export function hasVisibleScore(match: MatchCardData) {

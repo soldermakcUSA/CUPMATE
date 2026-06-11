@@ -1913,6 +1913,19 @@ img {
   border-bottom: 0;
 }
 
+.standings-row.is-live {
+  background: rgba(230, 0, 0, 0.035);
+}
+
+.standings-row.is-live .standings-team::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  flex: 0 0 auto;
+  background: #e60000;
+  border-radius: 50%;
+}
+
 .standings-row.qualification-line::before {
   content: "";
   position: absolute;
@@ -2364,6 +2377,86 @@ img {
   gap: 10px;
 }
 
+.match-hero-side {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+}
+
+.match-detail-score-card {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.match-detail-score-card.is-live .match-detail-score-top span {
+  color: white;
+  background: #e33131;
+}
+
+.match-detail-score-top,
+.match-detail-score-line,
+.match-detail-score-team {
+  display: flex;
+  align-items: center;
+}
+
+.match-detail-score-top {
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.match-detail-score-top span {
+  padding: 5px 9px;
+  border-radius: 999px;
+  color: #06142f;
+  background: white;
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.match-detail-score-top small {
+  color: rgba(255, 255, 255, 0.68);
+  font-weight: 800;
+}
+
+.match-detail-score-line {
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.match-detail-score-line strong {
+  min-width: 104px;
+  color: white;
+  font-size: 36px;
+  font-weight: 950;
+  line-height: 1;
+  text-align: center;
+}
+
+.match-detail-score-team {
+  min-width: 72px;
+  gap: 8px;
+  color: white;
+  font-weight: 900;
+}
+
+.match-detail-score-team:last-child {
+  justify-content: flex-end;
+}
+
+.match-detail-score-flag {
+  width: 30px;
+  height: 20px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+}
+
 .match-hero-odds div {
   display: grid;
   grid-template-columns: 1fr auto auto;
@@ -2378,6 +2471,17 @@ img {
 .match-hero-odds span,
 .match-hero-odds small {
   color: rgba(255, 255, 255, 0.78);
+}
+
+@media (max-width: 900px) {
+  .match-detail-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .match-detail-score-line strong {
+    min-width: 92px;
+    font-size: 30px;
+  }
 }
 
 .match-detail-grid {

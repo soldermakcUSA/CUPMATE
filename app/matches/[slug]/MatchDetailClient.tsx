@@ -6,6 +6,7 @@ import { ArrowLeft, BarChart3, CalendarDays, ExternalLink, History, MapPin, Radi
 import { AppSidebar } from "@/components/AppSidebar";
 import { getSeatGeekTicketForMatchSlug } from "@/components/menu/StadiumsPanel";
 import { TeamFlag, TeamLabel } from "@/components/TeamFlag";
+import { fetchLiveScores, findLiveScoreByCodes, type LiveMatchScore } from "@/lib/live-scores";
 import { findMatchDetail, formatAmericanOdds, impliedProbability, localizeMatchDetail, type MatchDetail } from "@/lib/match-details";
 import { getLanguage, type Locale, translations } from "@/lib/i18n";
 import { getTeamSquad, type SquadPlayer, type TeamSquad } from "@/lib/squad-data";
@@ -111,11 +112,40 @@ export function MatchDetailClient({ slug }: { slug: string }) {
   const c = copy[locale] ?? copy.en;
   const squadsText = squadCopy[locale] ?? squadCopy.en;
   const ticketCopy = matchTicketCopy(locale);
+  const [liveScore, setLiveScore] = useState<LiveMatchScore | null>(null);
   const detail = useMemo(() => {
     const found = findMatchDetail(slug);
     return found ? localizeMatchDetail(found, locale) : null;
   }, [locale, slug]);
   const ticket = useMemo(() => getSeatGeekTicketForMatchSlug(slug), [slug]);
+
+  useEffect(() => {
+    if (!detail) {
+      setLiveScore(null);
+      return;
+    }
+
+    let isMounted = true;
+    const refreshLiveScore = () => {
+      fetchLiveScores()
+        .then((scores) => {
+          if (isMounted) {
+            setLiveScore(findLiveScoreByCodes(scores, detail.home.code, detail.away.code));
+          }
+        })
+        .catch((error) => {
+          console.warn("Unable to load match live score.", error);
+        });
+    };
+
+    refreshLiveScore();
+    const intervalId = window.setInterval(refreshLiveScore, 20_000);
+
+    return () => {
+      isMounted = false;
+      window.clearInterval(intervalId);
+    };
+  }, [detail]);
 
   if (!detail) {
     return (
@@ -150,14 +180,17 @@ export function MatchDetailClient({ slug }: { slug: string }) {
             <p><CalendarDays size={17} /> {detail.kickoff}</p>
             <p><MapPin size={17} /> {detail.venue}, {detail.city}</p>
           </div>
-          <div className="match-hero-odds" aria-label={c.odds}>
-            {outcomes.map((outcome) => (
-              <div key={outcome.label}>
-                <span>{outcome.label}</span>
-                <strong>{outcome.odds}</strong>
-                <small>{outcome.probability}%</small>
-              </div>
-            ))}
+          <div className="match-hero-side">
+            <MatchDetailScoreCard detail={detail} score={liveScore} />
+            <div className="match-hero-odds" aria-label={c.odds}>
+              {outcomes.map((outcome) => (
+                <div key={outcome.label}>
+                  <span>{outcome.label}</span>
+                  <strong>{outcome.odds}</strong>
+                  <small>{outcome.probability}%</small>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -309,6 +342,34 @@ export function MatchDetailClient({ slug }: { slug: string }) {
           </div>
         </section>
       </main>
+    </div>
+  );
+}
+
+function MatchDetailScoreCard({ detail, score }: { detail: MatchDetail; score: LiveMatchScore | null }) {
+  if (!score || score.homeScore === null || score.awayScore === null) return null;
+
+  const isLive = score.status === "live" || score.status === "halftime";
+  const statusLabel = isLive ? score.clock ?? score.statusText : score.statusText;
+  const sourceLabel = score.source === "api-football" ? "API-Football" : "ESPN";
+
+  return (
+    <div className={`match-detail-score-card ${isLive ? "is-live" : ""}`}>
+      <div className="match-detail-score-top">
+        <span>{statusLabel}</span>
+        <small>{sourceLabel}</small>
+      </div>
+      <div className="match-detail-score-line">
+        <span className="match-detail-score-team">
+          <TeamFlag team={detail.home.name} fallback={detail.home.flag} className="match-detail-score-flag" />
+          <b>{detail.home.code}</b>
+        </span>
+        <strong>{score.homeScore} - {score.awayScore}</strong>
+        <span className="match-detail-score-team">
+          <TeamFlag team={detail.away.name} fallback={detail.away.flag} className="match-detail-score-flag" />
+          <b>{detail.away.code}</b>
+        </span>
+      </div>
     </div>
   );
 }
