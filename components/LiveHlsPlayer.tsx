@@ -113,20 +113,20 @@ export function LiveHlsPlayer({
       videoElement.removeAttribute("src");
       videoElement.load();
 
-      if (videoElement.canPlayType("application/vnd.apple.mpegurl")) {
-        videoElement.src = sourceUrl;
-        setQualityLevels([{ index: 0, label: "Source", height: 0, bitrate: 0 }]);
-        setSelectedLevel(0);
-        setActiveLevel(0);
-        setPlayerState("ready");
-        return;
-      }
-
       const { default: Hls } = await import("hls.js");
 
       if (isCancelled) return;
 
       if (!Hls.isSupported()) {
+        if (videoElement.canPlayType("application/vnd.apple.mpegurl")) {
+          videoElement.src = sourceUrl;
+          setQualityLevels([{ index: 0, label: "Source", height: 0, bitrate: 0 }]);
+          setSelectedLevel(0);
+          setActiveLevel(0);
+          setPlayerState("ready");
+          return;
+        }
+
         setPlayerState("unsupported");
         return;
       }
