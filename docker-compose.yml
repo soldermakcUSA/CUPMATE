@@ -1,4 +1,13 @@
 services:
+  mediamtx:
+    image: bluenviron/mediamtx:1.19.1
+    container_name: cupmate-mediamtx
+    restart: unless-stopped
+    ports:
+      - "${RTMP_PORT:-1935}:1935"
+    volumes:
+      - ./mediamtx.yml:/mediamtx.yml:ro
+
   cupmate:
     build:
       context: .
@@ -12,6 +21,8 @@ services:
     image: cupmate:latest
     container_name: cupmate
     restart: unless-stopped
+    depends_on:
+      - mediamtx
     ports:
       - "${APP_PORT:-3000}:3000"
     env_file:

@@ -1,0 +1,47 @@
+logLevel: info
+
+authMethod: internal
+authInternalUsers:
+  - user: "__OBS_STREAM_USER__"
+    pass: "__OBS_STREAM_KEY__"
+    ips: []
+    permissions:
+      - action: publish
+        path: cupmate
+
+  - user: any
+    pass:
+    ips: []
+    permissions:
+      - action: read
+        path: cupmate
+      - action: playback
+        path: cupmate
+
+  - user: any
+    pass:
+    ips: ["127.0.0.1", "::1"]
+    permissions:
+      - action: api
+      - action: metrics
+      - action: pprof
+
+rtsp: false
+rtmp: true
+rtmpAddress: :1935
+
+hls: true
+hlsAddress: :8888
+hlsAllowOrigins: ["*"]
+hlsAlwaysRemux: true
+hlsVariant: mpegts
+hlsSegmentCount: 6
+hlsSegmentDuration: 2s
+
+webrtc: false
+srt: false
+moq: false
+
+paths:
+  cupmate:
+    source: publisher

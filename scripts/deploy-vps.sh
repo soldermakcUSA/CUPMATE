@@ -50,6 +50,25 @@ if [ -z "${NEXT_PUBLIC_SUPABASE_URL:-}" ] || [ -z "${NEXT_PUBLIC_SUPABASE_ANON_K
   exit 1
 fi
 
+if [ -z "${OBS_STREAM_KEY:-}" ]; then
+  echo "Missing OBS_STREAM_KEY in $APP_DIR/.env.production." >&2
+  echo "This value is required to secure OBS publishing into MediaMTX." >&2
+  exit 1
+fi
+
+escape_sed_replacement() {
+  printf '%s' "$1" | sed -e 's/[\/&]/\\&/g'
+}
+
+OBS_STREAM_USER="${OBS_STREAM_USER:-cupmate}"
+OBS_STREAM_USER_ESCAPED="$(escape_sed_replacement "$OBS_STREAM_USER")"
+OBS_STREAM_KEY_ESCAPED="$(escape_sed_replacement "$OBS_STREAM_KEY")"
+
+sed \
+  -e "s/__OBS_STREAM_USER__/$OBS_STREAM_USER_ESCAPED/g" \
+  -e "s/__OBS_STREAM_KEY__/$OBS_STREAM_KEY_ESCAPED/g" \
+  mediamtx.yml.template > mediamtx.yml
+
 echo "Deploying commit $(git rev-parse --short HEAD) from origin/$BRANCH"
 
 NEWS_ASSET_COUNT="$(find public/assets/news -maxdepth 1 -type f -name '*.webp' 2>/dev/null | wc -l | tr -d ' ')"
