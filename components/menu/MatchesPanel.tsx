@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CalendarDays, Clock, MapPin, Plus, Trophy } from "lucide-react";
 import { MatchHighlightLink } from "@/components/MatchHighlightLink";
+import { MatchLiveStreamLink } from "@/components/MatchLiveStreamLink";
 import { MatchScoreBadge } from "@/components/MatchScoreBadge";
 import { TeamLabel } from "@/components/TeamFlag";
 import { translations, type Locale } from "@/lib/i18n";
@@ -87,6 +88,7 @@ export function MatchesPanel({ t, matches, locale = "en" }: MatchesPanelProps) {
                       <Link className="link-button matches-panel-action" href={`/matches/${match.slug}`}>
                         <Plus size={15} aria-hidden="true" /> {t.seeDetails}
                       </Link>
+                      <MatchLiveStreamLink match={match} locale={locale} className="matches-panel-action" />
                       <MatchHighlightLink match={match} locale={locale} className="matches-panel-action" />
                     </article>
                   );

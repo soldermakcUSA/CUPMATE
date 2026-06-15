@@ -7,6 +7,7 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { getSeatGeekTicketForMatchSlug } from "@/components/menu/StadiumsPanel";
 import { TeamFlag, TeamLabel } from "@/components/TeamFlag";
 import { fetchLiveScoreDetails, fetchLiveScores, findScoreByCodes, type LiveMatchEvent, type LiveMatchScore, type LiveTeamStat } from "@/lib/live-scores";
+import { getMatchLiveStreamByCodes, type MatchLiveStream } from "@/lib/match-live-streams";
 import { findMatchDetail, formatAmericanOdds, impliedProbability, localizeMatchDetail, type MatchDetail, type PreviousGame } from "@/lib/match-details";
 import { getLanguage, type Locale, translations } from "@/lib/i18n";
 import { getTeamSquad, type SquadPlayer, type TeamSquad } from "@/lib/squad-data";
@@ -162,6 +163,20 @@ function matchHighlightCopy(locale: Locale) {
   };
 }
 
+function matchLiveStreamCopy(locale: Locale) {
+  if (locale === "ru") {
+    return {
+      title: "Прямая трансляция",
+      subtitle: "Встроенный YouTube-эфир FOX Sports для текущего матча."
+    };
+  }
+
+  return {
+    title: "Live stream",
+    subtitle: "Embedded FOX Sports YouTube coverage for the current match."
+  };
+}
+
 function buildFallbackMatchDetail(match: MatchCardData, locale: Locale): MatchDetail {
   const home = buildFallbackTeam(match, "home", locale);
   const away = buildFallbackTeam(match, "away", locale);
@@ -303,6 +318,7 @@ export function MatchDetailClient({ slug }: { slug: string }) {
   const ticketCopy = matchTicketCopy(locale);
   const liveCopy = matchLiveCopy(locale);
   const highlightCopy = matchHighlightCopy(locale);
+  const streamCopy = matchLiveStreamCopy(locale);
   const [liveScore, setLiveScore] = useState<LiveMatchScore | null>(null);
   const [allScores, setAllScores] = useState<LiveMatchScore[]>([]);
   const [highlight, setHighlight] = useState<MatchHighlight | null>(null);
@@ -315,6 +331,7 @@ export function MatchDetailClient({ slug }: { slug: string }) {
     return staticDetail && scheduleDetail ? mergeScheduledMatchDetail(staticDetail, scheduleDetail) : staticDetail ?? scheduleDetail;
   }, [locale, scheduleMatch, slug]);
   const isFinishedForHighlights = useMemo(() => isFinishedMatchForHighlights(detail, liveScore), [detail, liveScore]);
+  const liveStream = useMemo(() => getMatchLiveStreamByCodes(detail?.home.code, detail?.away.code), [detail]);
   const ticket = useMemo(() => getSeatGeekTicketForMatchSlug(slug), [slug]);
 
   useEffect(() => {
@@ -478,6 +495,7 @@ export function MatchDetailClient({ slug }: { slug: string }) {
           </div>
         </section>
 
+        {liveStream && !isFinishedForHighlights && <MatchLiveStreamCard stream={liveStream} copy={streamCopy} />}
         {highlight && <MatchHighlightCard highlight={highlight} copy={highlightCopy} />}
         <MatchLiveCenter detail={detail} score={liveScore} copy={liveCopy} />
 
@@ -737,6 +755,37 @@ function MatchHighlightCard({ highlight, copy }: { highlight: MatchHighlight; co
         <strong>{highlight.title}</strong>
         <a href={highlight.url} target="_blank" rel="noreferrer">
           {highlight.source} <ExternalLink size={14} />
+        </a>
+      </div>
+    </section>
+  );
+}
+
+function MatchLiveStreamCard({ stream, copy }: { stream: MatchLiveStream; copy: ReturnType<typeof matchLiveStreamCopy> }) {
+  return (
+    <section className="section-card match-live-video-card" aria-labelledby="match-live-video-title">
+      <div className="match-detail-section-head">
+        <Radio size={20} />
+        <div>
+          <h2 id="match-live-video-title">{copy.title}</h2>
+          <p className="small muted">{copy.subtitle}</p>
+        </div>
+      </div>
+      <div className="match-highlight-frame">
+        <iframe
+          className="match-highlight-iframe"
+          src={`${stream.embedUrl}&autoplay=1`}
+          title={stream.title}
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+        />
+      </div>
+      <div className="match-highlight-meta">
+        <strong>{stream.title}</strong>
+        <a href={stream.url} target="_blank" rel="noreferrer">
+          {stream.source} <ExternalLink size={14} />
         </a>
       </div>
     </section>
