@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, BarChart3, CalendarDays, ExternalLink, History, MapPin, Radio, Shield, Ticket, Trophy, Users, WalletCards } from "lucide-react";
+import { ArrowLeft, BarChart3, CalendarDays, ExternalLink, History, MapPin, PlayCircle, Radio, Shield, Ticket, Trophy, Users, WalletCards } from "lucide-react";
 import { AppSidebar } from "@/components/AppSidebar";
 import { getSeatGeekTicketForMatchSlug } from "@/components/menu/StadiumsPanel";
 import { TeamFlag, TeamLabel } from "@/components/TeamFlag";
@@ -11,6 +11,15 @@ import { findMatchDetail, formatAmericanOdds, impliedProbability, localizeMatchD
 import { getLanguage, type Locale, translations } from "@/lib/i18n";
 import { getTeamSquad, type SquadPlayer, type TeamSquad } from "@/lib/squad-data";
 import { fetchWorldCupMatchBySlug, type MatchCardData } from "@/lib/world-cup-data";
+
+type MatchHighlight = {
+  videoId: string;
+  title: string;
+  url: string;
+  publishedAt: string;
+  thumbnail: string | null;
+  source: string;
+};
 
 const copy: Record<Locale, {
   back: string;
@@ -136,6 +145,22 @@ function matchLiveCopy(locale: Locale) {
   };
 }
 
+function matchHighlightCopy(locale: Locale) {
+  if (locale === "ru") {
+    return {
+      title: "Видеообзор",
+      subtitle: "Хайлайты FIFA YouTube для завершенного матча.",
+      watch: "Открыть на YouTube"
+    };
+  }
+
+  return {
+    title: "Match highlights",
+    subtitle: "FIFA YouTube highlights for this finished match.",
+    watch: "Open on YouTube"
+  };
+}
+
 function buildFallbackMatchDetail(match: MatchCardData, locale: Locale): MatchDetail {
   const home = buildFallbackTeam(match, "home", locale);
   const away = buildFallbackTeam(match, "away", locale);
@@ -146,6 +171,7 @@ function buildFallbackMatchDetail(match: MatchCardData, locale: Locale): MatchDe
     slug: match.slug,
     group: match.group,
     kickoff: `${match.date} · ${match.time}`,
+    kickoffAt: match.kickoffAt,
     venue,
     city,
     home,
@@ -163,6 +189,29 @@ function buildFallbackMatchDetail(match: MatchCardData, locale: Locale): MatchDe
       { label: locale === "ru" ? "Расписание CupMate" : "CupMate schedule", href: "/world-cup-2026-schedule" },
       { label: locale === "ru" ? "Расписание FIFA" : "FIFA schedule", href: "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/scores-fixtures" }
     ]
+  };
+}
+
+function mergeScheduledMatchDetail(detail: MatchDetail, scheduleDetail: MatchDetail): MatchDetail {
+  return {
+    ...detail,
+    group: scheduleDetail.group,
+    kickoff: scheduleDetail.kickoff,
+    kickoffAt: scheduleDetail.kickoffAt,
+    venue: scheduleDetail.venue,
+    city: scheduleDetail.city,
+    home: {
+      ...detail.home,
+      code: scheduleDetail.home.code,
+      name: scheduleDetail.home.name,
+      flag: scheduleDetail.home.flag
+    },
+    away: {
+      ...detail.away,
+      code: scheduleDetail.away.code,
+      name: scheduleDetail.away.name,
+      flag: scheduleDetail.away.flag
+    }
   };
 }
 
@@ -252,38 +301,37 @@ export function MatchDetailClient({ slug }: { slug: string }) {
   const squadsText = squadCopy[locale] ?? squadCopy.en;
   const ticketCopy = matchTicketCopy(locale);
   const liveCopy = matchLiveCopy(locale);
+  const highlightCopy = matchHighlightCopy(locale);
   const [liveScore, setLiveScore] = useState<LiveMatchScore | null>(null);
-  const [fallbackDetail, setFallbackDetail] = useState<MatchDetail | null>(null);
-  const [isFallbackLoading, setIsFallbackLoading] = useState(false);
+  const [highlight, setHighlight] = useState<MatchHighlight | null>(null);
+  const [scheduleMatch, setScheduleMatch] = useState<MatchCardData | null>(null);
+  const [isScheduleLoading, setIsScheduleLoading] = useState(false);
   const detail = useMemo(() => {
     const found = findMatchDetail(slug);
-    return found ? localizeMatchDetail(found, locale) : fallbackDetail;
-  }, [fallbackDetail, locale, slug]);
+    const staticDetail = found ? localizeMatchDetail(found, locale) : null;
+    const scheduleDetail = scheduleMatch ? buildFallbackMatchDetail(scheduleMatch, locale) : null;
+    return staticDetail && scheduleDetail ? mergeScheduledMatchDetail(staticDetail, scheduleDetail) : staticDetail ?? scheduleDetail;
+  }, [locale, scheduleMatch, slug]);
+  const isFinishedForHighlights = useMemo(() => isFinishedMatchForHighlights(detail, liveScore), [detail, liveScore]);
   const ticket = useMemo(() => getSeatGeekTicketForMatchSlug(slug), [slug]);
 
   useEffect(() => {
-    if (findMatchDetail(slug)) {
-      setFallbackDetail(null);
-      setIsFallbackLoading(false);
-      return;
-    }
-
     let isMounted = true;
-    setFallbackDetail(null);
-    setIsFallbackLoading(true);
+    setScheduleMatch(null);
+    setIsScheduleLoading(true);
 
     fetchWorldCupMatchBySlug(slug, locale)
       .then((match) => {
         if (isMounted) {
-          setFallbackDetail(match ? buildFallbackMatchDetail(match, locale) : null);
+          setScheduleMatch(match);
         }
       })
       .catch((error) => {
-        console.warn("Unable to load fallback match detail.", error);
+        console.warn("Unable to load scheduled match detail.", error);
       })
       .finally(() => {
         if (isMounted) {
-          setIsFallbackLoading(false);
+          setIsScheduleLoading(false);
         }
       });
 
@@ -331,7 +379,40 @@ export function MatchDetailClient({ slug }: { slug: string }) {
     };
   }, [detail]);
 
-  if (!detail && isFallbackLoading) {
+  useEffect(() => {
+    if (!detail || !isFinishedForHighlights) {
+      setHighlight(null);
+      return;
+    }
+
+    const controller = new AbortController();
+    const params = new URLSearchParams({
+      homeCode: detail.home.code,
+      awayCode: detail.away.code,
+      homeName: detail.home.name,
+      awayName: detail.away.name
+    });
+
+    fetch(`/api/youtube-highlights?${params.toString()}`, {
+      cache: "no-store",
+      signal: controller.signal
+    })
+      .then((response) => response.ok ? response.json() : { highlight: null })
+      .then((payload: { highlight: MatchHighlight | null }) => {
+        setHighlight(payload.highlight);
+      })
+      .catch((error) => {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        console.warn("Unable to load match highlights.", error);
+        setHighlight(null);
+      });
+
+    return () => {
+      controller.abort();
+    };
+  }, [detail, isFinishedForHighlights]);
+
+  if (!detail && isScheduleLoading) {
     return (
       <div className="app-shell match-detail-shell">
         <AppSidebar t={t} activeSection="matches" />
@@ -393,6 +474,7 @@ export function MatchDetailClient({ slug }: { slug: string }) {
           </div>
         </section>
 
+        {highlight && <MatchHighlightCard highlight={highlight} copy={highlightCopy} />}
         <MatchLiveCenter detail={detail} score={liveScore} copy={liveCopy} />
 
         <div className="match-detail-grid">
@@ -610,18 +692,42 @@ function MatchLiveCenter({
           <section className="match-live-panel">
             <h3>{copy.timeline}</h3>
             <div className="match-event-list">
-              {timelineEvents.map((event) => <MatchEventRow event={event} key={event.id} />)}
+              {timelineEvents.map((event, index) => <MatchEventRow event={event} key={`${event.id}-${index}`} />)}
             </div>
           </section>
 
           <section className="match-live-panel">
             <h3>{copy.commentary}</h3>
             <div className="match-event-list">
-              {commentary.map((event) => <MatchEventRow event={event} key={event.id} />)}
+              {commentary.map((event, index) => <MatchEventRow event={event} key={`${event.id}-${index}`} />)}
             </div>
           </section>
         </div>
       )}
+    </section>
+  );
+}
+
+function MatchHighlightCard({ highlight, copy }: { highlight: MatchHighlight; copy: ReturnType<typeof matchHighlightCopy> }) {
+  return (
+    <section className="section-card match-highlight-card" aria-labelledby="match-highlight-title">
+      <div className="match-detail-section-head">
+        <PlayCircle size={20} />
+        <div>
+          <h2 id="match-highlight-title">{copy.title}</h2>
+          <p className="small muted">{copy.subtitle}</p>
+        </div>
+      </div>
+      <a className="match-highlight-frame" href={highlight.url} target="_blank" rel="noreferrer" aria-label={`${copy.watch}: ${highlight.title}`}>
+        {highlight.thumbnail && <img src={highlight.thumbnail} alt="" loading="lazy" />}
+        <span className="match-highlight-play"><PlayCircle size={42} /> YouTube</span>
+      </a>
+      <div className="match-highlight-meta">
+        <strong>{highlight.title}</strong>
+        <a href={highlight.url} target="_blank" rel="noreferrer">
+          {copy.watch} <ExternalLink size={14} />
+        </a>
+      </div>
     </section>
   );
 }
@@ -706,6 +812,17 @@ function countEventsByKind(events: LiveMatchEvent[], kind: "yellow-card" | "red-
     },
     { home: 0, away: 0 }
   );
+}
+
+function isFinishedMatchForHighlights(detail: MatchDetail | null, score: LiveMatchScore | null) {
+  if (score?.status === "finished") return true;
+  if (score?.status === "live" || score?.status === "halftime" || score?.status === "postponed") return false;
+  if (!detail?.kickoffAt) return false;
+
+  const kickoffTime = new Date(detail.kickoffAt).getTime();
+  if (Number.isNaN(kickoffTime)) return false;
+
+  return Date.now() - kickoffTime > 150 * 60 * 1000;
 }
 
 function MatchDetailScoreCard({ detail, score }: { detail: MatchDetail; score: LiveMatchScore | null }) {

@@ -23,6 +23,7 @@ export type MatchDetail = {
   slug: string;
   group: string;
   kickoff: string;
+  kickoffAt?: string;
   venue: string;
   city: string;
   home: TeamDetail;
