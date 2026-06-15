@@ -506,7 +506,6 @@ function DesktopContent({
         </section>
         <aside className="right-rail">
           <CurrentMatchVideoPanel t={t} locale={locale} matches={matches} />
-          <ItineraryPanel t={t} locale={locale} />
           <LiveStandingsPanel t={t} locale={locale} liveScores={liveScores} />
         </aside>
       </div>
