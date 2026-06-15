@@ -11,6 +11,7 @@ export type MatchCardData = {
   awayCode?: string;
   home: string;
   away: string;
+  kickoffAt?: string;
   date: string;
   time: string;
   venue: string;
@@ -59,7 +60,7 @@ const timeFormatter = new Intl.DateTimeFormat("en-US", {
   minute: "2-digit"
 });
 
-export async function fetchWorldCupMatches(limit = 8, locale: Locale = "en"): Promise<MatchCardData[]> {
+export async function fetchWorldCupMatches(limit = 72, locale: Locale = "en"): Promise<MatchCardData[]> {
   const supabase = createBrowserSupabaseClient();
   const { data, error } = await supabase
     .from("matches")
@@ -114,6 +115,7 @@ function toMatchCardData(match: MatchRow, locale: Locale): MatchCardData {
     awayCode: match.away_team?.fifa_code ?? undefined,
     home: formatTeam(match.home_team, title, "home", locale),
     away: formatTeam(match.away_team, title, "away", locale),
+    kickoffAt: kickoff.toISOString(),
     date: dateFormatter.format(kickoff),
     time: timeFormatter.format(kickoff),
     venue: formatVenue(match.stadiums, locale)

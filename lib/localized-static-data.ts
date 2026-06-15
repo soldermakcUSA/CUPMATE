@@ -149,6 +149,12 @@ function formatTime(time: string, locale: Locale) {
   return new Intl.DateTimeFormat(localizedDateFormatterLocale(locale), { hour: "numeric", minute: "2-digit" }).format(date);
 }
 
+function fallbackKickoffIso(kickoff: string) {
+  const [datePart, timePart = ""] = kickoff.split(" · ");
+  const kickoffDate = new Date(`${datePart} ${timePart.replace(/\s+ET$/, "")} GMT-0400`);
+  return Number.isNaN(kickoffDate.getTime()) ? undefined : kickoffDate.toISOString();
+}
+
 export function localizeVenue(venue: string, locale: Locale) {
   const replacements: Partial<Record<Locale, Record<string, string>>> = {
     es: { "Mexico City": "Ciudad de México", "New Jersey": "Nueva Jersey" },
@@ -177,6 +183,7 @@ export function localizedFallbackMatches(locale: Locale): MatchCardData[] {
       awayCode: localizedMatch.away.code,
       home: `${localizedMatch.home.flag} ${localizedMatch.home.code}`,
       away: `${localizedMatch.away.flag} ${localizedMatch.away.code}`,
+      kickoffAt: fallbackKickoffIso(match.kickoff),
       date: formatDate(datePart.replace(", 2026", ""), locale),
       time: formatTime(timePart.replace(/\s+ET$/, ""), locale),
       venue: localizeVenue(`${localizedMatch.venue}, ${localizedMatch.city}`, locale)

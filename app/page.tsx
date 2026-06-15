@@ -45,6 +45,15 @@ import { fetchNewsItems, fetchPlaces, NEWS_IMAGE_FALLBACK, NewsItemData, PlaceCa
 import { getLanguage, languages, Locale, translations } from "@/lib/i18n";
 import { fetchLiveScores, mergeLiveScores } from "@/lib/live-scores";
 import type { LiveMatchScore } from "@/lib/live-scores";
+import { findMatchDetail } from "@/lib/match-details";
+import {
+  getCurrentDayMatches,
+  getMatchTimeline,
+  getMatchTimelineGroups,
+  getNextMatchDayMatches,
+  matchTimelineCopy,
+  selectFeaturedMatch
+} from "@/lib/match-timeline";
 import {
   localizedFallbackFans,
   localizedFallbackItinerary,
@@ -176,6 +185,10 @@ function handleNewsImageError(event: { currentTarget: HTMLImageElement }) {
   }
 }
 
+function matchPlannerHref(match: MatchCardData) {
+  return findMatchDetail(match.slug) ? `/matches/${match.slug}` : "/world-cup-2026-schedule";
+}
+
 type MapPoint = {
   id: string;
   label: string;
@@ -290,7 +303,7 @@ export default function CupMatePage() {
   useEffect(() => {
     let isMounted = true;
 
-    fetchWorldCupMatches(12, locale)
+    fetchWorldCupMatches(72, locale)
       .then((items) => {
         if (isMounted && items.length > 0) {
           setWorldCupMatches(items);
@@ -413,8 +426,8 @@ export default function CupMatePage() {
                 <LanguagePicker locale={locale} setLocale={setLocale} compact />
               </div>
             )}
-            {mobileScreen === "home" && <MobileHome t={t} setMobileScreen={setMobileScreen} matches={matchesWithScores} />}
-            {mobileScreen === "matches" && <MobileMatches t={t} matches={matchesWithScores} />}
+            {mobileScreen === "home" && <MobileHome t={t} locale={locale} setMobileScreen={setMobileScreen} matches={matchesWithScores} />}
+            {mobileScreen === "matches" && <MobileMatches t={t} locale={locale} matches={matchesWithScores} />}
             {mobileScreen === "map" && <MobileMap t={t} setMobileScreen={setMobileScreen} places={contentPlaces} />}
             {mobileScreen === "route" && <MobileRoute t={t} />}
             {mobileScreen === "stadium" && <MobileStadium t={t} />}
@@ -485,7 +498,7 @@ function DesktopContent({
       <div className="content-grid">
         <section className="stack">
           <Hero t={t} setSection={setSection} />
-          <NextMatches t={t} matches={matches} />
+          <NextMatches t={t} locale={locale} matches={matches} />
           <NewsSection t={t} news={news} />
           <FanZonesSection t={t} places={places} />
         </section>
@@ -547,7 +560,7 @@ function MenuSection({
 }) {
   switch (section) {
     case "matches":
-      return <MatchesPanel t={t} matches={matches} />;
+      return <MatchesPanel t={t} locale={locale} matches={matches} />;
     case "fanZones":
       return <FanZonesPanel t={t} places={places} />;
     case "stadiums":
@@ -569,7 +582,7 @@ function MenuSection({
         <div className="content-grid">
           <section className="stack">
             <Hero t={t} setSection={() => undefined} />
-            <NextMatches t={t} matches={matches} />
+            <NextMatches t={t} locale={locale} matches={matches} />
           </section>
           <aside className="right-rail">
             <MapPanel t={t} activeChip={activeChip} setActiveChip={setActiveChip} places={places} />
@@ -628,29 +641,38 @@ function Hero({ t, setSection }: { t: typeof translations.en; setSection: (secti
   );
 }
 
-function NextMatches({ t, matches }: { t: typeof translations.en; matches: MatchCardData[] }) {
+function NextMatches({ t, locale, matches }: { t: typeof translations.en; locale: Locale; matches: MatchCardData[] }) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const visibleMatches = isExpanded ? matches : matches.slice(0, 4);
-  const canExpand = matches.length > 4;
+  const now = new Date();
+  const copy = matchTimelineCopy(locale);
+  const todayMatches = getCurrentDayMatches(matches, now);
+  const dayMatches = todayMatches.length > 0 ? todayMatches : getNextMatchDayMatches(matches, now);
+  const visibleMatches = isExpanded ? dayMatches : dayMatches.slice(0, 4);
+  const canExpand = dayMatches.length > 4;
+  const sectionTitle = todayMatches.length > 0 ? copy.todayTitle : t.nextMatches;
 
   return (
     <section className="section-card">
-      <SectionHead title={t.nextMatches} action={t.viewFullSchedule} actionHref="/world-cup-2026-schedule" />
+      <SectionHead title={sectionTitle} action={t.viewFullSchedule} actionHref="/world-cup-2026-schedule" />
       <div className="match-row">
-        {visibleMatches.map((match) => (
-          <article className="match-card" key={`${match.home}-${match.away}`}>
-            <p className="small muted" style={{ textAlign: "center" }}>{match.group}</p>
-            <div className="match-flags">
-              <span><TeamLabel value={match.home} /></span>
-              <span className="small">{t.versus}</span>
-              <span><TeamLabel value={match.away} /></span>
-            </div>
-            <MatchScoreBadge match={match} />
-            <p className="small muted" style={{ textAlign: "center" }}>{match.date} · {match.time}</p>
-            <p className="small muted" style={{ textAlign: "center" }}>{match.venue}</p>
-            <Link className="link-button match-details-link" href={`/matches/${match.slug}`}>{t.seeDetails}</Link>
-          </article>
-        ))}
+        {visibleMatches.map((match) => {
+          const timeline = getMatchTimeline(match, locale, now);
+          const hasDetail = Boolean(findMatchDetail(match.slug));
+          return (
+            <article className={`match-card is-${timeline.bucket}`} key={`${match.kickoffAt}-${match.home}-${match.away}`}>
+              <p className="small muted" style={{ textAlign: "center" }}>{match.group}</p>
+              <div className="match-flags">
+                <span><TeamLabel value={match.home} /></span>
+                <span className="small">{t.versus}</span>
+                <span><TeamLabel value={match.away} /></span>
+              </div>
+              <MatchScoreBadge match={match} locale={locale} />
+              <p className="small muted" style={{ textAlign: "center" }}>{match.date} · {match.time}</p>
+              <p className="small muted" style={{ textAlign: "center" }}>{match.venue}</p>
+              <Link className="link-button match-details-link" href={matchPlannerHref(match)}>{hasDetail ? t.seeDetails : t.viewFullSchedule}</Link>
+            </article>
+          );
+        })}
       </div>
       {canExpand && (
         <div className="section-footer-actions">
@@ -996,8 +1018,13 @@ function AssistantPanel({
   );
 }
 
-function MobileHome({ t, setMobileScreen, matches }: { t: typeof translations.en; setMobileScreen: (screen: Screen) => void; matches: MatchCardData[] }) {
-  const featuredMatch = matches[0];
+function MobileHome({ t, locale, setMobileScreen, matches }: { t: typeof translations.en; locale: Locale; setMobileScreen: (screen: Screen) => void; matches: MatchCardData[] }) {
+  const now = new Date();
+  const featuredMatch = selectFeaturedMatch(matches, now);
+  const todayMatches = getCurrentDayMatches(matches, now);
+  const mobileMatches = todayMatches.length > 0 ? todayMatches : matches.slice(0, 3);
+
+  if (!featuredMatch) return null;
 
   return (
     <>
@@ -1009,43 +1036,58 @@ function MobileHome({ t, setMobileScreen, matches }: { t: typeof translations.en
       <div className="gradient-card">
         <p>{t.nextMatch}</p>
         <h3>{featuredMatch.home} {t.versus} {featuredMatch.away}</h3>
-        <MatchScoreBadge match={featuredMatch} variant="hero" />
+        <MatchScoreBadge match={featuredMatch} variant="hero" locale={locale} />
         <p className="small">{featuredMatch.venue}</p>
       </div>
       <SectionHead title={t.matchesToday} action={t.viewAll} />
       <div className="mobile-list">
-        {matches.slice(0, 3).map((match) => (
-          <button className="mobile-match" key={`${match.home}-${match.away}`} onClick={() => setMobileScreen("matches")}>
-            <span>{match.home}</span>
-            <span>{match.score ? `${match.score.statusText} ${match.score.home}-${match.score.away}` : match.time}</span>
-            <span className="small muted">{match.group}</span>
-            <span>{match.away}</span>
-          </button>
-        ))}
+        {mobileMatches.slice(0, 3).map((match) => {
+          const timeline = getMatchTimeline(match, locale, now);
+          return (
+            <button className={`mobile-match is-${timeline.bucket}`} key={`${match.kickoffAt}-${match.home}-${match.away}`} onClick={() => setMobileScreen("matches")}>
+              <span>{match.home}</span>
+              <span>{timeline.hasScore ? `${timeline.label} ${timeline.detail}` : match.time}</span>
+              <span className="small muted">{match.group}</span>
+              <span>{match.away}</span>
+            </button>
+          );
+        })}
       </div>
     </>
   );
 }
 
-function MobileMatches({ t, matches }: { t: typeof translations.en; matches: MatchCardData[] }) {
+function MobileMatches({ t, locale, matches }: { t: typeof translations.en; locale: Locale; matches: MatchCardData[] }) {
+  const now = new Date();
+  const groups = getMatchTimelineGroups(matches, locale, now);
+
   return (
     <>
       <div className="chip-row">
         {[t.all, t.myTime, t.byTeam, t.byVenue].map((chip, index) => <button className={`chip ${index === 0 ? "active" : ""}`} key={chip}>{chip}</button>)}
       </div>
-      <div className="date-strip">{[12, 13, 14, 15, 16, 17].map((date, index) => <span className={`date-pill ${index === 0 ? "active" : ""}`} key={date}>{date}</span>)}</div>
-      <h3>{t.thursdayJune12}</h3>
-      <div className="mobile-list">
-        {matches.map((match) => (
-          <Link className="mobile-match mobile-match-link" key={`${match.home}-${match.away}`} href={`/matches/${match.slug}`}>
-            <strong>{match.home}</strong>
-            <span>{match.score ? `${match.score.statusText} ${match.score.home}-${match.score.away}` : match.time}</span>
-            <strong>{match.away}</strong>
-            <span className="small muted">{match.group}</span>
-            <p className="small muted" style={{ gridColumn: "1 / -1" }}>{match.venue}</p>
-          </Link>
-        ))}
-      </div>
+      <div className="date-strip">{[12, 13, 14, 15, 16, 17].map((date) => <span className={`date-pill ${date === now.getDate() ? "active" : ""}`} key={date}>{date}</span>)}</div>
+      {groups.map((group) => (
+        <section className="mobile-match-group" key={group.bucket}>
+          <h3>{group.label}</h3>
+          <div className="mobile-list">
+            {group.matches.length > 0 ? group.matches.map((match) => {
+              const timeline = getMatchTimeline(match, locale, now);
+              return (
+                <Link className={`mobile-match mobile-match-link is-${timeline.bucket}`} key={`${match.kickoffAt}-${match.home}-${match.away}`} href={matchPlannerHref(match)}>
+                  <strong>{match.home}</strong>
+                  <span>{timeline.hasScore ? `${timeline.label} ${timeline.detail}` : match.time}</span>
+                  <strong>{match.away}</strong>
+                  <span className="small muted">{match.group}</span>
+                  <p className="small muted" style={{ gridColumn: "1 / -1" }}>{match.venue}</p>
+                </Link>
+              );
+            }) : (
+              <p className="small muted">{group.emptyLabel}</p>
+            )}
+          </div>
+        </section>
+      ))}
     </>
   );
 }
