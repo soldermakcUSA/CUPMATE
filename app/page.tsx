@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { AppSidebar, type SidebarSection } from "@/components/AppSidebar";
 import { LiveStreamCard } from "@/components/LiveStreamCard";
+import { MatchHighlightLink } from "@/components/MatchHighlightLink";
 import { MatchScoreBadge } from "@/components/MatchScoreBadge";
 import { TeamFlag, TeamLabel } from "@/components/TeamFlag";
 import { AssistantMenuPanel } from "@/components/menu/AssistantPanel";
@@ -668,6 +669,7 @@ function NextMatches({ t, locale, matches }: { t: typeof translations.en; locale
               <p className="small muted" style={{ textAlign: "center" }}>{match.date} · {match.time}</p>
               <p className="small muted" style={{ textAlign: "center" }}>{match.venue}</p>
               <Link className="link-button match-details-link" href={matchPlannerHref(match)}>{t.seeDetails}</Link>
+              <MatchHighlightLink match={match} locale={locale} className="match-details-link" />
             </article>
           );
         })}

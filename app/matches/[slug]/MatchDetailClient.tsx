@@ -43,7 +43,7 @@ const copy: Record<Locale, {
   points: string;
   tableNote: string;
 }> = {
-  en: { back: "Back to CupMate", notFound: "Match not found", overview: "Match overview", teams: "Teams", venue: "Where they play", odds: "Odds", winProbability: "Win probability", recentForm: "Recent form", history: "Match history", groupTeams: "Group teams", sources: "Sources", homeWin: "Home win", draw: "Draw", awayWin: "Away win", total: "Total", watch: "Where to watch", note: "Odds are a market snapshot and may change before kickoff.", position: "Pos", points: "Pts", tableNote: "Current group table before kickoff." },
+  en: { back: "Back to CupMate", notFound: "Match not found", overview: "Match overview", teams: "Teams", venue: "Where they play", odds: "Odds", winProbability: "Win probability", recentForm: "Recent form", history: "Match history", groupTeams: "Group teams", sources: "Sources", homeWin: "Home win", draw: "Draw", awayWin: "Away win", total: "Total", watch: "Where to watch", note: "Odds are a market snapshot and may change before kickoff.", position: "Pos", points: "Pts", tableNote: "Current group table from completed matches." },
   es: { back: "Volver a CupMate", notFound: "Partido no encontrado", overview: "Resumen del partido", teams: "Equipos", venue: "Dónde juegan", odds: "Cuotas", winProbability: "Probabilidad de victoria", recentForm: "Forma reciente", history: "Historial", groupTeams: "Equipos del grupo", sources: "Fuentes", homeWin: "Gana local", draw: "Empate", awayWin: "Gana visitante", total: "Total", watch: "Dónde ver", note: "Las cuotas son una captura del mercado y pueden cambiar antes del inicio.", position: "Pos", points: "Pts", tableNote: "Tabla actual del grupo antes del inicio." },
   fr: { back: "Retour à CupMate", notFound: "Match introuvable", overview: "Aperçu du match", teams: "Équipes", venue: "Lieu du match", odds: "Cotes", winProbability: "Probabilité de victoire", recentForm: "Forme récente", history: "Historique", groupTeams: "Équipes du groupe", sources: "Sources", homeWin: "Victoire domicile", draw: "Nul", awayWin: "Victoire extérieur", total: "Total", watch: "Où regarder", note: "Les cotes sont un instantané du marché et peuvent changer avant le coup d'envoi.", position: "Pos", points: "Pts", tableNote: "Classement actuel du groupe avant le coup d'envoi." },
   de: { back: "Zurück zu CupMate", notFound: "Spiel nicht gefunden", overview: "Spielübersicht", teams: "Teams", venue: "Spielort", odds: "Quoten", winProbability: "Siegwahrscheinlichkeit", recentForm: "Aktuelle Form", history: "Historie", groupTeams: "Gruppenteams", sources: "Quellen", homeWin: "Heimsieg", draw: "Remis", awayWin: "Auswärtssieg", total: "Total", watch: "Wo schauen", note: "Quoten sind eine Momentaufnahme und können sich vor Anpfiff ändern.", position: "Pos", points: "Pkt", tableNote: "Aktuelle Gruppentabelle vor Anpfiff." },
@@ -53,7 +53,7 @@ const copy: Record<Locale, {
   zh: { back: "返回 CupMate", notFound: "未找到比赛", overview: "比赛概览", teams: "球队", venue: "比赛地点", odds: "赔率", winProbability: "获胜概率", recentForm: "近期状态", history: "交锋历史", groupTeams: "小组球队", sources: "来源", homeWin: "主队胜", draw: "平局", awayWin: "客队胜", total: "总进球", watch: "观看方式", note: "赔率为市场快照，开赛前可能变化。", position: "排名", points: "分", tableNote: "开赛前的小组当前积分榜。" },
   ja: { back: "CupMateに戻る", notFound: "試合が見つかりません", overview: "試合概要", teams: "チーム", venue: "試合会場", odds: "オッズ", winProbability: "勝利確率", recentForm: "直近の成績", history: "対戦履歴", groupTeams: "グループのチーム", sources: "出典", homeWin: "ホーム勝利", draw: "引き分け", awayWin: "アウェイ勝利", total: "合計", watch: "視聴方法", note: "オッズは市場のスナップショットで、キックオフ前に変動する可能性があります。", position: "順位", points: "勝点", tableNote: "キックオフ前の現在のグループ表。" },
   ko: { back: "CupMate로 돌아가기", notFound: "경기를 찾을 수 없습니다", overview: "경기 개요", teams: "팀", venue: "경기 장소", odds: "배당", winProbability: "승리 확률", recentForm: "최근 흐름", history: "맞대결 기록", groupTeams: "조 팀", sources: "출처", homeWin: "홈 승", draw: "무승부", awayWin: "원정 승", total: "합계", watch: "시청 방법", note: "배당은 시장 스냅샷이며 킥오프 전 변동될 수 있습니다.", position: "순위", points: "승점", tableNote: "킥오프 전 현재 조 순위입니다." },
-  ru: { back: "Назад в CupMate", notFound: "Матч не найден", overview: "Обзор матча", teams: "Команды", venue: "Где играют", odds: "Коэффициенты", winProbability: "Вероятность победы", recentForm: "Последние матчи", history: "История встреч", groupTeams: "Команды группы", sources: "Источники", homeWin: "Победа хозяев", draw: "Ничья", awayWin: "Победа гостей", total: "Тотал", watch: "Где смотреть", note: "Коэффициенты являются рыночным срезом и могут измениться до начала матча.", position: "Место", points: "Очки", tableNote: "Текущая таблица группы до стартового свистка." }
+  ru: { back: "Назад в CupMate", notFound: "Матч не найден", overview: "Обзор матча", teams: "Команды", venue: "Где играют", odds: "Коэффициенты", winProbability: "Вероятность победы", recentForm: "Последние матчи", history: "История встреч", groupTeams: "Команды группы", sources: "Источники", homeWin: "Победа хозяев", draw: "Ничья", awayWin: "Победа гостей", total: "Тотал", watch: "Где смотреть", note: "Коэффициенты являются рыночным срезом и могут измениться до начала матча.", position: "Место", points: "Очки", tableNote: "Текущая таблица группы по завершенным матчам." }
 };
 
 const squadCopy: Record<Locale, {
@@ -303,6 +303,7 @@ export function MatchDetailClient({ slug }: { slug: string }) {
   const liveCopy = matchLiveCopy(locale);
   const highlightCopy = matchHighlightCopy(locale);
   const [liveScore, setLiveScore] = useState<LiveMatchScore | null>(null);
+  const [allScores, setAllScores] = useState<LiveMatchScore[]>([]);
   const [highlight, setHighlight] = useState<MatchHighlight | null>(null);
   const [scheduleMatch, setScheduleMatch] = useState<MatchCardData | null>(null);
   const [isScheduleLoading, setIsScheduleLoading] = useState(false);
@@ -343,6 +344,7 @@ export function MatchDetailClient({ slug }: { slug: string }) {
   useEffect(() => {
     if (!detail) {
       setLiveScore(null);
+      setAllScores([]);
       return;
     }
 
@@ -350,6 +352,7 @@ export function MatchDetailClient({ slug }: { slug: string }) {
     const refreshLiveScore = () => {
       fetchLiveScores()
         .then((scores) => {
+          if (isMounted) setAllScores(scores);
           const baseScore = findScoreByCodes(scores, detail.home.code, detail.away.code);
           if (!baseScore) {
             if (isMounted) setLiveScore(null);
@@ -442,7 +445,7 @@ export function MatchDetailClient({ slug }: { slug: string }) {
   }
 
   const outcomes = probabilityRows(detail, c);
-  const groupRows = groupTeamRows(detail);
+  const groupRows = groupTeamRows(detail, allScores);
 
   return (
     <div className="app-shell match-detail-shell">
@@ -959,18 +962,58 @@ function probabilityRows(detail: MatchDetail, c: (typeof copy)[Locale]) {
   }));
 }
 
-function groupTeamRows(detail: MatchDetail) {
-  return detail.groupTeams.map((name, index) => {
+function groupTeamRows(detail: MatchDetail, scores: LiveMatchScore[]) {
+  const rows = detail.groupTeams.map((name, index) => {
     const meta = teamMeta[name] ?? { flag: "🏳️", code: name.slice(0, 3).toUpperCase() };
     return {
       name,
       flag: meta.flag,
       code: meta.code,
+      played: 0,
+      goalsFor: 0,
+      goalsAgainst: 0,
       points: 0,
-      position: index + 1,
+      initialPosition: index + 1,
       isMatchTeam: meta.code === detail.home.code || meta.code === detail.away.code
     };
   });
+  const byCode = new Map(rows.map((row) => [row.code, row]));
+
+  scores.forEach((score) => {
+    if (score.status !== "finished" || score.homeScore === null || score.awayScore === null) return;
+
+    const home = byCode.get(score.homeCode);
+    const away = byCode.get(score.awayCode);
+    if (!home || !away) return;
+
+    home.played += 1;
+    away.played += 1;
+    home.goalsFor += score.homeScore;
+    home.goalsAgainst += score.awayScore;
+    away.goalsFor += score.awayScore;
+    away.goalsAgainst += score.homeScore;
+
+    if (score.homeScore > score.awayScore) {
+      home.points += 3;
+    } else if (score.awayScore > score.homeScore) {
+      away.points += 3;
+    } else {
+      home.points += 1;
+      away.points += 1;
+    }
+  });
+
+  return rows
+    .sort((a, b) => (
+      b.points - a.points ||
+      (b.goalsFor - b.goalsAgainst) - (a.goalsFor - a.goalsAgainst) ||
+      b.goalsFor - a.goalsFor ||
+      a.initialPosition - b.initialPosition
+    ))
+    .map((row, index) => ({
+      ...row,
+      position: index + 1
+    }));
 }
 
 const teamMeta: Record<string, { flag: string; code: string }> = {

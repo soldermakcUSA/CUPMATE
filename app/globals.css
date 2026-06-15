@@ -1542,6 +1542,28 @@ img {
   margin-top: 12px;
 }
 
+.match-highlight-link {
+  display: inline-flex;
+  width: 100%;
+  min-height: 34px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 8px;
+  border: 1px solid rgba(53, 31, 213, 0.18);
+  border-radius: 8px;
+  color: #ffffff;
+  background: #351fd5;
+  font-size: 13px;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.match-highlight-link:hover,
+.match-highlight-link:focus-visible {
+  background: #2616aa;
+}
+
 .match-row {
   display: grid;
   grid-template-columns: repeat(4, minmax(210px, 1fr));
