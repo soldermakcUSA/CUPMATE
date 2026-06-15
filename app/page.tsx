@@ -47,6 +47,7 @@ import { fetchNewsItems, fetchPlaces, NEWS_IMAGE_FALLBACK, NewsItemData, PlaceCa
 import { getLanguage, languages, Locale, translations } from "@/lib/i18n";
 import { fetchLiveScores, mergeLiveScores } from "@/lib/live-scores";
 import type { LiveMatchScore } from "@/lib/live-scores";
+import { getMatchLiveStreamByCodes, type MatchLiveStream } from "@/lib/match-live-streams";
 import {
   getCurrentDayMatches,
   getMatchTimeline,
@@ -504,7 +505,7 @@ function DesktopContent({
           <FanZonesSection t={t} places={places} />
         </section>
         <aside className="right-rail">
-          <MapPanel t={t} activeChip={activeChip} setActiveChip={setActiveChip} places={places} />
+          <CurrentMatchVideoPanel t={t} locale={locale} matches={matches} />
           <ItineraryPanel t={t} locale={locale} />
           <LiveStandingsPanel t={t} locale={locale} liveScores={liveScores} />
         </aside>
@@ -684,6 +685,58 @@ function NextMatches({ t, locale, matches }: { t: typeof translations.en; locale
           <Link className="link-button" href="/world-cup-2026-schedule">{t.viewFullSchedule}</Link>
         </div>
       )}
+    </section>
+  );
+}
+
+function CurrentMatchVideoPanel({ t, locale, matches }: { t: typeof translations.en; locale: Locale; matches: MatchCardData[] }) {
+  const now = new Date();
+  const currentMatchWithStream = useMemo(() => {
+    return matches.reduce<null | { match: MatchCardData; stream: MatchLiveStream; sortTime: number }>((selected, match) => {
+      const timeline = getMatchTimeline(match, locale, now);
+      if (timeline.bucket !== "current") return selected;
+
+      const stream = getMatchLiveStreamByCodes(match.homeCode, match.awayCode);
+      if (!stream) return selected;
+
+      if (!selected || timeline.sortTime < selected.sortTime) {
+        return { match, stream, sortTime: timeline.sortTime };
+      }
+
+      return selected;
+    }, null);
+  }, [locale, matches, now]);
+
+  if (!currentMatchWithStream) return null;
+
+  const { match, stream } = currentMatchWithStream;
+  const title = locale === "ru" ? "Прямая трансляция" : "Live match";
+
+  return (
+    <section className="map-card current-match-video-card" aria-labelledby="current-match-video-title">
+      <div className="section-head">
+        <div>
+          <p className="small muted menu-panel-kicker">{stream.source}</p>
+          <h2 id="current-match-video-title">{title}</h2>
+        </div>
+        <span className="tag is-live">{t.liveNow}</span>
+      </div>
+      <div className="current-match-video-frame">
+        <iframe
+          src={`${stream.embedUrl}&autoplay=1`}
+          title={stream.title}
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+        />
+      </div>
+      <div className="current-match-video-meta">
+        <strong>
+          <TeamLabel value={match.home} /> <span>{t.versus}</span> <TeamLabel value={match.away} />
+        </strong>
+        <p className="small muted">{match.venue}</p>
+      </div>
     </section>
   );
 }

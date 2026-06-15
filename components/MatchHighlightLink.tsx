@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { PlayCircle, X } from "lucide-react";
+import { PlayCircle } from "lucide-react";
+import { MatchVideoModal } from "@/components/MatchVideoModal";
 import type { Locale } from "@/lib/i18n";
 import { getMatchTimeline } from "@/lib/match-timeline";
 import type { MatchCardData } from "@/lib/world-cup-data";
@@ -93,23 +94,13 @@ export function MatchHighlightLink({ match, locale = "en", className = "" }: Mat
         {copy.label}
       </button>
       {isOpen && (
-        <div className="match-highlight-inline" aria-label={highlight.title}>
-          <div className="match-highlight-inline-head">
-            <span>{highlight.source}</span>
-            <button type="button" onClick={() => setIsOpen(false)} aria-label={copy.close}>
-              <X size={14} aria-hidden="true" />
-            </button>
-          </div>
-          <iframe
-            className="match-highlight-iframe"
-            src={`${highlight.embedUrl}&autoplay=1`}
-            title={highlight.title}
-            loading="lazy"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-          />
-        </div>
+        <MatchVideoModal
+          title={highlight.title}
+          source={highlight.source}
+          embedUrl={highlight.embedUrl}
+          closeLabel={copy.close}
+          onClose={() => setIsOpen(false)}
+        />
       )}
     </>
   );

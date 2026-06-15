@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Radio, X } from "lucide-react";
+import { Radio } from "lucide-react";
+import { MatchVideoModal } from "@/components/MatchVideoModal";
 import type { Locale } from "@/lib/i18n";
 import { getMatchLiveStreamByCodes } from "@/lib/match-live-streams";
 import { getMatchTimeline } from "@/lib/match-timeline";
@@ -48,23 +49,13 @@ export function MatchLiveStreamLink({ match, locale = "en", className = "" }: Ma
         {copy.label}
       </button>
       {isOpen && (
-        <div className="match-video-inline is-live" aria-label={stream.title}>
-          <div className="match-video-inline-head">
-            <span>{stream.source}</span>
-            <button type="button" onClick={() => setIsOpen(false)} aria-label={copy.close}>
-              <X size={14} aria-hidden="true" />
-            </button>
-          </div>
-          <iframe
-            className="match-video-iframe"
-            src={`${stream.embedUrl}&autoplay=1`}
-            title={stream.title}
-            loading="lazy"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-          />
-        </div>
+        <MatchVideoModal
+          title={stream.title}
+          source={stream.source}
+          embedUrl={stream.embedUrl}
+          closeLabel={copy.close}
+          onClose={() => setIsOpen(false)}
+        />
       )}
     </>
   );
