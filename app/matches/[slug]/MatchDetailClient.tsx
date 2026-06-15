@@ -16,6 +16,7 @@ type MatchHighlight = {
   videoId: string;
   title: string;
   url: string;
+  embedUrl: string;
   publishedAt: string;
   thumbnail: string | null;
   source: string;
@@ -149,14 +150,14 @@ function matchHighlightCopy(locale: Locale) {
   if (locale === "ru") {
     return {
       title: "Видеообзор",
-      subtitle: "Хайлайты FIFA YouTube для завершенного матча.",
+      subtitle: "Официальные хайлайты YouTube для завершенного матча.",
       watch: "Открыть на YouTube"
     };
   }
 
   return {
     title: "Match highlights",
-    subtitle: "FIFA YouTube highlights for this finished match.",
+    subtitle: "Official YouTube highlights for this finished match.",
     watch: "Open on YouTube"
   };
 }
@@ -721,14 +722,21 @@ function MatchHighlightCard({ highlight, copy }: { highlight: MatchHighlight; co
           <p className="small muted">{copy.subtitle}</p>
         </div>
       </div>
-      <a className="match-highlight-frame" href={highlight.url} target="_blank" rel="noreferrer" aria-label={`${copy.watch}: ${highlight.title}`}>
-        {highlight.thumbnail && <img src={highlight.thumbnail} alt="" loading="lazy" />}
-        <span className="match-highlight-play"><PlayCircle size={42} /> YouTube</span>
-      </a>
+      <div className="match-highlight-frame">
+        <iframe
+          className="match-highlight-iframe"
+          src={highlight.embedUrl}
+          title={highlight.title}
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+        />
+      </div>
       <div className="match-highlight-meta">
         <strong>{highlight.title}</strong>
         <a href={highlight.url} target="_blank" rel="noreferrer">
-          {copy.watch} <ExternalLink size={14} />
+          {highlight.source} <ExternalLink size={14} />
         </a>
       </div>
     </section>

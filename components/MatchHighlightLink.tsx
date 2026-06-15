@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { ExternalLink, PlayCircle } from "lucide-react";
+import { PlayCircle, X } from "lucide-react";
 import type { Locale } from "@/lib/i18n";
 import { getMatchTimeline } from "@/lib/match-timeline";
 import type { MatchCardData } from "@/lib/world-cup-data";
@@ -10,6 +10,7 @@ type MatchHighlight = {
   videoId: string;
   title: string;
   url: string;
+  embedUrl: string;
   publishedAt: string;
   thumbnail: string | null;
   source: string;
@@ -24,19 +25,20 @@ type MatchHighlightLinkProps = {
 function highlightCopy(locale: Locale) {
   if (locale === "ru") {
     return {
-      label: "Видеообзор",
-      source: "FIFA YouTube"
+      label: "Смотреть хайлайты",
+      close: "Закрыть видео"
     };
   }
 
   return {
-    label: "Highlights",
-    source: "FIFA YouTube"
+    label: "Watch highlights",
+    close: "Close video"
   };
 }
 
 export function MatchHighlightLink({ match, locale = "en", className = "" }: MatchHighlightLinkProps) {
   const [highlight, setHighlight] = useState<MatchHighlight | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
   const timeline = getMatchTimeline(match, locale);
   const copy = highlightCopy(locale);
   const params = useMemo(() => {
@@ -64,6 +66,7 @@ export function MatchHighlightLink({ match, locale = "en", className = "" }: Mat
       .then((response) => response.ok ? response.json() : { highlight: null })
       .then((payload: { highlight: MatchHighlight | null }) => {
         setHighlight(payload.highlight);
+        setIsOpen(false);
       })
       .catch((error) => {
         if (error instanceof DOMException && error.name === "AbortError") return;
@@ -78,16 +81,36 @@ export function MatchHighlightLink({ match, locale = "en", className = "" }: Mat
   if (!highlight) return null;
 
   return (
-    <a
-      className={`match-highlight-link ${className}`.trim()}
-      href={highlight.url}
-      target="_blank"
-      rel="noreferrer"
-      title={`${copy.source}: ${highlight.title}`}
-    >
-      <PlayCircle size={15} aria-hidden="true" />
-      {copy.label}
-      <ExternalLink size={13} aria-hidden="true" />
-    </a>
+    <>
+      <button
+        className={`match-highlight-link ${isOpen ? "is-open" : ""} ${className}`.trim()}
+        type="button"
+        title={`${highlight.source}: ${highlight.title}`}
+        aria-expanded={isOpen}
+        onClick={() => setIsOpen((current) => !current)}
+      >
+        <PlayCircle size={15} aria-hidden="true" />
+        {copy.label}
+      </button>
+      {isOpen && (
+        <div className="match-highlight-inline" aria-label={highlight.title}>
+          <div className="match-highlight-inline-head">
+            <span>{highlight.source}</span>
+            <button type="button" onClick={() => setIsOpen(false)} aria-label={copy.close}>
+              <X size={14} aria-hidden="true" />
+            </button>
+          </div>
+          <iframe
+            className="match-highlight-iframe"
+            src={`${highlight.embedUrl}&autoplay=1`}
+            title={highlight.title}
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          />
+        </div>
+      )}
+    </>
   );
 }
