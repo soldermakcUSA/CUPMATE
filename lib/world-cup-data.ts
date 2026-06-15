@@ -9,6 +9,10 @@ export type MatchCardData = {
   group: string;
   homeCode?: string;
   awayCode?: string;
+  homeName?: string;
+  awayName?: string;
+  homeFlag?: string;
+  awayFlag?: string;
   home: string;
   away: string;
   kickoffAt?: string;
@@ -95,9 +99,16 @@ export async function fetchWorldCupMatches(limit = 72, locale: Locale = "en"): P
   return ((data ?? []) as unknown as MatchRow[]).map((match) => toMatchCardData(match, locale));
 }
 
+export async function fetchWorldCupMatchBySlug(slug: string, locale: Locale = "en"): Promise<MatchCardData | null> {
+  const matches = await fetchWorldCupMatches(104, locale);
+  return matches.find((match) => match.slug === slug) ?? null;
+}
+
 function toMatchCardData(match: MatchRow, locale: Locale): MatchCardData {
   const kickoff = new Date(match.kickoff_at);
   const title = pickLocalizedTranslation(match.match_translations, locale)?.title ?? worldCupMatchFallback(locale);
+  const homeTranslation = pickLocalizedTranslation(match.home_team?.team_translations, locale);
+  const awayTranslation = pickLocalizedTranslation(match.away_team?.team_translations, locale);
   const dateFormatter = new Intl.DateTimeFormat(localizedDateFormatterLocale(locale), {
     month: "short",
     day: "numeric",
@@ -113,6 +124,10 @@ function toMatchCardData(match: MatchRow, locale: Locale): MatchCardData {
     group: localizeGroup(match.group_name, locale) ?? formatStage(match.stage, locale),
     homeCode: match.home_team?.fifa_code ?? undefined,
     awayCode: match.away_team?.fifa_code ?? undefined,
+    homeName: homeTranslation?.name ?? homeTranslation?.short_name ?? match.home_team?.fifa_code ?? undefined,
+    awayName: awayTranslation?.name ?? awayTranslation?.short_name ?? match.away_team?.fifa_code ?? undefined,
+    homeFlag: match.home_team?.flag_emoji ?? undefined,
+    awayFlag: match.away_team?.flag_emoji ?? undefined,
     home: formatTeam(match.home_team, title, "home", locale),
     away: formatTeam(match.away_team, title, "away", locale),
     kickoffAt: kickoff.toISOString(),

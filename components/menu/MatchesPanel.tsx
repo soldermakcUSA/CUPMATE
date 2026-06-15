@@ -3,7 +3,6 @@ import { CalendarDays, Clock, MapPin, Plus, Trophy } from "lucide-react";
 import { MatchScoreBadge } from "@/components/MatchScoreBadge";
 import { TeamLabel } from "@/components/TeamFlag";
 import { translations, type Locale } from "@/lib/i18n";
-import { findMatchDetail } from "@/lib/match-details";
 import { getMatchTimeline, getMatchTimelineGroups, matchTimelineCopy, selectFeaturedMatch } from "@/lib/match-timeline";
 import type { MatchCardData } from "@/lib/world-cup-data";
 
@@ -70,7 +69,6 @@ export function MatchesPanel({ t, matches, locale = "en" }: MatchesPanelProps) {
               <div className="match-row" aria-label={group.label}>
                 {group.matches.map((match) => {
                   const timeline = getMatchTimeline(match, locale, now);
-                  const hasDetail = Boolean(findMatchDetail(match.slug));
                   return (
                     <article className={`match-card matches-panel-card is-${timeline.bucket}`} key={`${match.kickoffAt}-${match.home}-${match.away}`}>
                       <div className="matches-panel-meta">
@@ -85,8 +83,8 @@ export function MatchesPanel({ t, matches, locale = "en" }: MatchesPanelProps) {
                       <MatchScoreBadge match={match} locale={locale} />
                       <p className="small muted">{match.date} · {match.time}</p>
                       <p className="small muted">{match.venue}</p>
-                      <Link className="link-button matches-panel-action" href={hasDetail ? `/matches/${match.slug}` : "/world-cup-2026-schedule"}>
-                        <Plus size={15} aria-hidden="true" /> {hasDetail ? t.seeDetails : t.viewFullSchedule}
+                      <Link className="link-button matches-panel-action" href={`/matches/${match.slug}`}>
+                        <Plus size={15} aria-hidden="true" /> {t.seeDetails}
                       </Link>
                     </article>
                   );

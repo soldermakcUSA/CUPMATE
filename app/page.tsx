@@ -45,7 +45,6 @@ import { fetchNewsItems, fetchPlaces, NEWS_IMAGE_FALLBACK, NewsItemData, PlaceCa
 import { getLanguage, languages, Locale, translations } from "@/lib/i18n";
 import { fetchLiveScores, mergeLiveScores } from "@/lib/live-scores";
 import type { LiveMatchScore } from "@/lib/live-scores";
-import { findMatchDetail } from "@/lib/match-details";
 import {
   getCurrentDayMatches,
   getMatchTimeline,
@@ -186,7 +185,7 @@ function handleNewsImageError(event: { currentTarget: HTMLImageElement }) {
 }
 
 function matchPlannerHref(match: MatchCardData) {
-  return findMatchDetail(match.slug) ? `/matches/${match.slug}` : "/world-cup-2026-schedule";
+  return `/matches/${match.slug}`;
 }
 
 type MapPoint = {
@@ -657,7 +656,6 @@ function NextMatches({ t, locale, matches }: { t: typeof translations.en; locale
       <div className="match-row">
         {visibleMatches.map((match) => {
           const timeline = getMatchTimeline(match, locale, now);
-          const hasDetail = Boolean(findMatchDetail(match.slug));
           return (
             <article className={`match-card is-${timeline.bucket}`} key={`${match.kickoffAt}-${match.home}-${match.away}`}>
               <p className="small muted" style={{ textAlign: "center" }}>{match.group}</p>
@@ -669,7 +667,7 @@ function NextMatches({ t, locale, matches }: { t: typeof translations.en; locale
               <MatchScoreBadge match={match} locale={locale} />
               <p className="small muted" style={{ textAlign: "center" }}>{match.date} · {match.time}</p>
               <p className="small muted" style={{ textAlign: "center" }}>{match.venue}</p>
-              <Link className="link-button match-details-link" href={matchPlannerHref(match)}>{hasDetail ? t.seeDetails : t.viewFullSchedule}</Link>
+              <Link className="link-button match-details-link" href={matchPlannerHref(match)}>{t.seeDetails}</Link>
             </article>
           );
         })}

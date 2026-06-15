@@ -7,9 +7,10 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { getSeatGeekTicketForMatchSlug } from "@/components/menu/StadiumsPanel";
 import { TeamFlag, TeamLabel } from "@/components/TeamFlag";
 import { fetchLiveScoreDetails, fetchLiveScores, findScoreByCodes, type LiveMatchEvent, type LiveMatchScore, type LiveTeamStat } from "@/lib/live-scores";
-import { findMatchDetail, formatAmericanOdds, impliedProbability, localizeMatchDetail, type MatchDetail } from "@/lib/match-details";
+import { findMatchDetail, formatAmericanOdds, impliedProbability, localizeMatchDetail, type MatchDetail, type PreviousGame } from "@/lib/match-details";
 import { getLanguage, type Locale, translations } from "@/lib/i18n";
 import { getTeamSquad, type SquadPlayer, type TeamSquad } from "@/lib/squad-data";
+import { fetchWorldCupMatchBySlug, type MatchCardData } from "@/lib/world-cup-data";
 
 const copy: Record<Locale, {
   back: string;
@@ -135,6 +136,115 @@ function matchLiveCopy(locale: Locale) {
   };
 }
 
+function buildFallbackMatchDetail(match: MatchCardData, locale: Locale): MatchDetail {
+  const home = buildFallbackTeam(match, "home", locale);
+  const away = buildFallbackTeam(match, "away", locale);
+  const { venue, city } = splitVenue(match.venue);
+  const totalGoalsLine = locale === "ru" ? "2.5 гола" : "2.5 goals";
+
+  return {
+    slug: match.slug,
+    group: match.group,
+    kickoff: `${match.date} · ${match.time}`,
+    venue,
+    city,
+    home,
+    away,
+    groupTeams: [home.name, away.name],
+    odds: [
+      { label: "home", american: 100 },
+      { label: "draw", american: 240 },
+      { label: "away", american: 100 }
+    ],
+    totalGoalsLine,
+    headToHead: fallbackMatchHistory(home.name, away.name, locale),
+    story: fallbackMatchStory(home.name, away.name, match.group, venue, city, locale),
+    sources: [
+      { label: locale === "ru" ? "Расписание CupMate" : "CupMate schedule", href: "/world-cup-2026-schedule" },
+      { label: locale === "ru" ? "Расписание FIFA" : "FIFA schedule", href: "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/scores-fixtures" }
+    ]
+  };
+}
+
+function buildFallbackTeam(match: MatchCardData, side: "home" | "away", locale: Locale): MatchDetail["home"] {
+  const label = side === "home" ? match.home : match.away;
+  const code = side === "home" ? match.homeCode : match.awayCode;
+  const name = side === "home" ? match.homeName : match.awayName;
+  const flag = side === "home" ? match.homeFlag : match.awayFlag;
+  const teamCode = code ?? extractTeamCode(label) ?? "TBD";
+  const teamName = name ?? stripTeamCode(label, teamCode) ?? teamCode;
+
+  return {
+    code: teamCode,
+    name: teamName,
+    flag: flag ?? extractTeamFlag(label) ?? "🏳️",
+    note: fallbackTeamNote(teamName, locale),
+    previousGames: fallbackPreviousGames(locale)
+  };
+}
+
+function splitVenue(value: string) {
+  const [venue, ...cityParts] = value.split(", ");
+  return {
+    venue: venue || value,
+    city: cityParts.join(", ") || value
+  };
+}
+
+function extractTeamCode(label: string) {
+  return label.match(/[A-Z]{2,4}/g)?.at(-1) ?? null;
+}
+
+function extractTeamFlag(label: string) {
+  return label.match(/\p{Regional_Indicator}{2}|🏴/u)?.[0] ?? null;
+}
+
+function stripTeamCode(label: string, code: string) {
+  const flag = extractTeamFlag(label);
+  const stripped = label.replace(flag ?? "", "").replace(code, "").trim();
+  return stripped || null;
+}
+
+function fallbackTeamNote(teamName: string, locale: Locale) {
+  return locale === "ru"
+    ? `${teamName}: состав, форма и матчевые заметки будут уточняться по мере публикации данных.`
+    : `${teamName} squad, form and match notes will update as reliable data is published.`;
+}
+
+function fallbackPreviousGames(locale: Locale): PreviousGame[] {
+  if (locale === "ru") {
+    return [
+      { date: "Скоро", opponent: "Состав", result: "Ожидается" },
+      { date: "Скоро", opponent: "Форма", result: "Обновляется" },
+      { date: "Скоро", opponent: "Тактика", result: "Скаутинг" }
+    ];
+  }
+
+  return [
+    { date: "Soon", opponent: "Squad", result: "Pending" },
+    { date: "Soon", opponent: "Form", result: "Updating" },
+    { date: "Soon", opponent: "Tactical notes", result: "Scouting" }
+  ];
+}
+
+function fallbackMatchHistory(home: string, away: string, locale: Locale) {
+  return locale === "ru"
+    ? [
+        `${home} против ${away}: страница матча создана из актуального расписания CupMate.`,
+        "Дополнительная история встреч, составы и рыночные данные будут обновляться ближе к матчу."
+      ]
+    : [
+        `${home} vs ${away}: this match page is generated from the current CupMate schedule.`,
+        "Head-to-head notes, squads and market context will update closer to kickoff."
+      ];
+}
+
+function fallbackMatchStory(home: string, away: string, group: string, venue: string, city: string, locale: Locale) {
+  return locale === "ru"
+    ? `${home} против ${away} - матч ${group} на ${venue}, ${city}. CupMate держит здесь ключевые детали: время начала, стадион, билеты, составы и live-обновления, когда источник начнет отдавать данные.`
+    : `${home} vs ${away} is a ${group} match at ${venue}, ${city}. CupMate keeps this page focused on kickoff timing, venue context, tickets, squads and live updates when source data is available.`;
+}
+
 export function MatchDetailClient({ slug }: { slug: string }) {
   const locale = useLocale();
   const t = translations[locale];
@@ -143,11 +253,44 @@ export function MatchDetailClient({ slug }: { slug: string }) {
   const ticketCopy = matchTicketCopy(locale);
   const liveCopy = matchLiveCopy(locale);
   const [liveScore, setLiveScore] = useState<LiveMatchScore | null>(null);
+  const [fallbackDetail, setFallbackDetail] = useState<MatchDetail | null>(null);
+  const [isFallbackLoading, setIsFallbackLoading] = useState(false);
   const detail = useMemo(() => {
     const found = findMatchDetail(slug);
-    return found ? localizeMatchDetail(found, locale) : null;
-  }, [locale, slug]);
+    return found ? localizeMatchDetail(found, locale) : fallbackDetail;
+  }, [fallbackDetail, locale, slug]);
   const ticket = useMemo(() => getSeatGeekTicketForMatchSlug(slug), [slug]);
+
+  useEffect(() => {
+    if (findMatchDetail(slug)) {
+      setFallbackDetail(null);
+      setIsFallbackLoading(false);
+      return;
+    }
+
+    let isMounted = true;
+    setFallbackDetail(null);
+    setIsFallbackLoading(true);
+
+    fetchWorldCupMatchBySlug(slug, locale)
+      .then((match) => {
+        if (isMounted) {
+          setFallbackDetail(match ? buildFallbackMatchDetail(match, locale) : null);
+        }
+      })
+      .catch((error) => {
+        console.warn("Unable to load fallback match detail.", error);
+      })
+      .finally(() => {
+        if (isMounted) {
+          setIsFallbackLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [locale, slug]);
 
   useEffect(() => {
     if (!detail) {
@@ -187,6 +330,21 @@ export function MatchDetailClient({ slug }: { slug: string }) {
       window.clearInterval(intervalId);
     };
   }, [detail]);
+
+  if (!detail && isFallbackLoading) {
+    return (
+      <div className="app-shell match-detail-shell">
+        <AppSidebar t={t} activeSection="matches" />
+        <main className="match-detail-page">
+          <Link className="match-back-link" href="/?section=matches"><ArrowLeft size={17} /> {c.back}</Link>
+          <section className="section-card match-detail-empty">
+            <h1>{t.matches}</h1>
+            <p className="small muted">{liveCopy.noData}</p>
+          </section>
+        </main>
+      </div>
+    );
+  }
 
   if (!detail) {
     return (
