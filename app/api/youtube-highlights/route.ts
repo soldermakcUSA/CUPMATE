@@ -52,6 +52,7 @@ const teamAliases: Record<string, string[]> = {
 };
 
 const officialFallbackHighlights: HighlightEntry[] = [
+  officialHighlight("IRN", "NZL", "UZ_7qFbFYRY", "Iran vs New Zealand Extended Highlights | 2026 FIFA World Cup"),
   officialHighlight("KSA", "URU", "Tz9R1OYdTSs", "Saudi Arabia vs Uruguay Extended Highlights | 2026 FIFA World Cup"),
   officialHighlight("BEL", "EGY", "o_3t0d8x9JY", "Belgium vs Egypt Highlights | 2026 FIFA World Cup"),
   officialHighlight("ESP", "CPV", "YnWF8IMcqgg", "Spain vs Cape Verde Highlights | 2026 FIFA World Cup"),
