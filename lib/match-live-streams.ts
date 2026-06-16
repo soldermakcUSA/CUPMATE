@@ -10,10 +10,10 @@ export type MatchLiveStream = {
 
 const liveStreams: MatchLiveStream[] = [
   {
-    homeCode: "KSA",
-    awayCode: "URU",
+    homeCode: "IRN",
+    awayCode: "NZL",
     videoId: "OJlwIdoFz9A",
-    title: "Saudi Arabia vs Uruguay 2026 FIFA World Cup",
+    title: "Iran vs New Zealand 2026 FIFA World Cup",
     source: "FOX Sports YouTube",
     url: "https://www.youtube.com/watch?v=OJlwIdoFz9A",
     embedUrl: "https://www.youtube.com/embed/OJlwIdoFz9A?rel=0&modestbranding=1"
