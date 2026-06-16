@@ -1433,6 +1433,14 @@ img {
   min-height: 34px;
 }
 
+.live-stream-actions {
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
 .live-player {
   position: relative;
   width: 100%;
@@ -1449,6 +1457,13 @@ img {
   height: 100%;
   background: #050816;
   object-fit: contain;
+}
+
+.live-youtube-player iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 
 .live-quality-control {
@@ -1528,9 +1543,131 @@ img {
   line-height: 1.45;
 }
 
+.youtube-highlights {
+  display: grid;
+  gap: 12px;
+  margin: 2px 0 18px;
+}
+
+.youtube-highlights.compact {
+  margin: 14px 0 16px;
+}
+
+.youtube-highlights-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.youtube-highlights-head h3 {
+  margin: 0 0 4px;
+  font-size: 18px;
+  line-height: 1.15;
+}
+
+.youtube-highlights-head p,
+.youtube-highlights-status,
+.youtube-highlights-empty p {
+  margin: 0;
+}
+
+.youtube-highlights-head p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.youtube-highlight-list {
+  display: grid;
+  gap: 10px;
+}
+
+.youtube-highlight-item {
+  display: grid;
+  grid-template-columns: 136px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  color: inherit;
+  border-top: 1px solid rgba(12, 24, 48, 0.08);
+  text-decoration: none;
+}
+
+.youtube-highlight-thumb {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #07122f;
+  aspect-ratio: 16 / 9;
+}
+
+.youtube-highlight-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.youtube-highlight-thumb span {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: white;
+  background: rgba(5, 8, 22, 0.18);
+}
+
+.youtube-highlight-body {
+  display: grid;
+  min-width: 0;
+  gap: 5px;
+}
+
+.youtube-highlight-body strong {
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 1.28;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.youtube-highlight-body small {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.youtube-highlight-open {
+  display: inline-flex;
+  min-height: 30px;
+  align-items: center;
+  gap: 6px;
+  color: #351fd5;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.youtube-highlights-empty {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 0 0;
+}
+
 .live-page .live-stream-block {
   max-width: 1060px;
   margin: 0 auto;
+}
+
+.live-page .youtube-highlights {
+  max-width: 1060px;
+  margin: 22px auto 0;
 }
 
 .match-details-link {
@@ -1540,127 +1677,6 @@ img {
   align-items: center;
   justify-content: center;
   margin-top: 12px;
-}
-
-.match-highlight-link {
-  display: inline-flex;
-  width: 100%;
-  min-height: 34px;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  margin-top: 8px;
-  border: 1px solid rgba(53, 31, 213, 0.18);
-  border-radius: 8px;
-  color: #ffffff;
-  background: #351fd5;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 850;
-  text-decoration: none;
-}
-
-.match-highlight-link:hover,
-.match-highlight-link:focus-visible {
-  background: #2616aa;
-}
-
-.match-highlight-link.is-open {
-  background: #101a3a;
-}
-
-.match-video-link {
-  display: inline-flex;
-  width: 100%;
-  min-height: 34px;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  margin-top: 8px;
-  border: 1px solid rgba(227, 49, 49, 0.18);
-  border-radius: 8px;
-  color: #ffffff;
-  background: #e33131;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 850;
-  text-decoration: none;
-}
-
-.match-video-link:hover,
-.match-video-link:focus-visible,
-.match-video-link.is-open {
-  background: #b91c1c;
-}
-
-.match-video-modal-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 5000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 28px;
-  background: rgba(5, 8, 22, 0.76);
-  backdrop-filter: blur(8px);
-}
-
-.match-video-modal {
-  width: min(980px, 100%);
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 16px;
-  color: #ffffff;
-  background: #050816;
-  box-shadow: 0 30px 80px rgba(5, 8, 22, 0.42);
-}
-
-.match-video-modal-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  padding: 16px 18px;
-}
-
-.match-video-modal-head span {
-  display: block;
-  margin-bottom: 3px;
-  color: rgba(255, 255, 255, 0.68);
-  font-size: 12px;
-  font-weight: 850;
-}
-
-.match-video-modal-head h3 {
-  margin: 0;
-  color: #ffffff;
-  font-size: clamp(18px, 2vw, 24px);
-  line-height: 1.2;
-}
-
-.match-video-modal-head button {
-  display: inline-flex;
-  flex: 0 0 auto;
-  width: 38px;
-  height: 38px;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 999px;
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.1);
-  cursor: pointer;
-}
-
-.match-video-modal-frame,
-.match-highlight-iframe {
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  border: 0;
-  background: #050816;
 }
 
 .match-row {
@@ -2051,11 +2067,6 @@ img {
   font-size: 11px;
 }
 
-.tag.is-live {
-  color: #b91c1c;
-  background: #fff0f0;
-}
-
 .right-rail {
   min-width: 0;
   display: grid;
@@ -2066,51 +2077,6 @@ img {
 .map-card,
 .assistant-card {
   padding: 18px;
-}
-
-.current-match-video-card {
-  border-color: rgba(227, 49, 49, 0.22);
-}
-
-.current-match-video-card .section-head {
-  align-items: flex-start;
-}
-
-.current-match-video-frame {
-  overflow: hidden;
-  border: 1px solid rgba(227, 49, 49, 0.18);
-  border-radius: 12px;
-  background: #050816;
-  aspect-ratio: 16 / 9;
-}
-
-.current-match-video-frame iframe {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  background: #050816;
-}
-
-.current-match-video-meta {
-  margin-top: 12px;
-}
-
-.current-match-video-meta strong {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  color: #101a3a;
-  font-size: 15px;
-}
-
-.current-match-video-meta strong span {
-  color: #667085;
-  font-size: 12px;
-}
-
-.current-match-video-meta p {
-  margin: 5px 0 0;
 }
 
 .standings-card {
@@ -2836,8 +2802,7 @@ img {
   margin: 5px 0 0;
 }
 
-.match-highlight-card,
-.match-live-video-card {
+.match-highlight-card {
   display: grid;
   gap: 16px;
   margin-top: 18px;
@@ -2853,10 +2818,44 @@ img {
   aspect-ratio: 16 / 9;
 }
 
-.match-highlight-frame .match-highlight-iframe {
+.match-highlight-frame img {
   position: absolute;
   inset: 0;
+  width: 100%;
   height: 100%;
+  object-fit: cover;
+  transition: transform 180ms ease;
+}
+
+.match-highlight-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(5, 8, 22, 0.12), rgba(5, 8, 22, 0.56));
+}
+
+.match-highlight-frame:hover img,
+.match-highlight-frame:focus-visible img {
+  transform: scale(1.03);
+}
+
+.match-highlight-frame:focus-visible {
+  outline: 3px solid rgba(53, 31, 213, 0.34);
+  outline-offset: 3px;
+}
+
+.match-highlight-play {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 900;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
 }
 
 .match-highlight-meta {
@@ -3812,6 +3811,24 @@ img {
     min-height: 30px;
   }
 
+  .live-stream-actions {
+    justify-content: flex-start;
+  }
+
+  .youtube-highlights-head {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .youtube-highlight-item {
+    grid-template-columns: 112px minmax(0, 1fr);
+  }
+
+  .youtube-highlight-open {
+    grid-column: 2;
+    justify-self: start;
+  }
+
   .article-reader {
     grid-template-columns: 1fr;
     max-height: calc(100vh - 24px);
@@ -3839,6 +3856,20 @@ img {
   .chip {
     padding-inline: 11px;
     font-size: 12px;
+  }
+
+  .youtube-highlight-item {
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .youtube-highlight-body strong,
+  .youtube-highlight-body small {
+    white-space: normal;
+  }
+
+  .youtube-highlight-open {
+    grid-column: 1 / -1;
   }
 
   .news-grid,

@@ -1,14 +1,16 @@
 import { MapPin, Star, Utensils } from "lucide-react";
 import { LiveStreamCard } from "@/components/LiveStreamCard";
-import { translations } from "../../lib/i18n";
+import { YouTubeHighlightsRail } from "@/components/YouTubeHighlightsRail";
+import { translations, type Locale } from "../../lib/i18n";
 import type { PlaceCardData } from "@/lib/content-data";
 
 type WatchPanelProps = {
   t?: typeof translations.en;
+  locale?: Locale;
   places: PlaceCardData[];
 };
 
-export function WatchPanel({ t = translations.en, places }: WatchPanelProps) {
+export function WatchPanel({ t = translations.en, locale = "en", places }: WatchPanelProps) {
   const featuredPlace = places[0];
 
   return (
@@ -30,6 +32,7 @@ export function WatchPanel({ t = translations.en, places }: WatchPanelProps) {
       </div>
 
       <LiveStreamCard t={t} />
+      <YouTubeHighlightsRail locale={locale} />
 
       <article className="featured-card" style={{ marginTop: 0, display: "grid", gridTemplateColumns: "minmax(280px, 0.95fr) 1fr" }}>
         <img src={featuredPlace.image} alt={featuredPlace.name} style={{ height: "100%", minHeight: 230 }} />
