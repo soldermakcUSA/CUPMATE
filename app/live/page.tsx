@@ -5,6 +5,7 @@ import { SeoBreadcrumbs } from "@/components/SeoBreadcrumbs";
 import { SeoShell } from "@/components/SeoShell";
 import { YouTubeHighlightsRail } from "@/components/YouTubeHighlightsRail";
 import { translations } from "@/lib/i18n";
+import { featuredYouTubeVideoConfig, liveStreamConfig } from "@/lib/live-stream";
 
 export const metadata: Metadata = {
   title: "Live Stream | CupMate",
@@ -31,7 +32,8 @@ export default function LivePage() {
           </div>
         </section>
 
-        <LiveStreamCard t={translations.en} showLiveLink={false} />
+        <LiveStreamCard t={translations.en} config={featuredYouTubeVideoConfig} showLiveLink={false} />
+        {liveStreamConfig.sourceType === "hls" && <LiveStreamCard t={translations.en} showLiveLink={false} />}
         <YouTubeHighlightsRail />
       </main>
     </SeoShell>

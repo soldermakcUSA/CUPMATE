@@ -58,3 +58,16 @@ export const liveStreamConfig: LiveStreamConfig = {
       ? "Embedded from YouTube. CupMate does not host, restream or claim rights to this video."
       : "CupMate is independent. Only authorized live streams should be shown here.")
 };
+
+export const featuredYouTubeVideoConfig: LiveStreamConfig = {
+  sourceType: "youtube",
+  sourceUrl: configuredYouTubeUrl,
+  youtubeVideoId: youtubeVideoIdFromUrl(configuredYouTubeUrl),
+  title: process.env.NEXT_PUBLIC_FEATURED_YOUTUBE_TITLE?.trim() || "Always On | 2026 FIFA World Cup",
+  description:
+    process.env.NEXT_PUBLIC_FEATURED_YOUTUBE_DESCRIPTION?.trim() ||
+    "Official YouTube video for World Cup 2026 viewing and fan planning.",
+  poster: process.env.NEXT_PUBLIC_LIVE_POSTER?.trim() || "/assets/cupmate-social-preview-v2.png",
+  badgeLabel: "YouTube",
+  rightsNote: "Embedded from YouTube. CupMate does not host, restream or claim rights to this video."
+};

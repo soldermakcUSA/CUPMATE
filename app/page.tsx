@@ -504,6 +504,7 @@ function DesktopContent({
         </section>
         <aside className="right-rail">
           <MapPanel t={t} activeChip={activeChip} setActiveChip={setActiveChip} places={places} />
+          <YouTubeHighlightsRail locale={locale} limit={2} compact />
           <ItineraryPanel t={t} locale={locale} />
           <LiveStandingsPanel t={t} locale={locale} liveScores={liveScores} />
         </aside>
