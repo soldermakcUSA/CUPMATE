@@ -56,7 +56,7 @@ export const primarySeoPages = [
     path: "/live",
     title: "Live Stream | CupMate",
     description:
-      "Watch embedded World Cup 2026 video and authorized CupMate live coverage when available."
+      "Watch authorized CupMate live HLS coverage when an independent live stream is available."
   },
   {
     path: "/news",

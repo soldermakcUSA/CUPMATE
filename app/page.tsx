@@ -4,9 +4,10 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { AppSidebar, type SidebarSection } from "@/components/AppSidebar";
 import { LiveStreamCard } from "@/components/LiveStreamCard";
+import { MatchHighlightLink } from "@/components/MatchHighlightLink";
+import { MatchLiveStreamLink } from "@/components/MatchLiveStreamLink";
 import { MatchScoreBadge } from "@/components/MatchScoreBadge";
 import { TeamFlag, TeamLabel } from "@/components/TeamFlag";
-import { YouTubeHighlightsRail } from "@/components/YouTubeHighlightsRail";
 import { AssistantMenuPanel } from "@/components/menu/AssistantPanel";
 import { CommunityPanel } from "@/components/menu/CommunityPanel";
 import { FanZonesPanel } from "@/components/menu/FanZonesPanel";
@@ -46,6 +47,7 @@ import { fetchNewsItems, fetchPlaces, NEWS_IMAGE_FALLBACK, NewsItemData, PlaceCa
 import { getLanguage, languages, Locale, translations } from "@/lib/i18n";
 import { fetchLiveScores, mergeLiveScores } from "@/lib/live-scores";
 import type { LiveMatchScore } from "@/lib/live-scores";
+import { getMatchLiveStreamByCodes, type MatchLiveStream } from "@/lib/match-live-streams";
 import {
   getCurrentDayMatches,
   getMatchTimeline,
@@ -431,7 +433,7 @@ export default function CupMatePage() {
             {mobileScreen === "map" && <MobileMap t={t} setMobileScreen={setMobileScreen} places={contentPlaces} />}
             {mobileScreen === "route" && <MobileRoute t={t} />}
             {mobileScreen === "stadium" && <MobileStadium t={t} />}
-            {mobileScreen === "watch" && <MobileWatch t={t} locale={locale} places={contentPlaces} />}
+            {mobileScreen === "watch" && <MobileWatch t={t} places={contentPlaces} />}
             {mobileScreen === "community" && <MobileCommunity t={t} locale={locale} />}
             {mobileScreen === "assistant" && (
               <MobileAssistant
@@ -503,9 +505,7 @@ function DesktopContent({
           <FanZonesSection t={t} places={places} />
         </section>
         <aside className="right-rail">
-          <MapPanel t={t} activeChip={activeChip} setActiveChip={setActiveChip} places={places} />
-          <YouTubeHighlightsRail locale={locale} limit={2} compact />
-          <ItineraryPanel t={t} locale={locale} />
+          <CurrentMatchVideoPanel t={t} locale={locale} matches={matches} />
           <LiveStandingsPanel t={t} locale={locale} liveScores={liveScores} />
         </aside>
       </div>
@@ -569,7 +569,7 @@ function MenuSection({
     case "travel":
       return <TravelPanel t={t} locale={locale} matches={matches} />;
     case "watch":
-      return <WatchPanel t={t} locale={locale} places={places} />;
+      return <WatchPanel t={t} places={places} />;
     case "community":
       return <CommunityPanel t={t} locale={locale} />;
     case "tickets":
@@ -670,6 +670,8 @@ function NextMatches({ t, locale, matches }: { t: typeof translations.en; locale
               <p className="small muted" style={{ textAlign: "center" }}>{match.date} · {match.time}</p>
               <p className="small muted" style={{ textAlign: "center" }}>{match.venue}</p>
               <Link className="link-button match-details-link" href={matchPlannerHref(match)}>{t.seeDetails}</Link>
+              <MatchLiveStreamLink match={match} locale={locale} className="match-details-link" />
+              <MatchHighlightLink match={match} locale={locale} className="match-details-link" />
             </article>
           );
         })}
@@ -682,6 +684,58 @@ function NextMatches({ t, locale, matches }: { t: typeof translations.en; locale
           <Link className="link-button" href="/world-cup-2026-schedule">{t.viewFullSchedule}</Link>
         </div>
       )}
+    </section>
+  );
+}
+
+function CurrentMatchVideoPanel({ t, locale, matches }: { t: typeof translations.en; locale: Locale; matches: MatchCardData[] }) {
+  const now = new Date();
+  const currentMatchWithStream = useMemo(() => {
+    return matches.reduce<null | { match: MatchCardData; stream: MatchLiveStream; sortTime: number }>((selected, match) => {
+      const timeline = getMatchTimeline(match, locale, now);
+      if (timeline.bucket !== "current") return selected;
+
+      const stream = getMatchLiveStreamByCodes(match.homeCode, match.awayCode);
+      if (!stream) return selected;
+
+      if (!selected || timeline.sortTime < selected.sortTime) {
+        return { match, stream, sortTime: timeline.sortTime };
+      }
+
+      return selected;
+    }, null);
+  }, [locale, matches, now]);
+
+  if (!currentMatchWithStream) return null;
+
+  const { match, stream } = currentMatchWithStream;
+  const title = locale === "ru" ? "Прямая трансляция" : "Live match";
+
+  return (
+    <section className="map-card current-match-video-card" aria-labelledby="current-match-video-title">
+      <div className="section-head">
+        <div>
+          <p className="small muted menu-panel-kicker">{stream.source}</p>
+          <h2 id="current-match-video-title">{title}</h2>
+        </div>
+        <span className="tag is-live">{t.liveNow}</span>
+      </div>
+      <div className="current-match-video-frame">
+        <iframe
+          src={`${stream.embedUrl}&autoplay=1`}
+          title={stream.title}
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+        />
+      </div>
+      <div className="current-match-video-meta">
+        <strong>
+          <TeamLabel value={match.home} /> <span>{t.versus}</span> <TeamLabel value={match.away} />
+        </strong>
+        <p className="small muted">{match.venue}</p>
+      </div>
     </section>
   );
 }
@@ -1187,13 +1241,12 @@ function MobileStadium({ t }: { t: typeof translations.en }) {
   );
 }
 
-function MobileWatch({ t, locale, places }: { t: typeof translations.en; locale: Locale; places: PlaceCardData[] }) {
+function MobileWatch({ t, places }: { t: typeof translations.en; places: PlaceCardData[] }) {
   return (
     <>
       <p className="small"><MapPin size={14} /> {t.miamiUsa}</p>
       <div className="chip-row">{[t.all, t.sportsBars, t.restaurants, t.fanZones].map((chip, index) => <button className={`chip ${index === 0 ? "active" : ""}`} key={chip}>{chip}</button>)}</div>
       <LiveStreamCard t={t} compact />
-      <YouTubeHighlightsRail locale={locale} limit={3} compact />
       <div className="mobile-list">
         {places.map((place) => (
           <article className="place-row" key={place.name}>

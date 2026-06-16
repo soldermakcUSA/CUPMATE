@@ -2,19 +2,18 @@
 
 import Link from "next/link";
 import { useId } from "react";
-import { ExternalLink, PlayCircle, Radio } from "lucide-react";
-import { LiveVideoPlayer } from "@/components/LiveVideoPlayer";
-import { liveStreamConfig, type LiveStreamConfig } from "@/lib/live-stream";
+import { ExternalLink, Radio } from "lucide-react";
+import { LiveHlsPlayer } from "@/components/LiveHlsPlayer";
+import { liveStreamConfig } from "@/lib/live-stream";
 import { translations } from "@/lib/i18n";
 
 type LiveStreamCardProps = {
   t?: typeof translations.en;
-  config?: LiveStreamConfig;
   compact?: boolean;
   showLiveLink?: boolean;
 };
 
-export function LiveStreamCard({ t = translations.en, config = liveStreamConfig, compact = false, showLiveLink = true }: LiveStreamCardProps) {
+export function LiveStreamCard({ t = translations.en, compact = false, showLiveLink = true }: LiveStreamCardProps) {
   const headingId = useId();
 
   return (
@@ -23,30 +22,30 @@ export function LiveStreamCard({ t = translations.en, config = liveStreamConfig,
         <div>
           <span className="live-stream-badge">
             <Radio size={14} />
-            {config.badgeLabel || t.liveNow}
+            {t.liveNow}
           </span>
-          <h3 id={headingId}>{config.title || t.liveStream}</h3>
-          <p>{config.description || t.liveStreamSubtitle}</p>
+          <h3 id={headingId}>{liveStreamConfig.title || t.liveStream}</h3>
+          <p>{liveStreamConfig.description || t.liveStreamSubtitle}</p>
         </div>
-        <div className="live-stream-actions">
-          {config.sourceType === "youtube" && config.sourceUrl && (
-            <a className="link-button live-stream-link" href={config.sourceUrl} target="_blank" rel="noreferrer">
-              <PlayCircle size={15} />
-              <span>YouTube</span>
-            </a>
-          )}
-          {showLiveLink && (
-            <Link className="link-button live-stream-link" href="/live">
-              <ExternalLink size={15} />
-              <span>{t.openLivePage}</span>
-            </Link>
-          )}
-        </div>
+        {showLiveLink && (
+          <Link className="link-button live-stream-link" href="/live">
+            <ExternalLink size={15} />
+            <span>{t.openLivePage}</span>
+          </Link>
+        )}
       </div>
 
-      <LiveVideoPlayer config={config} t={t} />
+      <LiveHlsPlayer
+        sourceUrl={liveStreamConfig.sourceUrl}
+        poster={liveStreamConfig.poster}
+        title={liveStreamConfig.title || t.liveStream}
+        unavailableText={t.liveStreamUnavailable}
+        loadingText={t.liveStreamLoading}
+        errorText={t.liveStreamLoadError}
+        retryText={t.retry}
+      />
 
-      <p className="live-stream-rights">{config.rightsNote || t.liveStreamRightsNote}</p>
+      <p className="live-stream-rights">{liveStreamConfig.rightsNote || t.liveStreamRightsNote}</p>
     </section>
   );
 }

@@ -2,13 +2,8 @@ import { NextResponse } from "next/server";
 
 const FIFA_YOUTUBE_CHANNEL_ID = "UCpcTrCXblq78GZrTUTLWeBw";
 const FIFA_YOUTUBE_FEED_URL = `https://www.youtube.com/feeds/videos.xml?channel_id=${FIFA_YOUTUBE_CHANNEL_ID}`;
-const FOX_WORLD_CUP_HIGHLIGHTS_PLAYLIST_ID = "PLSoN6Th-EepMUaxmTobuR_SBwVkdkxdfO";
-const FOX_WORLD_CUP_HIGHLIGHTS_FEED_URL = `https://www.youtube.com/feeds/videos.xml?playlist_id=${FOX_WORLD_CUP_HIGHLIGHTS_PLAYLIST_ID}`;
-
-const highlightFeeds = [
-  { url: FOX_WORLD_CUP_HIGHLIGHTS_FEED_URL, source: "FOX Sports YouTube" },
-  { url: FIFA_YOUTUBE_FEED_URL, source: "FIFA YouTube" }
-] as const;
+const FIFA_HIGHLIGHTS_PLAYLIST_ID = "PLBRLtDhTHh5o";
+const FIFA_HIGHLIGHTS_PLAYLIST_FEED_URL = `https://www.youtube.com/feeds/videos.xml?playlist_id=${FIFA_HIGHLIGHTS_PLAYLIST_ID}`;
 
 type HighlightEntry = {
   videoId: string;
@@ -18,7 +13,7 @@ type HighlightEntry = {
   thumbnail: string | null;
   description: string;
   source: string;
-  views: number | null;
+  sourcePriority: number;
 };
 
 const teamAliases: Record<string, string[]> = {
@@ -56,60 +51,65 @@ const teamAliases: Record<string, string[]> = {
   USA: ["united states", "usa", "usmnt"]
 };
 
+const officialFallbackHighlights: HighlightEntry[] = [
+  officialHighlight("BEL", "EGY", "o_3t0d8x9JY", "Belgium vs Egypt Highlights | 2026 FIFA World Cup"),
+  officialHighlight("ESP", "CPV", "YnWF8IMcqgg", "Spain vs Cape Verde Highlights | 2026 FIFA World Cup"),
+  officialHighlight("NED", "JPN", "m7sQP_AZ5vM", "Netherlands vs Japan Highlights | 2026 FIFA World Cup"),
+  officialHighlight("SWE", "TUN", "MWsgrEPIni4", "Sweden vs Tunisia Highlights | 2026 FIFA World Cup"),
+  officialHighlight("CIV", "ECU", "pBk8BjA-X4Y", "Ivory Coast vs Ecuador Highlights | 2026 FIFA World Cup")
+];
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const homeCode = searchParams.get("homeCode") ?? "";
   const awayCode = searchParams.get("awayCode") ?? "";
   const homeName = searchParams.get("homeName") ?? "";
   const awayName = searchParams.get("awayName") ?? "";
-  const limit = clampLimit(searchParams.get("limit"));
 
-  const entries = await fetchHighlightEntries();
-  if (!entries) {
+  if (!homeCode || !awayCode) {
+    return NextResponse.json({ highlight: null }, { status: 400 });
+  }
+
+  const feeds = await Promise.allSettled([
+    fetchFeed(FIFA_HIGHLIGHTS_PLAYLIST_FEED_URL, "FIFA YouTube", 3),
+    fetchFeed(FIFA_YOUTUBE_FEED_URL, "FIFA YouTube", 2)
+  ]);
+  const feedEntries = feeds.flatMap((result) => result.status === "fulfilled" ? result.value : []);
+
+  if (feedEntries.length === 0 && feeds.every((result) => result.status === "rejected")) {
     return NextResponse.json({ highlight: null }, { status: 502 });
   }
 
-  if (homeCode && awayCode) {
-    const highlight = findBestHighlight(entries, {
-      homeCode,
-      awayCode,
-      homeName,
-      awayName
-    });
+  const highlight = findBestHighlight(dedupeEntries([...feedEntries, ...officialFallbackHighlights]), {
+    homeCode,
+    awayCode,
+    homeName,
+    awayName
+  });
 
-    return NextResponse.json({ highlight });
+  return NextResponse.json({ highlight });
+}
+
+async function fetchFeed(url: string, source: string, sourcePriority: number) {
+  const response = await fetch(url, {
+    next: { revalidate: 300 },
+    headers: { accept: "application/atom+xml, application/xml;q=0.9, text/xml;q=0.8" }
+  });
+
+  if (!response.ok) {
+    throw new Error(`Unable to load YouTube feed: ${response.status}`);
   }
 
-  const highlights = latestHighlights(entries, limit);
-  return NextResponse.json({ highlights });
+  return parseFeed(await response.text(), source, sourcePriority);
 }
 
-async function fetchHighlightEntries() {
-  const results = await Promise.allSettled(
-    highlightFeeds.map(async (feed) => {
-      const response = await fetch(feed.url, {
-        next: { revalidate: 300 },
-        headers: { accept: "application/atom+xml, application/xml;q=0.9, text/xml;q=0.8" }
-      });
-
-      if (!response.ok) return [];
-
-      return parseFeed(await response.text(), feed.source);
-    })
-  );
-
-  const entries = results.flatMap((result) => result.status === "fulfilled" ? result.value : []);
-  return entries.length > 0 ? entries : null;
-}
-
-function parseFeed(xml: string, source: string): HighlightEntry[] {
+function parseFeed(xml: string, source: string, sourcePriority: number): HighlightEntry[] {
   return [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].map((match) => {
     const entry = match[1];
     const videoId = text(entry, "yt:videoId");
     const title = text(entry, "title");
     const url = attr(entry, "link", "href") ?? (videoId ? `https://www.youtube.com/watch?v=${videoId}` : "");
     const thumbnail = attr(entry, "media:thumbnail", "url");
-    const views = Number(attr(entry, "media:statistics", "views") ?? "");
 
     return {
       videoId,
@@ -119,17 +119,18 @@ function parseFeed(xml: string, source: string): HighlightEntry[] {
       thumbnail,
       description: text(entry, "media:description"),
       source,
-      views: Number.isFinite(views) ? views : null
+      sourcePriority
     };
   }).filter((entry) => entry.videoId && entry.title);
 }
 
-function latestHighlights(entries: HighlightEntry[], limit: number) {
-  return entries
-    .filter((entry) => normalize(`${entry.title} ${entry.description}`).includes("highlight"))
-    .sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt))
-    .slice(0, limit)
-    .map(publicHighlight);
+function dedupeEntries(entries: HighlightEntry[]) {
+  const seen = new Set<string>();
+  return entries.filter((entry) => {
+    if (seen.has(entry.videoId)) return false;
+    seen.add(entry.videoId);
+    return true;
+  });
 }
 
 function findBestHighlight(entries: HighlightEntry[], match: { homeCode: string; awayCode: string; homeName: string; awayName: string }) {
@@ -145,36 +146,38 @@ function findBestHighlight(entries: HighlightEntry[], match: { homeCode: string;
       const mentionsWorldCup = haystack.includes("world cup 2026") || haystack.includes("fifa world cup");
       const hasScoreline = /\b\d+\s*[-–]\s*\d+\b/.test(entry.title);
       const hasHighlights = haystack.includes("highlight");
-      const hasClipWord = haystack.includes("save") || haystack.includes("goal");
-      const score = (hasHome ? 4 : 0) + (hasAway ? 4 : 0) + (mentionsWorldCup ? 2 : 0) + (hasScoreline ? 2 : 0) + (hasHighlights ? 4 : hasClipWord ? 1 : 0) + (isShort ? -3 : 0);
-      return { entry, score, hasHome, hasAway };
+      const isMatchHighlights = hasHighlights && !isShort;
+      const score = (hasHome ? 4 : 0) + (hasAway ? 4 : 0) + (mentionsWorldCup ? 2 : 0) + (hasScoreline ? 2 : 0) + (isMatchHighlights ? 5 : 0);
+      return { entry, score, hasHome, hasAway, isMatchHighlights };
     })
-    .filter((item) => item.hasHome && item.hasAway && item.score >= 8)
-    .sort((a, b) => b.score - a.score || Date.parse(b.entry.publishedAt) - Date.parse(a.entry.publishedAt));
+    .filter((item) => item.hasHome && item.hasAway && item.isMatchHighlights && item.score >= 12)
+    .sort((a, b) => b.score - a.score || b.entry.sourcePriority - a.entry.sourcePriority || Date.parse(b.entry.publishedAt) - Date.parse(a.entry.publishedAt));
 
   const best = ranked[0]?.entry;
   if (!best) return null;
 
-  return publicHighlight(best);
-}
-
-function publicHighlight(entry: HighlightEntry) {
   return {
-    videoId: entry.videoId,
-    title: entry.title,
-    url: entry.url,
-    publishedAt: entry.publishedAt,
-    thumbnail: entry.thumbnail,
-    description: entry.description,
-    source: entry.source,
-    views: entry.views
+    videoId: best.videoId,
+    title: best.title,
+    url: best.url,
+    embedUrl: `https://www.youtube.com/embed/${best.videoId}?rel=0&modestbranding=1`,
+    publishedAt: best.publishedAt,
+    thumbnail: best.thumbnail,
+    source: best.source
   };
 }
 
-function clampLimit(value: string | null) {
-  const parsed = Number(value ?? 6);
-  if (!Number.isFinite(parsed)) return 6;
-  return Math.max(1, Math.min(12, Math.trunc(parsed)));
+function officialHighlight(homeCode: string, awayCode: string, videoId: string, title: string): HighlightEntry {
+  return {
+    videoId,
+    title,
+    url: `https://www.youtube.com/watch?v=${videoId}`,
+    publishedAt: "",
+    thumbnail: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
+    description: `${homeCode} ${awayCode} ${title}`,
+    source: "FOX Sports YouTube",
+    sourcePriority: 1
+  };
 }
 
 function aliasesFor(code: string, name: string) {
