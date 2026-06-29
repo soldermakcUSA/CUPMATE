@@ -103,6 +103,7 @@ async function fetchApiFootballScores(apiKey: string, updatedAt: string): Promis
       statusText: fixture.fixture.status.short || fixture.fixture.status.long || "Scheduled",
       clock: formatElapsed(fixture.fixture.status.elapsed, fixture.fixture.status.extra),
       kickoffAt: fixture.fixture.date,
+      winnerCode: fixture.teams.home.winner ? fixture.teams.home.code ?? codeFromName(fixture.teams.home.name) : fixture.teams.away.winner ? fixture.teams.away.code ?? codeFromName(fixture.teams.away.name) : undefined,
       source: "api-football",
       updatedAt
     };
@@ -139,6 +140,7 @@ async function fetchEspnScores(updatedAt: string): Promise<LiveMatchScore[]> {
       statusText: competition.status.type.shortDetail || competition.status.type.detail || competition.status.type.description,
       clock: status === "live" || status === "halftime" ? competition.status.displayClock : undefined,
       kickoffAt: event.date,
+      winnerCode: home.winner ? home.team.abbreviation : away.winner ? away.team.abbreviation : undefined,
       source: "espn",
       updatedAt,
       statistics: buildEspnStatistics(home, away),
@@ -178,6 +180,7 @@ async function fetchEspnScoreDetails(eventId: string, updatedAt: string): Promis
     statusText: competition.status.type.shortDetail || competition.status.type.detail || competition.status.type.description,
     clock: status === "live" || status === "halftime" ? competition.status.displayClock : undefined,
     kickoffAt: competition.date,
+    winnerCode: home.winner ? home.team.abbreviation : away.winner ? away.team.abbreviation : undefined,
     source: "espn",
     updatedAt,
     statistics: boxscoreStats ?? buildEspnStatistics(home, away),
@@ -331,8 +334,8 @@ type ApiFootballFixturesResponse = {
       };
     };
     teams: {
-      home: { name: string; code: string | null };
-      away: { name: string; code: string | null };
+      home: { name: string; code: string | null; winner?: boolean | null };
+      away: { name: string; code: string | null; winner?: boolean | null };
     };
     goals: {
       home: number | null;
@@ -351,6 +354,7 @@ type EspnScoreboardResponse = {
       competitors: Array<{
         homeAway: "home" | "away";
         score: string;
+        winner?: boolean;
         statistics?: EspnStatistic[];
         team: {
           id?: string;
@@ -383,6 +387,7 @@ type EspnSummaryResponse = {
       competitors: Array<{
         homeAway: "home" | "away";
         score: string;
+        winner?: boolean;
         statistics?: EspnStatistic[];
         team: {
           id?: string;

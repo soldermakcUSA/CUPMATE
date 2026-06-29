@@ -14,6 +14,7 @@ export type LiveMatchScore = {
   statusText: string;
   clock?: string;
   kickoffAt?: string;
+  winnerCode?: string;
   source: "api-football" | "espn";
   updatedAt: string;
   statistics?: {

@@ -1,5 +1,6 @@
 import { pickLocalizedTranslation, localizedDateFormatterLocale } from "@/lib/content-localization";
 import type { Locale } from "@/lib/i18n";
+import { getKnockoutMatchCards } from "@/lib/knockout-bracket";
 import { localizeVenue, staticText } from "@/lib/localized-static-data";
 import { matchSlugFromCodes } from "@/lib/match-details";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
@@ -88,7 +89,6 @@ export async function fetchWorldCupMatches(limit = 72, locale: Locale = "en"): P
         host_cities(host_city_translations(language_code,name, state_region))
       )
     `)
-    .eq("stage", "group_stage")
     .order("kickoff_at", { ascending: true })
     .limit(limit);
 
@@ -101,7 +101,7 @@ export async function fetchWorldCupMatches(limit = 72, locale: Locale = "en"): P
 
 export async function fetchWorldCupMatchBySlug(slug: string, locale: Locale = "en"): Promise<MatchCardData | null> {
   const matches = await fetchWorldCupMatches(104, locale);
-  return matches.find((match) => match.slug === slug) ?? null;
+  return matches.find((match) => match.slug === slug) ?? getKnockoutMatchCards(locale).find((match) => match.slug === slug) ?? null;
 }
 
 function toMatchCardData(match: MatchRow, locale: Locale): MatchCardData {

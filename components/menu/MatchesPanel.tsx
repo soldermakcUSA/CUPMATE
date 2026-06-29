@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { CalendarDays, Clock, MapPin, Plus, Trophy } from "lucide-react";
+import { KnockoutBracket } from "@/components/KnockoutBracket";
 import { MatchHighlightLink } from "@/components/MatchHighlightLink";
 import { MatchLiveStreamLink } from "@/components/MatchLiveStreamLink";
 import { MatchScoreBadge } from "@/components/MatchScoreBadge";
 import { TeamLabel } from "@/components/TeamFlag";
 import { translations, type Locale } from "@/lib/i18n";
+import type { LiveMatchScore } from "@/lib/live-scores";
 import { getMatchTimeline, getMatchTimelineGroups, matchTimelineCopy, selectFeaturedMatch } from "@/lib/match-timeline";
 import type { MatchCardData } from "@/lib/world-cup-data";
 
@@ -13,10 +15,11 @@ type Translation = typeof translations.en;
 type MatchesPanelProps = {
   t: Translation;
   matches: MatchCardData[];
+  liveScores?: LiveMatchScore[];
   locale?: Locale;
 };
 
-export function MatchesPanel({ t, matches, locale = "en" }: MatchesPanelProps) {
+export function MatchesPanel({ t, matches, liveScores = [], locale = "en" }: MatchesPanelProps) {
   const now = new Date();
   const copy = matchTimelineCopy(locale);
   const featuredMatch = selectFeaturedMatch(matches, now);
@@ -59,6 +62,8 @@ export function MatchesPanel({ t, matches, locale = "en" }: MatchesPanelProps) {
           </span>
         ))}
       </div>
+
+      <KnockoutBracket locale={locale} liveScores={liveScores} compact />
 
       <div className="match-timeline-groups">
         {groups.map((group) => (

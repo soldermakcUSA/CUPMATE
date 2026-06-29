@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { AppSidebar, type SidebarSection } from "@/components/AppSidebar";
+import { KnockoutBracket } from "@/components/KnockoutBracket";
 import { LiveStreamCard } from "@/components/LiveStreamCard";
 import { MatchHighlightLink } from "@/components/MatchHighlightLink";
 import { MatchLiveStreamLink } from "@/components/MatchLiveStreamLink";
@@ -45,6 +46,7 @@ import {
 } from "lucide-react";
 import { fetchNewsItems, fetchPlaces, NEWS_IMAGE_FALLBACK, NewsItemData, PlaceCardData } from "@/lib/content-data";
 import { getLanguage, languages, Locale, translations } from "@/lib/i18n";
+import { getKnockoutMatchCards, mergeMatchCards } from "@/lib/knockout-bracket";
 import { fetchLiveScores, mergeLiveScores } from "@/lib/live-scores";
 import type { LiveMatchScore } from "@/lib/live-scores";
 import { getMatchLiveStreamByCodes, type MatchLiveStream } from "@/lib/match-live-streams";
@@ -274,7 +276,11 @@ export default function CupMatePage() {
   const [liveScores, setLiveScores] = useState<LiveMatchScore[]>(() => []);
   const [contentNews, setContentNews] = useState<NewsItemData[]>(() => localizedFallbackNews("en"));
   const [contentPlaces, setContentPlaces] = useState<PlaceCardData[]>(() => localizedFallbackPlaces("en"));
-  const matchesWithScores = useMemo(() => mergeLiveScores(worldCupMatches, liveScores), [worldCupMatches, liveScores]);
+  const tournamentMatches = useMemo(
+    () => mergeMatchCards(worldCupMatches, getKnockoutMatchCards(locale, liveScores)),
+    [worldCupMatches, liveScores, locale]
+  );
+  const matchesWithScores = useMemo(() => mergeLiveScores(tournamentMatches, liveScores), [tournamentMatches, liveScores]);
 
   useEffect(() => {
     const section = new URLSearchParams(window.location.search).get("section") as DesktopSection | null;
@@ -305,7 +311,7 @@ export default function CupMatePage() {
   useEffect(() => {
     let isMounted = true;
 
-    fetchWorldCupMatches(72, locale)
+    fetchWorldCupMatches(104, locale)
       .then((items) => {
         if (isMounted && items.length > 0) {
           setWorldCupMatches(items);
@@ -428,8 +434,8 @@ export default function CupMatePage() {
                 <LanguagePicker locale={locale} setLocale={setLocale} compact />
               </div>
             )}
-            {mobileScreen === "home" && <MobileHome t={t} locale={locale} setMobileScreen={setMobileScreen} matches={matchesWithScores} />}
-            {mobileScreen === "matches" && <MobileMatches t={t} locale={locale} matches={matchesWithScores} />}
+            {mobileScreen === "home" && <MobileHome t={t} locale={locale} setMobileScreen={setMobileScreen} matches={matchesWithScores} liveScores={liveScores} />}
+            {mobileScreen === "matches" && <MobileMatches t={t} locale={locale} matches={matchesWithScores} liveScores={liveScores} />}
             {mobileScreen === "map" && <MobileMap t={t} setMobileScreen={setMobileScreen} places={contentPlaces} />}
             {mobileScreen === "route" && <MobileRoute t={t} />}
             {mobileScreen === "stadium" && <MobileStadium t={t} />}
@@ -501,13 +507,16 @@ function DesktopContent({
         <section className="stack">
           <Hero t={t} setSection={setSection} />
           <NextMatches t={t} locale={locale} matches={matches} />
-          <NewsSection t={t} news={news} />
-          <FanZonesSection t={t} places={places} />
         </section>
         <aside className="right-rail">
           <CurrentMatchVideoPanel t={t} locale={locale} matches={matches} />
           <LiveStandingsPanel t={t} locale={locale} liveScores={liveScores} />
         </aside>
+        <KnockoutBracket locale={locale} liveScores={liveScores} />
+        <section className="stack">
+          <NewsSection t={t} news={news} />
+          <FanZonesSection t={t} places={places} />
+        </section>
       </div>
     );
   }
@@ -525,6 +534,7 @@ function DesktopContent({
         assistantReply={assistantReply}
         locale={locale}
         matches={matches}
+        liveScores={liveScores}
         news={news}
         places={places}
       />
@@ -543,6 +553,7 @@ function MenuSection({
   assistantReply,
   locale,
   matches,
+  liveScores,
   news,
   places
 }: {
@@ -556,12 +567,13 @@ function MenuSection({
   assistantReply: string;
   locale: Locale;
   matches: MatchCardData[];
+  liveScores: LiveMatchScore[];
   news: NewsItemData[];
   places: PlaceCardData[];
 }) {
   switch (section) {
     case "matches":
-      return <MatchesPanel t={t} locale={locale} matches={matches} />;
+      return <MatchesPanel t={t} locale={locale} matches={matches} liveScores={liveScores} />;
     case "fanZones":
       return <FanZonesPanel t={t} places={places} />;
     case "stadiums":
@@ -1072,7 +1084,7 @@ function AssistantPanel({
   );
 }
 
-function MobileHome({ t, locale, setMobileScreen, matches }: { t: typeof translations.en; locale: Locale; setMobileScreen: (screen: Screen) => void; matches: MatchCardData[] }) {
+function MobileHome({ t, locale, setMobileScreen, matches, liveScores }: { t: typeof translations.en; locale: Locale; setMobileScreen: (screen: Screen) => void; matches: MatchCardData[]; liveScores: LiveMatchScore[] }) {
   const now = new Date();
   const featuredMatch = selectFeaturedMatch(matches, now);
   const todayMatches = getCurrentDayMatches(matches, now);
@@ -1107,11 +1119,12 @@ function MobileHome({ t, locale, setMobileScreen, matches }: { t: typeof transla
           );
         })}
       </div>
+      <KnockoutBracket locale={locale} liveScores={liveScores} compact />
     </>
   );
 }
 
-function MobileMatches({ t, locale, matches }: { t: typeof translations.en; locale: Locale; matches: MatchCardData[] }) {
+function MobileMatches({ t, locale, matches, liveScores }: { t: typeof translations.en; locale: Locale; matches: MatchCardData[]; liveScores: LiveMatchScore[] }) {
   const now = new Date();
   const groups = getMatchTimelineGroups(matches, locale, now);
 
@@ -1120,6 +1133,7 @@ function MobileMatches({ t, locale, matches }: { t: typeof translations.en; loca
       <div className="chip-row">
         {[t.all, t.myTime, t.byTeam, t.byVenue].map((chip, index) => <button className={`chip ${index === 0 ? "active" : ""}`} key={chip}>{chip}</button>)}
       </div>
+      <KnockoutBracket locale={locale} liveScores={liveScores} compact />
       <div className="date-strip">{[12, 13, 14, 15, 16, 17].map((date) => <span className={`date-pill ${date === now.getDate() ? "active" : ""}`} key={date}>{date}</span>)}</div>
       {groups.map((group) => (
         <section className="mobile-match-group" key={group.bucket}>
