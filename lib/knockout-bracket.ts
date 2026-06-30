@@ -220,8 +220,9 @@ export function getKnockoutMatchCards(locale: Locale = "en", scores: LiveMatchSc
 }
 
 export function mergeMatchCards(primary: MatchCardData[], fallback: MatchCardData[]) {
-  const seen = new Set(primary.map((match) => match.slug));
-  return [...primary, ...fallback.filter((match) => !seen.has(match.slug))];
+  const resolvedPrimary = primary.filter((match) => !isUnresolvedKnockoutCard(match));
+  const seen = new Set(resolvedPrimary.map((match) => match.slug));
+  return [...resolvedPrimary, ...fallback.filter((match) => !seen.has(match.slug))];
 }
 
 export function getRoundLabel(round: KnockoutRound, locale: Locale = "en") {
@@ -253,6 +254,32 @@ function knockoutMatch(
     homeSlot,
     awaySlot
   };
+}
+
+function isUnresolvedKnockoutCard(match: MatchCardData) {
+  const stage = match.group.toLowerCase();
+  const isKnockout =
+    stage.includes("round of") ||
+    stage.includes("quarter") ||
+    stage.includes("semi") ||
+    stage.includes("final") ||
+    stage.includes("play-off") ||
+    stage.includes("плей");
+
+  return isKnockout && (isPlaceholderTeam(match.home) || isPlaceholderTeam(match.away));
+}
+
+function isPlaceholderTeam(value: string) {
+  const normalized = value.toLowerCase().replace(/\s+/g, " ");
+  return (
+    normalized.includes("winner") ||
+    normalized.includes("runner-up") ||
+    normalized.includes("runner up") ||
+    normalized.includes("3rd group") ||
+    normalized.includes("third group") ||
+    normalized.includes("победитель") ||
+    normalized.includes("проигравший")
+  );
 }
 
 function teamSlot(teamCode: string): KnockoutSlot {
